@@ -1,6 +1,6 @@
 'use strict';
 
-var wiredup = require('../bin/wiredup');
+var wiredep = require('../bin/wiredep');
 
 /*
   ======== A Handy Little Nodeunit Reference ========
@@ -22,10 +22,10 @@ var wiredup = require('../bin/wiredup');
     test.ifError(value)
 */
 
-exports['wiredup'] = {
+exports['wiredep'] = {
   setUp: function(done) {
     // setup here
-    wiredup();
+    wiredep();
     done();
   }
 };

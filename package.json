@@ -1,21 +1,21 @@
 {
-  "name": "wiredup",
+  "name": "wiredep",
   "version": "0.1.0",
   "description": "Wire dependencies to your source code.",
-  "homepage": "https://github.com/stephenplusplus/wiredup",
-  "bugs": "https://github.com/stephenplusplus/wiredup/issues",
+  "homepage": "https://github.com/stephenplusplus/wiredep",
+  "bugs": "https://github.com/stephenplusplus/wiredep/issues",
   "author": {
     "name": "Stephen Sawchuk",
     "email": "sawchuk@gmail.com"
   },
-  "main": "bin/wiredup",
+  "main": "bin/wiredep",
   "files": [
     "bin/",
     "lib/"
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/stephenplusplus/wiredup"
+    "url": "https://github.com/stephenplusplus/wiredep"
   },
   "licenses": [
     {
