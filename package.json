@@ -1,0 +1,33 @@
+{
+  "name": "wiredup",
+  "version": "0.1.0",
+  "description": "Wire dependencies to your source code.",
+  "homepage": "https://github.com/stephenplusplus/wiredup",
+  "bugs": "https://github.com/stephenplusplus/wiredup/issues",
+  "author": {
+    "name": "Stephen Sawchuk",
+    "email": "sawchuk@gmail.com"
+  },
+  "main": "bin/wiredup",
+  "files": [
+    "bin/",
+    "lib/"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/stephenplusplus/wiredup"
+  },
+  "licenses": [
+    {
+      "type": "MIT"
+    }
+  ],
+  "devDependencies": {
+    "grunt-contrib-jshint": "~0.6.0",
+    "grunt-contrib-nodeunit": "~0.2.0",
+    "grunt-contrib-watch": "~0.5.0"
+  },
+  "dependencies": {
+    "lodash": "~1.3.0"
+  }
+}
