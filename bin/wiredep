@@ -30,4 +30,8 @@ module.exports = function (opts) {
 
   require('../lib/detect-dependencies')(config);
   require('../lib/inject-dependencies')(config);
+
+  if (config.get('warnings')) {
+    helpers.warn(config.get('warnings'));
+  }
 };
