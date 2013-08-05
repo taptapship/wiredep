@@ -8,6 +8,14 @@
     "name": "Stephen Sawchuk",
     "email": "sawchuk@gmail.com"
   },
+  "keywords": [
+    "bower",
+    "package",
+    "management",
+    "inject",
+    "script",
+    "dependencies"
+  ],
   "main": "bin/wiredep",
   "files": [
     "bin/",
