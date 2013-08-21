@@ -1,6 +1,13 @@
 'use strict';
 
 var wiredep = require('../bin/wiredep');
+var fs = require('fs');
+var bowerJson = JSON.parse(fs.readFileSync('.tmp/bower.json'));
+
+var expectedPath = '.tmp/index-expected.html';
+var actualPath = '.tmp/index-actual.html';
+
+var expected = String(fs.readFileSync(expectedPath));
 
 /*
   ======== A Handy Little Nodeunit Reference ========
@@ -23,9 +30,20 @@ var wiredep = require('../bin/wiredep');
 */
 
 exports['wiredep'] = {
-  setUp: function(done) {
-    // setup here
-    wiredep();
-    done();
+  replaceHtml: function(test) {
+    var actual;
+
+    wiredep({
+      directory: '.tmp/bower_components',
+      bowerJson: bowerJson,
+      htmlFile: actualPath,
+      ignorePath: '.tmp/'
+    });
+
+    actual = String(fs.readFileSync(actualPath));
+
+    test.equal(actual, expected);
+
+    test.done();
   }
 };
