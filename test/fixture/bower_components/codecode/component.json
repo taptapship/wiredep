@@ -4,7 +4,10 @@
   "author": "Stephen Sawchuk",
   "description": "codecode allows your readers to dock your syntax-highlighted code blocks to the bottom of the page, allowing them to refer back without losing their place in your article.",
   "homepage": "http://stephenplusplus.github.com/codecode",
-  "main": "./dist/codecode.js",
+  "main": [
+    "./dist/codecode.js",
+    "./dist/codecode.css"
+  ],
   "readme": "./readme.md",
   "repository": {
     "type": "git",
