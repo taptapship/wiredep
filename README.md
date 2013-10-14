@@ -10,7 +10,9 @@ var wiredep = require('wiredep')({
   directory: 'the directory of your Bower packages.',
   bowerJson: 'your bower.json file contents.',
   ignorePath: 'optional path to ignore from the injected filepath.',
-  htmlFile: 'the path to the HTML file to take control of.'
+  htmlFile: 'the path to the HTML file to take control of.',
+  jsPattern: 'default: <script src="{{filePath}}"></script>',
+  cssPattern: 'default: <link rel="stylesheet" href="{{filePath}}" />'
 });
 ```
 

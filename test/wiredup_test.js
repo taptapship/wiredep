@@ -4,11 +4,6 @@ var wiredep = require('../bin/wiredep');
 var fs = require('fs');
 var bowerJson = JSON.parse(fs.readFileSync('.tmp/bower.json'));
 
-var expectedPath = '.tmp/index-expected.html';
-var actualPath = '.tmp/index-actual.html';
-
-var expected = String(fs.readFileSync(expectedPath));
-
 /*
   ======== A Handy Little Nodeunit Reference ========
   https://github.com/caolan/nodeunit
@@ -30,7 +25,10 @@ var expected = String(fs.readFileSync(expectedPath));
 */
 
 exports['wiredep'] = {
-  replaceHtml: function(test) {
+  replaceHtml: function (test) {
+    var expectedPath = '.tmp/index-expected.html';
+    var actualPath = '.tmp/index-actual.html';
+    var expected = String(fs.readFileSync(expectedPath));
     var actual;
 
     wiredep({
@@ -38,6 +36,27 @@ exports['wiredep'] = {
       bowerJson: bowerJson,
       htmlFile: actualPath,
       ignorePath: '.tmp/'
+    });
+
+    actual = String(fs.readFileSync(actualPath));
+
+    test.equal(actual, expected);
+
+    test.done();
+  },
+  replaceHtmlWithCustomFormat: function (test) {
+    var expectedPath = '.tmp/index-custom-format-expected.html';
+    var actualPath = '.tmp/index-custom-format-actual.html';
+    var expected = String(fs.readFileSync(expectedPath));
+    var actual;
+
+    wiredep({
+      directory: '.tmp/bower_components',
+      bowerJson: bowerJson,
+      htmlFile: actualPath,
+      ignorePath: '.tmp/',
+      jsPattern: '<script type="text/javascript" src="{{filePath}}"> </script>',
+      cssPattern: '<link href="{{filePath}}" rel="stylesheet">'
     });
 
     actual = String(fs.readFileSync(actualPath));

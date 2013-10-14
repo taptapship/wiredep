@@ -26,6 +26,8 @@ module.exports = function (opts) {
     ('directory', opts.directory)
     ('ignore-path', opts.ignorePath)
     ('html-file', opts.htmlFile)
+    ('css-pattern', opts.cssPattern)
+    ('js-pattern', opts.jsPattern)
     ('html', String(fs.readFileSync(opts.htmlFile)));
 
   require('../lib/detect-dependencies')(config);
