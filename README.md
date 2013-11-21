@@ -12,7 +12,8 @@ var wiredep = require('wiredep')({
   ignorePath: 'optional path to ignore from the injected filepath.',
   htmlFile: 'the path to the HTML file to take control of.',
   jsPattern: 'default: <script src="{{filePath}}"></script>',
-  cssPattern: 'default: <link rel="stylesheet" href="{{filePath}}" />'
+  cssPattern: 'default: <link rel="stylesheet" href="{{filePath}}" />',
+  exclude: 'optional array of patterns to exclude from being added'
 });
 ```
 

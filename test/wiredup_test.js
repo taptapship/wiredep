@@ -44,6 +44,27 @@ exports['wiredep'] = {
 
     test.done();
   },
+  excludeFiles: function(test) {
+    var expectedPath = '.tmp/index-excluded-files-expected.html';
+    var actualPath = '.tmp/index-excluded-files-actual.html';
+    var expected = String(fs.readFileSync(expectedPath));
+    var actual;
+
+    wiredep({
+      directory: '.tmp/bower_components',
+      bowerJson: bowerJson,
+      htmlFile: actualPath,
+      ignorePath: '.tmp/',
+      exclude: [ 'bower_components/bootstrap/dist/js/bootstrap.js', /codecode/ ]
+    });
+
+    actual = String(fs.readFileSync(actualPath));
+
+    test.equal(actual, expected);
+
+    test.done();
+
+  },
   replaceHtmlWithCustomFormat: function (test) {
     var expectedPath = '.tmp/index-custom-format-expected.html';
     var actualPath = '.tmp/index-custom-format-actual.html';
