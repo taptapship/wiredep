@@ -14,7 +14,7 @@ var wiredep = require('wiredep')({
   htmlFile: 'the path to the HTML file to take control of.',
   jsPattern: 'default: <script src="{{filePath}}"></script>',
   cssPattern: 'default: <link rel="stylesheet" href="{{filePath}}" />',
-  exclude: 'optional array of patterns to exclude from being added to your page, eg: /jquery/, "bower_components/modernizr/modernizr.js"'
+  exclude: [ /jquery/, "bower_components/modernizr/modernizr.js" ]
 });
 ```
 
