@@ -44,7 +44,7 @@ exports['wiredep'] = {
 
     test.done();
   },
-  excludeFiles: function(test) {
+  replaceHtmlWithExcludedFiles: function(test) {
     var expectedPath = '.tmp/index-excluded-files-expected.html';
     var actualPath = '.tmp/index-excluded-files-actual.html';
     var expected = String(fs.readFileSync(expectedPath));
@@ -63,7 +63,6 @@ exports['wiredep'] = {
     test.equal(actual, expected);
 
     test.done();
-
   },
   replaceHtmlWithCustomFormat: function (test) {
     var expectedPath = '.tmp/index-custom-format-expected.html';
