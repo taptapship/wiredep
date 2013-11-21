@@ -1,6 +1,6 @@
 {
   "name": "wiredep",
-  "version": "0.3.1",
+  "version": "0.4.0",
   "description": "Wire dependencies to your source code.",
   "homepage": "https://github.com/stephenplusplus/wiredep",
   "bugs": "https://github.com/stephenplusplus/wiredep/issues",
