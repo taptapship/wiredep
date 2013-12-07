@@ -2,7 +2,7 @@
 
 var wiredep = require('../bin/wiredep');
 var fs = require('fs');
-var bowerJson = JSON.parse(fs.readFileSync('.tmp/bower.json'));
+var bowerJson = require('../.tmp/bower.json');
 
 /*
   ======== A Handy Little Nodeunit Reference ========
@@ -24,7 +24,7 @@ var bowerJson = JSON.parse(fs.readFileSync('.tmp/bower.json'));
     test.ifError(value)
 */
 
-exports['wiredep'] = {
+exports.wiredep = {
   replaceHtml: function (test) {
     var expectedPath = '.tmp/index-expected.html';
     var actualPath = '.tmp/index-actual.html';
@@ -77,6 +77,58 @@ exports['wiredep'] = {
       ignorePath: '.tmp/',
       jsPattern: '<script type="text/javascript" src="{{filePath}}"> </script>',
       cssPattern: '<link href="{{filePath}}" rel="stylesheet">'
+    });
+
+    actual = String(fs.readFileSync(actualPath));
+
+    test.equal(actual, expected);
+
+    test.done();
+  },
+  replaceHtmlAfterUninstalledPackage: function (test) {
+    var expectedPath = '.tmp/index-after-uninstall-expected.html';
+    var actualPath = '.tmp/index-after-uninstall-actual.html';
+    var expected = String(fs.readFileSync(expectedPath));
+    var actual;
+
+    wiredep({
+      directory: '.tmp/bower_components',
+      bowerJson: bowerJson,
+      htmlFile: actualPath,
+      ignorePath: '.tmp/'
+    });
+
+    wiredep({
+      directory: '.tmp/bower_components',
+      bowerJson: require('../.tmp/bower_after_uninstall.json'),
+      htmlFile: actualPath,
+      ignorePath: '.tmp/'
+    });
+
+    actual = String(fs.readFileSync(actualPath));
+
+    test.equal(actual, expected);
+
+    test.done();
+  },
+  replaceHtmlAfterUninstallingAllPackages: function (test) {
+    var expectedPath = '.tmp/index-after-uninstall-all-expected.html';
+    var actualPath = '.tmp/index-after-uninstall-all-actual.html';
+    var expected = String(fs.readFileSync(expectedPath));
+    var actual;
+
+    wiredep({
+      directory: '.tmp/bower_components',
+      bowerJson: bowerJson,
+      htmlFile: actualPath,
+      ignorePath: '.tmp/'
+    });
+
+    wiredep({
+      directory: '.tmp/bower_components',
+      bowerJson: require('../.tmp/bower_after_uninstall_all.json'),
+      htmlFile: actualPath,
+      ignorePath: '.tmp/'
     });
 
     actual = String(fs.readFileSync(actualPath));
