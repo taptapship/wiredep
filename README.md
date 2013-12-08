@@ -7,7 +7,7 @@ Wire dependencies to your source code.
 Install the module with: `npm install wiredep --save`
 
 ```js
-var wiredep = require('wiredep')({
+require('wiredep')({
   directory: 'the directory of your Bower packages.',
   bowerJson: 'your bower.json file contents.',
   ignorePath: 'optional path to ignore from the injected filepath.',
