@@ -64,6 +64,25 @@ exports.wiredep = {
 
     test.done();
   },
+  replaceYmlWithCustomFormat: function(test) {
+    var expectedPath = '.tmp/file-custom-format-expected.yml',
+        actualPath = '.tmp/file-custom-format-actual.yml',
+        expected = String(fs.readFileSync(expectedPath)),
+        actual;
+
+    wiredep({
+      directory: '.tmp/bower_components',
+      bowerPattern: /(([\s\t]*)#\s*bower:*(\S*)\s*)(\n|\r|.)*?(#\s*endbower\s*)/gi,
+      bowerJson: bowerJson,
+      file: actualPath,
+      ignorePath: '.tmp/',
+      jsPattern: '- {{filePath}}'
+    });
+
+    actual = String(fs.readFileSync(actualPath));
+    test.equal(actual, expected);
+    test.done();
+  },
   replaceHtmlWithCustomFormat: function (test) {
     var expectedPath = '.tmp/index-custom-format-expected.html';
     var actualPath = '.tmp/index-custom-format-actual.html';
