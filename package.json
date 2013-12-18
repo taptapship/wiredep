@@ -1,9 +1,9 @@
 {
   "name": "wiredep",
+  "main": "./wiredep.js",
   "version": "0.4.2",
-  "description": "Wire dependencies to your source code.",
-  "homepage": "https://github.com/stephenplusplus/wiredep",
-  "bugs": "https://github.com/stephenplusplus/wiredep/issues",
+  "description": "Wire Bower dependencies to your source code.",
+  "repository": "stephenplusplus/wiredep",
   "author": {
     "name": "Stephen Sawchuk",
     "email": "sawchuk@gmail.com"
@@ -16,15 +16,10 @@
     "script",
     "dependencies"
   ],
-  "main": "bin/wiredep",
   "files": [
-    "bin/",
-    "lib/"
+    "lib/",
+    "wiredep.js"
   ],
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/stephenplusplus/wiredep"
-  },
   "licenses": [
     {
       "type": "MIT"

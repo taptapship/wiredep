@@ -1,0 +1,9 @@
+src_css_files:
+  - "bower_components/bootstrap/dist/css/bootstrap.css"
+  # bower:css
+  # endbower
+
+src_js_files:
+  - "bower_components/modernizr/modernizr.js"
+  # bower:js
+  # endbower

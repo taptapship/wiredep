@@ -8,11 +8,10 @@
 
 'use strict';
 
-var fs = require('fs');
-var helpers = require('../lib/helpers');
+var helpers = require('./lib/helpers');
 
 /**
- * Wire up the html files with the bower stuff.
+ * Wire up the html files with the Bower packages.
  *
  * @param  {object} config  the global configuration object
  */
@@ -22,17 +21,15 @@ module.exports = function (opts) {
   config.set
     ('warnings', [])
     ('global-dependencies', helpers.createStore())
+    ('src', Array.isArray(opts.src) ? opts.src : [opts.src])
     ('bower.json', opts.bowerJson)
-    ('directory', opts.directory)
+    ('bower-directory', opts.directory)
+    ('file-types', opts.fileTypes)
     ('ignore-path', opts.ignorePath)
-    ('html-file', opts.htmlFile)
-    ('css-pattern', opts.cssPattern)
-    ('js-pattern', opts.jsPattern)
-    ('html', String(fs.readFileSync(opts.htmlFile)))
     ('exclude', opts.exclude);
 
-  require('../lib/detect-dependencies')(config);
-  require('../lib/inject-dependencies')(config);
+  require('./lib/detect-dependencies')(config);
+  require('./lib/inject-dependencies')(config);
 
   if (config.get('warnings')) {
     helpers.warn(config.get('warnings'));
