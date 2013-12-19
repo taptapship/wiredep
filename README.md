@@ -15,7 +15,7 @@ require('wiredep')({
   file: 'the path to the file to take control of.',
   jsPattern: 'default: <script src="{{filePath}}"></script>',
   cssPattern: 'default: <link rel="stylesheet" href="{{filePath}}" />',
-  bowerPattern: 'default: /(([\s\t]*)<!--\s*bower:*(\S*)\s*-->)(\n|\r|.)*?(<!--\s*endbower\s*-->)/gi ',
+  bowerPattern: 'the bower pattern can be a string or a regex (default: "html")',
   exclude: [ /jquery/, "bower_components/modernizr/modernizr.js" ]
 });
 ```

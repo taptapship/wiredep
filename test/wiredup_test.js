@@ -65,6 +65,25 @@ exports.wiredep = {
     test.done();
   },
   replaceYmlWithCustomFormat: function(test) {
+    var expectedPath = '.tmp/yml-custom-format-expected.yml',
+        actualPath = '.tmp/yml-custom-format-actual.yml',
+        expected = String(fs.readFileSync(expectedPath)),
+        actual;
+
+    wiredep({
+      directory: '.tmp/bower_components',
+      bowerPattern: /(([\s\t]*)#\s*bower:*(\S*)\s*)(\n|\r|.)*?(#\s*endbower\s*)/gi,
+      bowerJson: bowerJson,
+      file: actualPath,
+      ignorePath: '.tmp/',
+      jsPattern: '- {{filePath}}'
+    });
+
+    actual = String(fs.readFileSync(actualPath));
+    test.equal(actual, expected);
+    test.done();
+  },
+  replaceFileWithBowerPatternAsString: function(test) {
     var expectedPath = '.tmp/file-custom-format-expected.yml',
         actualPath = '.tmp/file-custom-format-actual.yml',
         expected = String(fs.readFileSync(expectedPath)),
@@ -72,7 +91,7 @@ exports.wiredep = {
 
     wiredep({
       directory: '.tmp/bower_components',
-      bowerPattern: /(([\s\t]*)#\s*bower:*(\S*)\s*)(\n|\r|.)*?(#\s*endbower\s*)/gi,
+      bowerPattern: 'yml',
       bowerJson: bowerJson,
       file: actualPath,
       ignorePath: '.tmp/',
