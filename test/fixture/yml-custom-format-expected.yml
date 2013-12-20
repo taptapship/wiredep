@@ -1,7 +1,7 @@
 framework: jasmine
 src_files:
   # bower:js
-
+  
   - bower_components/jquery/jquery.js
   - bower_components/codecode/dist/codecode.js
   - bower_components/bootstrap/dist/js/bootstrap.js
