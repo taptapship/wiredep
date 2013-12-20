@@ -1,0 +1,7 @@
+framework: jasmine
+src_files:
+  # bower:js
+  # endbower
+  - hello.js
+  - hello_spec.js
+

@@ -12,8 +12,10 @@ require('wiredep')({
   bowerJson: 'your bower.json file contents.',
   ignorePath: 'optional path to ignore from the injected filepath.',
   htmlFile: 'the path to the HTML file to take control of.',
+  file: 'the path to the file to take control of.',
   jsPattern: 'default: <script src="{{filePath}}"></script>',
   cssPattern: 'default: <link rel="stylesheet" href="{{filePath}}" />',
+  bowerPattern: 'the bower pattern can be a string or a regex (default: "html")',
   exclude: [ /jquery/, "bower_components/modernizr/modernizr.js" ]
 });
 ```
