@@ -4,87 +4,65 @@ var fs = require('fs');
 var wiredep = require('../wiredep');
 var bowerJson = require('../.tmp/bower.json');
 
+function testReplace(test, fileType) {
+  var expectedPath = '.tmp/' + fileType + '/index-expected.' + fileType;
+  var actualPath = '.tmp/' + fileType + '/index-actual.' + fileType;
+  var expected = String(fs.readFileSync(expectedPath));
+  var actual;
+
+  wiredep({
+    directory: '.tmp/bower_components',
+    bowerJson: bowerJson,
+    src: [actualPath],
+    ignorePath: '.tmp/'
+  });
+  actual = String(fs.readFileSync(actualPath));
+  test.equal(actual, expected);
+  test.done();
+}
+
+function testReplaceWithExcludedsrc(test, fileType) {
+  var expectedPath = '.tmp/'+ fileType + '/index-excluded-files-expected.' + fileType;
+  var actualPath = '.tmp/' + fileType + '/index-excluded-files-actual.' + fileType;
+  var expected = String(fs.readFileSync(expectedPath));
+  var actual;
+
+  wiredep({
+    directory: '.tmp/bower_components',
+    bowerJson: bowerJson,
+    src: [actualPath],
+    ignorePath: '.tmp/',
+    exclude: [ 'bower_components/bootstrap/dist/js/bootstrap.js', /codecode/ ]
+  });
+
+  actual = String(fs.readFileSync(actualPath));
+  test.equal(actual, expected);
+  test.done();
+}
+
 exports.wiredep = {
   replaceHtml: function (test) {
-    var expectedPath = '.tmp/html/index-expected.html';
-    var actualPath = '.tmp/html/index-actual.html';
-    var expected = String(fs.readFileSync(expectedPath));
-    var actual;
+    testReplace(test, 'html');
+  },
 
-    wiredep({
-      directory: '.tmp/bower_components',
-      bowerJson: bowerJson,
-      src: [actualPath],
-      ignorePath: '.tmp/'
-    });
-
-    actual = String(fs.readFileSync(actualPath));
-
-    test.equal(actual, expected);
-
-    test.done();
+  replaceJade: function (test) {
+    testReplace(test, 'jade');
   },
 
   replaceYml: function (test) {
-    var expectedPath = '.tmp/yml/index-expected.yml';
-    var actualPath = '.tmp/yml/index-actual.yml';
-    var expected = String(fs.readFileSync(expectedPath));
-    var actual;
-
-    wiredep({
-      directory: '.tmp/bower_components',
-      bowerJson: bowerJson,
-      src: [actualPath],
-      ignorePath: '.tmp/'
-    });
-
-    actual = String(fs.readFileSync(actualPath));
-
-    test.equal(actual, expected);
-
-    test.done();
+    testReplace(test, 'yml');
   },
 
   replaceHtmlWithExcludedsrc: function(test) {
-    var expectedPath = '.tmp/html/index-excluded-files-expected.html';
-    var actualPath = '.tmp/html/index-excluded-files-actual.html';
-    var expected = String(fs.readFileSync(expectedPath));
-    var actual;
+    testReplaceWithExcludedsrc(test, 'html');
+  },
 
-    wiredep({
-      directory: '.tmp/bower_components',
-      bowerJson: bowerJson,
-      src: [actualPath],
-      ignorePath: '.tmp/',
-      exclude: [ 'bower_components/bootstrap/dist/js/bootstrap.js', /codecode/ ]
-    });
-
-    actual = String(fs.readFileSync(actualPath));
-
-    test.equal(actual, expected);
-
-    test.done();
+  replaceJadeWithExcludedsrc: function(test) {
+    testReplaceWithExcludedsrc(test, 'jade');
   },
 
   replaceYmlWithExcludedsrc: function(test) {
-    var expectedPath = '.tmp/yml/index-excluded-files-expected.yml';
-    var actualPath = '.tmp/yml/index-excluded-files-actual.yml';
-    var expected = String(fs.readFileSync(expectedPath));
-    var actual;
-
-    wiredep({
-      directory: '.tmp/bower_components',
-      bowerJson: bowerJson,
-      src: [actualPath],
-      ignorePath: '.tmp/',
-      exclude: [ 'bower_components/bootstrap/dist/js/bootstrap.js', /codecode/ ]
-    });
-
-    actual = String(fs.readFileSync(actualPath));
-
-    test.equal(actual, expected);
-
-    test.done();
+    testReplaceWithExcludedsrc(test, 'yml');
   },
 
   replaceHtmlWithCustomFormat: function (test) {
