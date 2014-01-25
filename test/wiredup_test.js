@@ -4,9 +4,14 @@ var fs = require('fs');
 var wiredep = require('../wiredep');
 var bowerJson = require('../.tmp/bower.json');
 
+function filePath(prefix, isExpected, fileType) {
+  return '.tmp/' + fileType + '/' +
+    prefix + (isExpected ? '-expected.' : '-actual.') + fileType;
+}
+
 function testReplace(test, fileType) {
-  var expectedPath = '.tmp/' + fileType + '/index-expected.' + fileType;
-  var actualPath = '.tmp/' + fileType + '/index-actual.' + fileType;
+  var expectedPath = filePath('index', true, fileType);
+  var actualPath = filePath('index', false, fileType);
   var expected = String(fs.readFileSync(expectedPath));
   var actual;
 
@@ -22,8 +27,8 @@ function testReplace(test, fileType) {
 }
 
 function testReplaceWithExcludedsrc(test, fileType) {
-  var expectedPath = '.tmp/'+ fileType + '/index-excluded-files-expected.' + fileType;
-  var actualPath = '.tmp/' + fileType + '/index-excluded-files-actual.' + fileType;
+  var expectedPath = filePath('index-excluded-files', true, fileType);
+  var actualPath = filePath('index-excluded-files', false, fileType);
   var expected = String(fs.readFileSync(expectedPath));
   var actual;
 
