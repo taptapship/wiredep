@@ -45,6 +45,30 @@ exports.wiredep = {
     test.done();
   },
 
+  /**
+   * When an unrecognized file type is sent in, it should be treated like an
+   * HTML file.
+   */
+  replaceUnrecognizedFileType: function (test) {
+    var expectedPath = '.tmp/unrecognized/index-expected.sps';
+    var actualPath = '.tmp/unrecognized/index-actual.sps';
+    var expected = String(fs.readFileSync(expectedPath));
+    var actual;
+
+    wiredep({
+      directory: '.tmp/bower_components',
+      bowerJson: bowerJson,
+      src: [actualPath],
+      ignorePath: '.tmp/'
+    });
+
+    actual = String(fs.readFileSync(actualPath));
+
+    test.equal(actual, expected);
+
+    test.done();
+  },
+
   replaceHtmlWithExcludedsrc: function(test) {
     var expectedPath = '.tmp/html/index-excluded-files-expected.html';
     var actualPath = '.tmp/html/index-excluded-files-actual.html';
