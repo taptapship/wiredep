@@ -4,123 +4,123 @@ var fs = require('fs');
 var wiredep = require('../wiredep');
 var bowerJson = require('../.tmp/bower.json');
 
+function getFilePaths(fileName, fileType) {
+  var filePaths = {
+    expected: '.tmp/' + fileType + '/' + fileName + '-expected.' + fileType,
+    actual: '.tmp/' + fileType + '/' + fileName + '-actual.' + fileType,
+    read: function (type) {
+      return String(fs.readFileSync(filePaths[type]));
+    }
+  };
+
+  return filePaths;
+}
+
+function testReplace(fileType) {
+  return function (test) {
+    var filePaths = getFilePaths('index', fileType);
+
+    wiredep({
+      directory: '.tmp/bower_components',
+      bowerJson: bowerJson,
+      src: [filePaths.actual],
+      ignorePath: '.tmp/'
+    });
+
+    test.equal(filePaths.read('expected'), filePaths.read('actual'));
+    test.done();
+  };
+}
+
+function testReplaceWithExcludedsrc(fileType) {
+  return function (test) {
+    var filePaths = getFilePaths('index-excluded-files', fileType);
+
+    wiredep({
+      directory: '.tmp/bower_components',
+      bowerJson: bowerJson,
+      src: [filePaths.actual],
+      ignorePath: '.tmp/',
+      exclude: [ 'bower_components/bootstrap/dist/js/bootstrap.js', /codecode/ ]
+    });
+
+    test.equal(filePaths.read('expected'), filePaths.read('actual'));
+    test.done();
+  };
+}
+
+function testReplaceAfterUninstalledPackage(fileType) {
+  return function (test) {
+    var filePaths = getFilePaths('index-after-uninstall', fileType);
+
+    wiredep({
+      directory: '.tmp/bower_components',
+      bowerJson: bowerJson,
+      src: [filePaths.actual],
+      ignorePath: '.tmp/'
+    });
+
+    wiredep({
+      directory: '.tmp/bower_components',
+      bowerJson: require('../.tmp/bower_after_uninstall.json'),
+      src: [filePaths.actual],
+      ignorePath: '.tmp/'
+    });
+
+    test.equal(filePaths.read('expected'), filePaths.read('actual'));
+
+    test.done();
+  };
+}
+
+function testReplaceAfterUninstallingAllPackages(fileType) {
+  return function (test) {
+    var filePaths = getFilePaths('index-after-uninstall-all', fileType);
+
+    wiredep({
+      directory: '.tmp/bower_components',
+      bowerJson: bowerJson,
+      src: [filePaths.actual],
+      ignorePath: '.tmp/'
+    });
+
+    wiredep({
+      directory: '.tmp/bower_components',
+      bowerJson: require('../.tmp/bower_after_uninstall_all.json'),
+      src: [filePaths.actual],
+      ignorePath: '.tmp/'
+    });
+
+    test.equal(filePaths.read('expected'), filePaths.read('actual'));
+
+    test.done();
+  };
+}
+
 exports.wiredep = {
-  replaceHtml: function (test) {
-    var expectedPath = '.tmp/html/index-expected.html';
-    var actualPath = '.tmp/html/index-actual.html';
-    var expected = String(fs.readFileSync(expectedPath));
-    var actual;
+  replaceHtml: testReplace('html'),
+  replaceJade: testReplace('jade'),
+  replaceYml: testReplace('yml'),
 
-    wiredep({
-      directory: '.tmp/bower_components',
-      bowerJson: bowerJson,
-      src: [actualPath],
-      ignorePath: '.tmp/'
-    });
+  replaceUnrecognizedFileType: testReplace('unrecognized'),
 
-    actual = String(fs.readFileSync(actualPath));
+  replaceHtmlWithExcludedsrc: testReplaceWithExcludedsrc('html'),
+  replaceJadeWithExcludedsrc: testReplaceWithExcludedsrc('jade'),
+  replaceYmlWithExcludedsrc: testReplaceWithExcludedsrc('yml'),
 
-    test.equal(actual, expected);
+  replaceHtmlAfterUninstalledPackage: testReplaceAfterUninstalledPackage('html'),
+  replaceJadeAfterUninstalledPackage: testReplaceAfterUninstalledPackage('jade'),
 
-    test.done();
-  },
-
-  replaceYml: function (test) {
-    var expectedPath = '.tmp/yml/index-expected.yml';
-    var actualPath = '.tmp/yml/index-actual.yml';
-    var expected = String(fs.readFileSync(expectedPath));
-    var actual;
-
-    wiredep({
-      directory: '.tmp/bower_components',
-      bowerJson: bowerJson,
-      src: [actualPath],
-      ignorePath: '.tmp/'
-    });
-
-    actual = String(fs.readFileSync(actualPath));
-
-    test.equal(actual, expected);
-
-    test.done();
-  },
-
-  /**
-   * When an unrecognized file type is sent in, it should be treated like an
-   * HTML file.
-   */
-  replaceUnrecognizedFileType: function (test) {
-    var expectedPath = '.tmp/unrecognized/index-expected.sps';
-    var actualPath = '.tmp/unrecognized/index-actual.sps';
-    var expected = String(fs.readFileSync(expectedPath));
-    var actual;
-
-    wiredep({
-      directory: '.tmp/bower_components',
-      bowerJson: bowerJson,
-      src: [actualPath],
-      ignorePath: '.tmp/'
-    });
-
-    actual = String(fs.readFileSync(actualPath));
-
-    test.equal(actual, expected);
-
-    test.done();
-  },
-
-  replaceHtmlWithExcludedsrc: function(test) {
-    var expectedPath = '.tmp/html/index-excluded-files-expected.html';
-    var actualPath = '.tmp/html/index-excluded-files-actual.html';
-    var expected = String(fs.readFileSync(expectedPath));
-    var actual;
-
-    wiredep({
-      directory: '.tmp/bower_components',
-      bowerJson: bowerJson,
-      src: [actualPath],
-      ignorePath: '.tmp/',
-      exclude: [ 'bower_components/bootstrap/dist/js/bootstrap.js', /codecode/ ]
-    });
-
-    actual = String(fs.readFileSync(actualPath));
-
-    test.equal(actual, expected);
-
-    test.done();
-  },
-
-  replaceYmlWithExcludedsrc: function(test) {
-    var expectedPath = '.tmp/yml/index-excluded-files-expected.yml';
-    var actualPath = '.tmp/yml/index-excluded-files-actual.yml';
-    var expected = String(fs.readFileSync(expectedPath));
-    var actual;
-
-    wiredep({
-      directory: '.tmp/bower_components',
-      bowerJson: bowerJson,
-      src: [actualPath],
-      ignorePath: '.tmp/',
-      exclude: [ 'bower_components/bootstrap/dist/js/bootstrap.js', /codecode/ ]
-    });
-
-    actual = String(fs.readFileSync(actualPath));
-
-    test.equal(actual, expected);
-
-    test.done();
-  },
+  replaceHtmlAfterUninstallingAllPackages: testReplaceAfterUninstallingAllPackages('html'),
+  replaceJadeAfterUninstallingAllPackages: testReplaceAfterUninstallingAllPackages('jade'),
 
   replaceHtmlWithCustomFormat: function (test) {
-    var expectedPath = '.tmp/html/index-custom-format-expected.html';
-    var actualPath = '.tmp/html/index-custom-format-actual.html';
-    var expected = String(fs.readFileSync(expectedPath));
-    var actual;
+    var filePaths = getFilePaths('index-custom-format', 'html');
 
     wiredep({
       directory: '.tmp/bower_components',
       bowerJson: bowerJson,
-      src: [actualPath],
+      src: [filePaths.actual],
       ignorePath: '.tmp/',
       fileTypes: {
         html: {
@@ -132,23 +132,39 @@ exports.wiredep = {
       }
     });
 
-    actual = String(fs.readFileSync(actualPath));
-
-    test.equal(actual, expected);
-
+    test.equal(filePaths.read('expected'), filePaths.read('actual'));
     test.done();
   },
 
-  replaceYmlWithCustomFormat: function(test) {
-    var expectedPath = '.tmp/yml/index-custom-format-expected.yml';
-    var actualPath = '.tmp/yml/index-custom-format-actual.yml';
-    var expected = String(fs.readFileSync(expectedPath));
-    var actual;
+  replaceJadeWithCustomFormat: function (test) {
+    var filePaths = getFilePaths('index-custom-format', 'jade');
 
     wiredep({
       directory: '.tmp/bower_components',
       bowerJson: bowerJson,
-      src: [actualPath],
+      src: [filePaths.actual],
+      ignorePath: '.tmp/',
+      fileTypes: {
+        jade: {
+          replace: {
+            js: 'script(type=\'text/javascript\', src=\'{{filePath}}\')',
+            css: 'link(href=\'{{filePath}}\', rel=\'stylesheet\')'
+          }
+        }
+      }
+    });
+
+    test.equal(filePaths.read('expected'), filePaths.read('actual'));
+    test.done();
+  },
+
+  replaceYmlWithCustomFormat: function(test) {
+    var filePaths = getFilePaths('index-custom-format', 'yml');
+
+    wiredep({
+      directory: '.tmp/bower_components',
+      bowerJson: bowerJson,
+      src: [filePaths.actual],
       ignorePath: '.tmp/',
       fileTypes: {
         yml: {
@@ -160,62 +176,7 @@ exports.wiredep = {
       }
     });
 
-    actual = String(fs.readFileSync(actualPath));
-    test.equal(actual, expected);
-    test.done();
-  },
-
-  replaceHtmlAfterUninstalledPackage: function (test) {
-    var expectedPath = '.tmp/html/index-after-uninstall-expected.html';
-    var actualPath = '.tmp/html/index-after-uninstall-actual.html';
-    var expected = String(fs.readFileSync(expectedPath));
-    var actual;
-
-    wiredep({
-      directory: '.tmp/bower_components',
-      bowerJson: bowerJson,
-      src: [actualPath],
-      ignorePath: '.tmp/'
-    });
-
-    wiredep({
-      directory: '.tmp/bower_components',
-      bowerJson: require('../.tmp/bower_after_uninstall.json'),
-      src: [actualPath],
-      ignorePath: '.tmp/'
-    });
-
-    actual = String(fs.readFileSync(actualPath));
-
-    test.equal(actual, expected);
-
-    test.done();
-  },
-
-  replaceHtmlAfterUninstallingAllPackages: function (test) {
-    var expectedPath = '.tmp/html/index-after-uninstall-all-expected.html';
-    var actualPath = '.tmp/html/index-after-uninstall-all-actual.html';
-    var expected = String(fs.readFileSync(expectedPath));
-    var actual;
-
-    wiredep({
-      directory: '.tmp/bower_components',
-      bowerJson: bowerJson,
-      src: [actualPath],
-      ignorePath: '.tmp/'
-    });
-
-    wiredep({
-      directory: '.tmp/bower_components',
-      bowerJson: require('../.tmp/bower_after_uninstall_all.json'),
-      src: [actualPath],
-      ignorePath: '.tmp/'
-    });
-
-    actual = String(fs.readFileSync(actualPath));
-
-    test.equal(actual, expected);
-
+    test.equal(filePaths.read('expected'), filePaths.read('actual'));
     test.done();
   }
 };
