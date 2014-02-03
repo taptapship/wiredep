@@ -26,7 +26,8 @@ module.exports = function (opts) {
     ('bower-directory', opts.directory)
     ('file-types', opts.fileTypes)
     ('ignore-path', opts.ignorePath)
-    ('exclude', opts.exclude);
+    ('exclude', opts.exclude)
+    ('dev-mode', opts.devMode);
 
   require('./lib/detect-dependencies')(config);
   require('./lib/inject-dependencies')(config);
