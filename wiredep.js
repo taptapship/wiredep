@@ -8,6 +8,7 @@
 
 'use strict';
 
+var glob = require('glob');
 var helpers = require('./lib/helpers');
 
 /**
@@ -21,12 +22,16 @@ module.exports = function (opts) {
   config.set
     ('warnings', [])
     ('global-dependencies', helpers.createStore())
-    ('src', Array.isArray(opts.src) ? opts.src : [opts.src])
     ('bower.json', opts.bowerJson)
     ('bower-directory', opts.directory)
     ('file-types', opts.fileTypes)
     ('ignore-path', opts.ignorePath)
     ('exclude', opts.exclude);
+
+  (Array.isArray(opts.src) ? opts.src : [opts.src]).
+    forEach(function (pattern) {
+      config.set('src', glob.sync(pattern));
+    });
 
   require('./lib/detect-dependencies')(config);
   require('./lib/inject-dependencies')(config);

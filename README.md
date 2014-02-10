@@ -10,7 +10,7 @@ Install the module with: `npm install wiredep --save`
 require('wiredep')({
   directory: 'the directory of your Bower packages.',
   bowerJson: 'your bower.json file contents.',
-  src: ['filepaths', 'to take', 'control of.'],
+  src: ['filepaths', 'and/even/globs/*.html' 'to take', 'control of.'],
 
   // ----- Advanced Configuration -----
   // All of the below settings are for advanced configuration, to
