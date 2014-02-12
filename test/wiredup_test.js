@@ -98,6 +98,36 @@ function testReplaceAfterUninstallingAllPackages(fileType) {
 }
 
 exports.wiredep = {
+  globbing: function (test) {
+    wiredep({
+      directory: '.tmp/bower_components',
+      bowerJson: bowerJson,
+      src: [
+        '.tmp/html/index-actual.*',
+        '.tmp/jade/index-actual.*'
+      ],
+      ignorePath: '.tmp/'
+    });
+
+    [
+      {
+        actual: '.tmp/html/index-actual.html',
+        expected: '.tmp/html/index-expected.html'
+      },
+      {
+        actual: '.tmp/jade/index-actual.jade',
+        expected: '.tmp/jade/index-expected.jade'
+      }
+    ].forEach(function (testObject) {
+      test.equal(
+        String(fs.readFileSync(testObject.actual)),
+        String(fs.readFileSync(testObject.expected))
+      );
+    });
+
+    test.done();
+  },
+
   replaceHtml: testReplace('html'),
   replaceJade: testReplace('jade'),
   replaceYml: testReplace('yml'),
@@ -177,36 +207,6 @@ exports.wiredep = {
     });
 
     test.equal(filePaths.read('expected'), filePaths.read('actual'));
-    test.done();
-  },
-
-  globbing: function (test) {
-    wiredep({
-      directory: '.tmp/bower_components',
-      bowerJson: bowerJson,
-      src: [
-        '.tmp/html/index-actual.*',
-        '.tmp/jade/index-actual.*'
-      ],
-      ignorePath: '.tmp/'
-    });
-
-    [
-      {
-        actual: '.tmp/html/index-actual.html',
-        expected: '.tmp/html/index-expected.html'
-      },
-      {
-        actual: '.tmp/jade/index-actual.jade',
-        expected: '.tmp/jade/index-expected.jade'
-      }
-    ].forEach(function (testObject) {
-      test.equal(
-        String(fs.readFileSync(testObject.actual)),
-        String(fs.readFileSync(testObject.expected))
-      );
-    });
-
     test.done();
   },
 
