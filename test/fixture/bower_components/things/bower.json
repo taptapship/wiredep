@@ -1,0 +1,27 @@
+{
+  "name": "things",
+  "version": "0.1.1",
+  "main": "things.js",
+  "ignore": [
+    "**/.*",
+    "spec/",
+    "src/",
+    "node_modules",
+    "Gruntfile.js",
+    "*.json",
+    "*.map",
+    "*.md",
+    "*.min.js"
+  ],
+  "homepage": "https://github.com/stephenplusplus/things",
+  "_release": "0.1.1",
+  "_resolution": {
+    "type": "version",
+    "tag": "0.1.1",
+    "commit": "5c58725e141dd60f6714f5c118ae52028b5e3ba0"
+  },
+  "_source": "git://github.com/stephenplusplus/things.git",
+  "_target": "~0.1.1",
+  "_originalSource": "things",
+  "_direct": true
+}

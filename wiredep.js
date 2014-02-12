@@ -22,6 +22,8 @@ module.exports = function (opts) {
   config.set
     ('bower.json', opts.bowerJson)
     ('bower-directory', opts.directory)
+    ('dependencies', opts.dependencies === false ? false : true)
+    ('dev-dependencies', opts.devDependencies)
     ('exclude', opts.exclude)
     ('file-types', opts.fileTypes)
     ('global-dependencies', helpers.createStore())

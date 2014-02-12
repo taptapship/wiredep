@@ -208,5 +208,21 @@ exports.wiredep = {
     });
 
     test.done();
+  },
+
+  wireDevDependencies: function (test) {
+    var filePaths = getFilePaths('index-with-dev-dependencies', 'html');
+
+    wiredep({
+      directory: '.tmp/bower_components',
+      dependencies: false,
+      devDependencies: true,
+      bowerJson: bowerJson,
+      src: [filePaths.actual],
+      ignorePath: '.tmp/'
+    });
+
+    test.equal(filePaths.read('expected'), filePaths.read('actual'));
+    test.done();
   }
 };
