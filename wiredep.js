@@ -20,17 +20,18 @@ module.exports = function (opts) {
   var config = helpers.createStore();
 
   config.set
-    ('warnings', [])
-    ('global-dependencies', helpers.createStore())
     ('bower.json', opts.bowerJson)
     ('bower-directory', opts.directory)
+    ('exclude', opts.exclude)
     ('file-types', opts.fileTypes)
+    ('global-dependencies', helpers.createStore())
     ('ignore-path', opts.ignorePath)
-    ('exclude', opts.exclude);
+    ('src', [])
+    ('warnings', []);
 
   (Array.isArray(opts.src) ? opts.src : [opts.src]).
     forEach(function (pattern) {
-      config.set('src', glob.sync(pattern));
+      config.set('src', config.get('src').concat(glob.sync(pattern)));
     });
 
   require('./lib/detect-dependencies')(config);
