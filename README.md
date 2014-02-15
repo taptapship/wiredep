@@ -47,6 +47,47 @@ require('wiredep')({
         css: '<link rel="stylesheet" href="{{filePath}}" />'
       }
     },
+
+    jade: {
+      block: /(([\s\t]*)\/\/\s*bower:*(\S*))(\n|\r|.)*?(\/\/\s*endbower)/gi,
+      detect: {
+        js: /script\(.*src=['"](.+)['"]>/gi,
+        css: /link\(href=['"](.+)['"]/gi
+      },
+      replace: {
+        js: 'script(src=\'{{filePath}}\')',
+        css: 'link(rel=\'stylesheet\', href=\'{{filePath}}\')'
+      }
+    },
+
+    sass: {
+      block: /(([\s\t]*)\/\/\s*bower:*(\S*))(\n|\r|.)*?(\/\/\s*endbower)/gi,
+      detect: {
+        css: /@import\s['"](.+)['"]/gi,
+        sass: /@import\s['"](.+)['"]/gi,
+        scss: /@import\s['"](.+)['"]/gi
+      },
+      replace: {
+        css: '@import {{filePath}}',
+        sass: '@import {{filePath}}',
+        scss: '@import {{filePath}}'
+      }
+    },
+
+    scss: {
+      block: /(([\s\t]*)\/\/\s*bower:*(\S*))(\n|\r|.)*?(\/\/\s*endbower)/gi,
+      detect: {
+        css: /@import\s['"](.+)['"]/gi,
+        sass: /@import\s['"](.+)['"]/gi,
+        scss: /@import\s['"](.+)['"]/gi
+      },
+      replace: {
+        css: '@import "{{filePath}}";',
+        sass: '@import "{{filePath}}";',
+        scss: '@import "{{filePath}}";'
+      }
+    },
+
     yml: {
       block: /(([\s\t]*)#\s*bower:*(\S*)\s*)(\n|\r|.)*?(#\s*endbower\s*)/gi,
       detect: {
