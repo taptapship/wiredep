@@ -20,7 +20,7 @@ var through = require('through2');
  * @param  {object} config  the global configuration object
  */
 var wiredep = function (opts) {
-  var config = helpers.createStore();
+  var config = module.exports.config = helpers.createStore();
 
   config.set
     ('bower.json', opts.bowerJson || JSON.parse(fs.readFileSync('./bower.json')))

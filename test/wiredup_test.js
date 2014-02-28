@@ -226,5 +226,23 @@ exports.wiredep = {
 
     test.equal(filePaths.read('expected'), filePaths.read('actual'));
     test.done();
+  },
+
+  replaceHtmlWithPackageWithoutMain: function (test) {
+    var filePaths = getFilePaths('index-packages-without-main', 'html');
+
+    wiredep({
+      directory: '.tmp/bower_components',
+      bowerJson: require('../.tmp/bower_packages_without_main.json'),
+      src: [filePaths.actual],
+      ignorePath: '.tmp/',
+      exclude: [ 'fake-package-without-main-and-confusing-file-tree' ]
+    });
+
+    // If a package is excluded, don't display a warning.
+    test.equal(wiredep.config.get('warnings').length, 0);
+
+    test.equal(filePaths.read('expected'), filePaths.read('actual'));
+    test.done();
   }
 };
