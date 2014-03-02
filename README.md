@@ -19,6 +19,9 @@ require('wiredep')({
   //
   // Out of the box, wiredep will handle HTML files just fine for
   // JavaScript and CSS injection.
+  
+  dependencies: Boolean,    // default: true
+  devDependencies: Boolean, // default: false
 
   exclude: [ /jquery/, "bower_components/modernizr/modernizr.js" ],
 
@@ -109,4 +112,4 @@ In lieu of a formal styleguide, take care to maintain the existing coding style.
 
 
 ## License
-Copyright (c) 2013 Stephen Sawchuk. Licensed under the MIT license.
+Copyright (c) 2014 Stephen Sawchuk. Licensed under the MIT license.
