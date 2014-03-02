@@ -33,7 +33,8 @@ var wiredep = function (opts) {
     ('ignore-path', opts.ignorePath)
     ('src', [])
     ('stream', opts.stream ? opts.stream : {})
-    ('warnings', []);
+    ('warnings', [])
+    ('distDirs', opts.distDirs || ['dist']);
 
   if (!opts.stream) {
     (Array.isArray(opts.src) ? opts.src : [opts.src]).
