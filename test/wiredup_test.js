@@ -235,8 +235,7 @@ exports.wiredep = {
       directory: '.tmp/bower_components',
       bowerJson: require('../.tmp/bower_packages_without_main.json'),
       src: [filePaths.actual],
-      ignorePath: '.tmp/',
-      exclude: [ 'fake-package-without-main-and-confusing-file-tree' ]
+      ignorePath: '.tmp/'
     });
 
     // If a package is excluded, don't display a warning.

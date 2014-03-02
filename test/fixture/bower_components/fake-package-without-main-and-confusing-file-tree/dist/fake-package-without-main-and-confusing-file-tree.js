@@ -1,3 +1,3 @@
 (function () {
-  // this file should not be injected.
+  // this should still be injected as well!
 })();
