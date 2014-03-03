@@ -106,6 +106,24 @@ require('wiredep')({
 });
 ```
 
+## Bower Overrides
+While not standard, a number of other plugins allow you to override properties in a plugin's `bower.json` via an `overrides` property in your projects `bower.json`. This allows you to use `wiredep` with other plugins, such as `gulp-bower-files` that use this same pattern.
+
+As an example, this is what your `bower.json` may look like if you wanted to override `package-without-main`'s `main` file:
+
+```js
+{
+  ...
+  dependencies: {
+    "package-without-main": "1.0.0"
+  },
+  overrides: {
+    "package-without-main": {
+      "main": "dist/package-without-main.js"
+    }
+  }
+}
+```
 
 ## Contributing
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
