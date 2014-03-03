@@ -4,7 +4,7 @@ Wire dependencies to your source code.
 
 
 ## Getting Started
-Install the module with: `npm install wiredep --save`
+Install the module with: `npm install --save wiredep`
 
 ```js
 require('wiredep')({
@@ -19,11 +19,11 @@ require('wiredep')({
   //
   // Out of the box, wiredep will handle HTML files just fine for
   // JavaScript and CSS injection.
-  
-  dependencies: Boolean,    // default: true
-  devDependencies: Boolean, // default: false
 
-  exclude: [ /jquery/, "bower_components/modernizr/modernizr.js" ],
+  dependencies: true,
+  devDependencies: false,
+
+  exclude: [ /jquery/, 'bower_components/modernizr/modernizr.js' ],
 
   ignorePath: 'optional path to ignore from the injected filepath.'
 
@@ -107,7 +107,7 @@ require('wiredep')({
 ```
 
 ## Bower Overrides
-While not standard, a number of other plugins allow you to override properties in a plugin's `bower.json` via an `overrides` property in your projects `bower.json`. This allows you to use `wiredep` with other plugins, such as `gulp-bower-files` that use this same pattern.
+To override a property, or lack of, in one of your dependency's `bower.json` file, you may specify an `overrides` object in your own `bower.json` .
 
 As an example, this is what your `bower.json` may look like if you wanted to override `package-without-main`'s `main` file:
 
@@ -115,11 +115,11 @@ As an example, this is what your `bower.json` may look like if you wanted to ove
 {
   ...
   dependencies: {
-    "package-without-main": "1.0.0"
+    'package-without-main': '1.0.0'
   },
   overrides: {
-    "package-without-main": {
-      "main": "dist/package-without-main.js"
+    'package-without-main': {
+      'main': 'dist/package-without-main.js'
     }
   }
 }
