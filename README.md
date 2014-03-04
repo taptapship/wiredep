@@ -4,7 +4,7 @@ Wire dependencies to your source code.
 
 
 ## Getting Started
-Install the module with: `npm install wiredep --save`
+Install the module with: `npm install --save wiredep`
 
 ```js
 require('wiredep')({
@@ -20,7 +20,10 @@ require('wiredep')({
   // Out of the box, wiredep will handle HTML files just fine for
   // JavaScript and CSS injection.
 
-  exclude: [ /jquery/, "bower_components/modernizr/modernizr.js" ],
+  dependencies: true,
+  devDependencies: false,
+
+  exclude: [ /jquery/, 'bower_components/modernizr/modernizr.js' ],
 
   ignorePath: 'optional path to ignore from the injected filepath.'
 
@@ -103,10 +106,28 @@ require('wiredep')({
 });
 ```
 
+## Bower Overrides
+To override a property, or lack of, in one of your dependency's `bower.json` file, you may specify an `overrides` object in your own `bower.json` .
+
+As an example, this is what your `bower.json` may look like if you wanted to override `package-without-main`'s `main` file:
+
+```js
+{
+  ...
+  dependencies: {
+    'package-without-main': '1.0.0'
+  },
+  overrides: {
+    'package-without-main': {
+      'main': 'dist/package-without-main.js'
+    }
+  }
+}
+```
 
 ## Contributing
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
 
 
 ## License
-Copyright (c) 2013 Stephen Sawchuk. Licensed under the MIT license.
+Copyright (c) 2014 Stephen Sawchuk. Licensed under the MIT license.

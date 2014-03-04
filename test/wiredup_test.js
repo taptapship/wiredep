@@ -1,13 +1,15 @@
 'use strict';
 
 var fs = require('fs');
+var path = require('path');
 var wiredep = require('../wiredep');
 var bowerJson = require('../.tmp/bower.json');
 
 function getFilePaths(fileName, fileType) {
+  var extension = fileType.match(/([^/]*)[/]*/)[1];
   var filePaths = {
-    expected: '.tmp/' + fileType + '/' + fileName + '-expected.' + fileType,
-    actual: '.tmp/' + fileType + '/' + fileName + '-actual.' + fileType,
+    expected: path.resolve('.tmp', fileType, fileName + '-expected.' + extension),
+    actual: path.resolve('.tmp', fileType, fileName + '-actual.' + extension),
     read: function (type) {
       return String(fs.readFileSync(filePaths[type]));
     }
@@ -243,5 +245,7 @@ exports.wiredep = {
 
     test.equal(filePaths.read('expected'), filePaths.read('actual'));
     test.done();
-  }
+  },
+
+  replaceDeepNestedFileWithRelativePath: testReplace('html/deep/nested')
 };
