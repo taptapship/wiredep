@@ -69,6 +69,7 @@ wiredep.stream = function (opts) {
     try {
       opts.stream = {
         src: file.contents.toString(),
+        path: file.path,
         fileType: path.extname(file.path).substr(1)
       };
 
