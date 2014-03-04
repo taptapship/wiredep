@@ -34,7 +34,7 @@ var wiredep = function (opts) {
     ('src', [])
     ('stream', opts.stream ? opts.stream : {})
     ('warnings', [])
-    ('distDirs', opts.distDirs || ['dist']);
+    ('dist-dirs', opts.distDirs || ['dist']);
 
   if (!opts.stream) {
     (Array.isArray(opts.src) ? opts.src : [opts.src]).
