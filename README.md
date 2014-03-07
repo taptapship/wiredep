@@ -40,7 +40,7 @@ require('wiredep')({
 
     // defaults:
     html: {
-      block: /(([\s\t]*)<!--\s*bower:*(\S*)\s*-->)(\n|\r|.)*?(<!--\s*endbower\s*-->)/gi
+      block: /(([ \t]*)<!--\s*bower:*(\S*)\s*-->)(\n|\r|.)*?(<!--\s*endbower\s*-->)/gi
       detect: {
         js: /<script.*src=['"](.+)['"]>/gi,
         css: /<link.*href=['"](.+)['"]/gi
@@ -52,7 +52,7 @@ require('wiredep')({
     },
 
     jade: {
-      block: /(([\s\t]*)\/\/\s*bower:*(\S*))(\n|\r|.)*?(\/\/\s*endbower)/gi,
+      block: /(([ \t]*)\/\/\s*bower:*(\S*))(\n|\r|.)*?(\/\/\s*endbower)/gi,
       detect: {
         js: /script\(.*src=['"](.+)['"]>/gi,
         css: /link\(href=['"](.+)['"]/gi
@@ -64,7 +64,7 @@ require('wiredep')({
     },
 
     sass: {
-      block: /(([\s\t]*)\/\/\s*bower:*(\S*))(\n|\r|.)*?(\/\/\s*endbower)/gi,
+      block: /(([ \t]*)\/\/\s*bower:*(\S*))(\n|\r|.)*?(\/\/\s*endbower)/gi,
       detect: {
         css: /@import\s['"](.+)['"]/gi,
         sass: /@import\s['"](.+)['"]/gi,
@@ -78,7 +78,7 @@ require('wiredep')({
     },
 
     scss: {
-      block: /(([\s\t]*)\/\/\s*bower:*(\S*))(\n|\r|.)*?(\/\/\s*endbower)/gi,
+      block: /(([ \t]*)\/\/\s*bower:*(\S*))(\n|\r|.)*?(\/\/\s*endbower)/gi,
       detect: {
         css: /@import\s['"](.+)['"]/gi,
         sass: /@import\s['"](.+)['"]/gi,
@@ -92,7 +92,7 @@ require('wiredep')({
     },
 
     yml: {
-      block: /(([\s\t]*)#\s*bower:*(\S*)\s*)(\n|\r|.)*?(#\s*endbower\s*)/gi,
+      block: /(([ \t]*)#\s*bower:*(\S*)\s*)(\n|\r|.)*?(#\s*endbower\s*)/gi,
       detect: {
         js: /-\s(.+)/gi,
         css: /-\s(.+)/gi
