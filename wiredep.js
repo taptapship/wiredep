@@ -30,6 +30,7 @@ var wiredep = function (opts) {
     ('exclude', opts.exclude)
     ('file-types', opts.fileTypes)
     ('global-dependencies', helpers.createStore())
+    ('override-root', opts.overrideRoot)
     ('ignore-path', opts.ignorePath)
     ('src', [])
     ('stream', opts.stream ? opts.stream : {})

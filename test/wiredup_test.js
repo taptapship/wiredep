@@ -34,6 +34,23 @@ function testReplace(fileType) {
   };
 }
 
+function testReplaceWithOverridenRoot(fileType) {
+  return function (test) {
+    var filePaths = getFilePaths('index-overriden-root', fileType);
+
+    wiredep({
+      directory: '.tmp/bower_components',
+      bowerJson: bowerJson,
+      src: [filePaths.actual],
+      ignorePath: '.tmp/',
+      overrideRoot: '.tmp/bower_components/'
+    });
+
+    test.equal(filePaths.read('expected'), filePaths.read('actual'));
+    test.done();
+  };
+}
+
 function testReplaceWithExcludedsrc(fileType) {
   return function (test) {
     var filePaths = getFilePaths('index-excluded-files', fileType);
@@ -137,6 +154,8 @@ exports.wiredep = {
   replaceYml: testReplace('yml'),
 
   replaceUnrecognizedFileType: testReplace('unrecognized'),
+
+  replaceHtmlWithOverridenRoot: testReplaceWithOverridenRoot('html'),
 
   replaceHtmlWithExcludedsrc: testReplaceWithExcludedsrc('html'),
   replaceJadeWithExcludedsrc: testReplaceWithExcludedsrc('jade'),
