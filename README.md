@@ -25,7 +25,7 @@ require('wiredep')({
 
   exclude: [ /jquery/, 'bower_components/modernizr/modernizr.js' ],
 
-  ignorePath: 'optional path to ignore from the injected filepath.'
+  ignorePath: 'optional path to ignore from the injected filepath.',
 
   fileTypes: {
     fileExtension: {
