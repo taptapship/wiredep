@@ -1,0 +1,22 @@
+{
+  "name": "3l",
+  "version": "1.4.4",
+  "main": "3L/3L.less",
+  "description": "Lots of Love for LESS - the up-to-date mixins library for the LESS preprocessor",
+  "homepage": "http://mateuszkocz.github.io/3l/",
+  "author": {
+    "name": "Mateusz Kocz",
+    "web": "http://mateusz.kocz.pl"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mateuszkocz/3l.git"
+  },
+  "keywords": ["css", "css3", "less", "mixins"],
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/mateuszkocz/3l/blob/master/3L/LICENCES.md"
+    }
+  ]
+}

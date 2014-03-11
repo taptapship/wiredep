@@ -5,7 +5,8 @@
     "modernizr": "2.6.2",
     "codecode": "0.0.3",
     "bootstrap": "3.0.0",
-    "modular-scale": "2.0.3"
+    "modular-scale": "2.0.3",
+    "3l": "1.4.4"
   },
   "devDependencies": {
     "things": "0.1.1"

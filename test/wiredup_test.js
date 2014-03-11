@@ -132,6 +132,7 @@ exports.wiredep = {
 
   replaceHtml: testReplace('html'),
   replaceJade: testReplace('jade'),
+  replaceLess: testReplace('less'),
   replaceSass: testReplace('sass'),
   replaceScss: testReplace('scss'),
   replaceYml: testReplace('yml'),

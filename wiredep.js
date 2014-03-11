@@ -13,6 +13,107 @@ var glob = require('glob');
 var helpers = require('./lib/helpers');
 var path = require('path');
 var through = require('through2');
+var _ = require('lodash');
+
+var fileTypesDefault = {
+  html: {
+    block: /(([ \t]*)<!--\s*bower:*(\S*)\s*-->)(\n|\r|.)*?(<!--\s*endbower\s*-->)/gi,
+    detect: {
+      js: /<script.*src=['"](.+)['"]>/gi,
+      css: /<link.*href=['"](.+)['"]/gi
+    },
+    replace: {
+      js: '<script src="{{filePath}}"></script>',
+      css: '<link rel="stylesheet" href="{{filePath}}" />'
+    }
+  },
+
+  jade: {
+    block: /(([ \t]*)\/\/\s*bower:*(\S*))(\n|\r|.)*?(\/\/\s*endbower)/gi,
+    detect: {
+      js: /script\(.*src=['"](.+)['"]>/gi,
+      css: /link\(href=['"](.+)['"]/gi
+    },
+    replace: {
+      js: 'script(src=\'{{filePath}}\')',
+      css: 'link(rel=\'stylesheet\', href=\'{{filePath}}\')'
+    }
+  },
+
+  less: {
+    block: /(([ \t]*)\/\/\s*bower:*(\S*))(\n|\r|.)*?(\/\/\s*endbower)/gi,
+    detect: {
+      css: /@import\s['"](.+)['"]/gi,
+      less: /@import\s['"](.+)['"]/gi
+    },
+    replace: {
+      css: '@import "{{filePath}}";',
+      less: '@import "{{filePath}}";'
+    }
+  },
+
+  sass: {
+    block: /(([ \t]*)\/\/\s*bower:*(\S*))(\n|\r|.)*?(\/\/\s*endbower)/gi,
+    detect: {
+      css: /@import\s['"](.+)['"]/gi,
+      sass: /@import\s['"](.+)['"]/gi,
+      scss: /@import\s['"](.+)['"]/gi
+    },
+    replace: {
+      css: '@import {{filePath}}',
+      sass: '@import {{filePath}}',
+      scss: '@import {{filePath}}'
+    }
+  },
+
+  scss: {
+    block: /(([ \t]*)\/\/\s*bower:*(\S*))(\n|\r|.)*?(\/\/\s*endbower)/gi,
+    detect: {
+      css: /@import\s['"](.+)['"]/gi,
+      sass: /@import\s['"](.+)['"]/gi,
+      scss: /@import\s['"](.+)['"]/gi
+    },
+    replace: {
+      css: '@import "{{filePath}}";',
+      sass: '@import "{{filePath}}";',
+      scss: '@import "{{filePath}}";'
+    }
+  },
+
+  yaml: {
+    block: /(([ \t]*)#\s*bower:*(\S*))(\n|\r|.)*?(#\s*endbower)/gi,
+    detect: {
+      js: /-\s(.+)/gi,
+      css: /-\s(.+)/gi
+    },
+    replace: {
+      js: '- {{filePath}}',
+      css: '- {{filePath}}'
+    }
+  }
+};
+
+fileTypesDefault['default'] = fileTypesDefault.html;
+fileTypesDefault.htm = fileTypesDefault.html;
+fileTypesDefault.yml = fileTypesDefault.yaml;
+
+function mergeFileTypesWithDefaults(optsFileTypes) {
+  var fileTypes = _.clone(fileTypesDefault, true);
+
+  _(optsFileTypes).each(function (fileTypeConfig, fileType) {
+    fileTypes[fileType] = fileTypes[fileType] || {};
+    _.each(fileTypeConfig, function (config, configKey) {
+      if (_.isPlainObject(fileTypes[fileType][configKey])) {
+        fileTypes[fileType][configKey] =
+          _.assign(fileTypes[fileType][configKey], config);
+      } else {
+        fileTypes[fileType][configKey] = config;
+      }
+    });
+  });
+
+  return fileTypes;
+}
 
 /**
  * Wire up the html files with the Bower packages.
@@ -26,14 +127,27 @@ var wiredep = function (opts) {
     ('bower.json', opts.bowerJson || JSON.parse(fs.readFileSync('./bower.json')))
     ('bower-directory', opts.directory || 'bower_components')
     ('dependencies', opts.dependencies === false ? false : true)
+    ('detectable-file-types', [])
     ('dev-dependencies', opts.devDependencies)
     ('exclude', opts.exclude)
-    ('file-types', opts.fileTypes)
+    ('file-types', mergeFileTypesWithDefaults(opts.fileTypes))
     ('global-dependencies', helpers.createStore())
     ('ignore-path', opts.ignorePath)
     ('src', [])
     ('stream', opts.stream ? opts.stream : {})
     ('warnings', []);
+
+  _.pluck(config.get('file-types'), 'detect').
+    forEach(function (fileType) {
+      Object.keys(fileType).
+        forEach(function (detectableFileType) {
+          var detectableFileTypes = config.get('detectable-file-types');
+
+          if (detectableFileTypes.indexOf(detectableFileType) === -1) {
+            config.set('detectable-file-types', detectableFileTypes.concat(detectableFileType));
+          }
+        });
+    });
 
   if (!opts.stream) {
     (Array.isArray(opts.src) ? opts.src : [opts.src]).
