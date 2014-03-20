@@ -114,12 +114,12 @@ As an example, this is what your `bower.json` may look like if you wanted to ove
 ```js
 {
   ...
-  dependencies: {
-    'package-without-main': '1.0.0'
+  "dependencies": {
+    "package-without-main": "1.0.0"
   },
-  overrides: {
-    'package-without-main': {
-      'main': 'dist/package-without-main.js'
+  "overrides": {
+    "package-without-main": {
+      "main": "dist/package-without-main.js"
     }
   }
 }
