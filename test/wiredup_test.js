@@ -254,8 +254,7 @@ exports.wiredep = {
   returnUsefulObject: function (test) {
     var returnedObject = wiredep({
       directory: '.tmp/bower_components',
-      bowerJson: bowerJson,
-      src: []
+      bowerJson: bowerJson
     });
 
     test.equal(typeof returnedObject.js, 'object');
