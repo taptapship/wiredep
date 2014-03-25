@@ -149,7 +149,7 @@ var wiredep = function (opts) {
         });
     });
 
-  if (!opts.stream) {
+  if (!opts.stream && opts.src) {
     (Array.isArray(opts.src) ? opts.src : [opts.src]).
       forEach(function (pattern) {
         config.set('src', config.get('src').concat(glob.sync(pattern)));
