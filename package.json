@@ -3,7 +3,7 @@
   "main": "./wiredep.js",
   "version": "1.4.0",
   "description": "Wire Bower dependencies to your source code.",
-  "repository": "stephenplusplus/wiredep",
+  "repository": "taptapship/wiredep",
   "author": {
     "name": "Stephen Sawchuk",
     "email": "sawchuk@gmail.com"
