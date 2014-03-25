@@ -163,7 +163,15 @@ var wiredep = function (opts) {
     helpers.warn(config.get('warnings'));
   }
 
-  return config.get('stream').src || config.get('src');
+  return config.get('stream').src ||
+    Object.keys(config.get('global-dependencies-sorted')).
+      reduce(function (acc, depType) {
+        if (config.get('global-dependencies-sorted')[depType].length) {
+          acc[depType] = config.get('global-dependencies-sorted')[depType];
+        }
+
+        return acc;
+      }, {});
 };
 
 wiredep.stream = function (opts) {

@@ -249,5 +249,20 @@ exports.wiredep = {
     test.done();
   },
 
-  replaceDeepNestedFileWithRelativePath: testReplace('html/deep/nested')
+  replaceDeepNestedFileWithRelativePath: testReplace('html/deep/nested'),
+
+  returnUsefulObject: function (test) {
+    var returnedObject = wiredep({
+      directory: '.tmp/bower_components',
+      bowerJson: bowerJson,
+      src: []
+    });
+
+    test.equal(typeof returnedObject.js, 'object');
+    test.equal(typeof returnedObject.css, 'object');
+    test.equal(typeof returnedObject.less, 'object');
+    test.equal(typeof returnedObject.scss, 'object');
+
+    test.done();
+  }
 };
