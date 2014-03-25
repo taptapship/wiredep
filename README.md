@@ -125,6 +125,36 @@ As an example, this is what your `bower.json` may look like if you wanted to ove
 }
 ```
 
+## Programmatic Access
+Require `wiredep` in your code and initialize `src` with an empty array. The results of the process will be available through `wiredep.config`.
+
+```js
+var wiredep = require('wiredep');
+wiredep({ src: [], ... });
+
+wiredep.config.get('global-dependencies-sorted').js;
+// Returns an array with the file paths, in the order they need to be included.
+// [ 'bower_components/jquery/dist/jquery.js',
+//   'bower_components/jquery-ui/ui/jquery-ui.js',
+//   ...
+// ]
+
+wiredep.config.get('global-dependencies').get();
+// Returns an object with information about the dependencies and their resolutions.
+// { 'jquery': {
+//     main: [ 'bower_components/jquery/dist/jquery.js' ],
+//     type: [ '.js' ],
+//     name: 'jquery',
+//     dependencies: {} },
+//   'jquery-ui': {
+//     main: [ 'bower_components/jquery-ui/ui/jquery-ui.js' ],
+//     type: [ '.js' ],
+//     name: 'jquery-ui',
+//     dependencies: { jquery: '>=1.6' } },
+//     ...
+// }
+```
+
 ## Contributing
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
 
