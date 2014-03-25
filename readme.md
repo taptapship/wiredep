@@ -1,15 +1,63 @@
 # wiredep
-
-Wire dependencies to your source code.
+> Wire dependencies to your source code.
 
 
 ## Getting Started
 Install the module with: `npm install --save wiredep`
 
+
+## Build Chain Integration
+
+### [gulp.js](http://gulpjs.com/)
+
+wiredep works with [streams](https://github.com/substack/stream-handbook) and integrates with gulp.js out of the box:
+
+```js
+var wiredep = require('wiredep').stream;
+
+gulp.task('bower', function () {
+  gulp.src('./src/footer.html')
+    .pipe(wiredep({
+      optional: 'configuration',
+      goes: 'here'
+    }))
+    .pipe(gulp.dest('./dest'));
+});
+```
+
+### [Grunt](http://gruntjs.com)
+
+See [`grunt-bower-install`](https://github.com/stephenplusplus/grunt-bower-install).
+
+
+## Programmatic Access
+You can run `wiredep` without manipulating any files.
+
+```js
+require('wiredep')();
+```
+
+...returns...
+```js
+{
+  js: [
+    'paths/to/your/js/files.js',
+    'in/their/order/of/dependency.js'
+  ],
+  css: [
+    'paths/to/your/css/files.css'
+  ],
+  // etc.
+}
+```
+
+
+## Configuration
+
 ```js
 require('wiredep')({
-  directory: 'the directory of your Bower packages.',
-  bowerJson: 'your bower.json file contents.',
+  directory: 'the directory of your Bower packages.', // default: 'bower_components'
+  bowerJson: 'your bower.json file contents.',        // default: require('./bower.json')
   src: ['filepaths', 'and/even/globs/*.html' 'to take', 'control of.'],
 
   // ----- Advanced Configuration -----
@@ -20,12 +68,12 @@ require('wiredep')({
   // Out of the box, wiredep will handle HTML files just fine for
   // JavaScript and CSS injection.
 
-  dependencies: true,
-  devDependencies: false,
+  dependencies: true,    // default: true
+  devDependencies: true, // default: false
 
   exclude: [ /jquery/, 'bower_components/modernizr/modernizr.js' ],
 
-  ignorePath: 'optional path to ignore from the injected filepath.',
+  ignorePath: /string or regexp to ignore from the injected filepath/,
 
   fileTypes: {
     fileExtension: {
@@ -107,28 +155,8 @@ require('wiredep')({
 ```
 
 
-### Gulp Integration (or anything that uses `streams`)
-Wiredep works with `streams`, too, for (among other reasons) streamlined integration with [`Gulp.js`](http://gulpjs.com/):
-
-```js
-gulp.task('bower', function () {
-  gulp.src('./src/footer.html')
-    .pipe(wiredep.stream({
-      // src is not needs as it takes the files from gulp.src
-      directory: 'bower_components',
-      bowerJson: require('./bower.json'),
-      // any other options you need, same as standard usage
-    })
-    .pipe(gulp.dest('./dest'));
-});
-```
-
-### Grunt Integration
-See my [`grunt-bower-install`](https://github.com/stephenplusplus/grunt-bower-install) plugin for awesomesauce Grunt-Bower-via-Wiredep integration.
-
-
 ## Bower Overrides
-To override a property, or lack of, in one of your dependency's `bower.json` file, you may specify an `overrides` object in your own `bower.json` .
+To override a property, or lack of, in one of your dependency's `bower.json` file, you may specify an `overrides` object in your own `bower.json`.
 
 As an example, this is what your `bower.json` may look like if you wanted to override `package-without-main`'s `main` file:
 
@@ -147,30 +175,8 @@ As an example, this is what your `bower.json` may look like if you wanted to ove
 ```
 
 
-## Programmatic Access
-You can run `wiredep` without intending to manipulate any files. Consider the following example:
-
-```js
-require('wiredep')();
-```
-
-...will return...
-```js
-{
-  js: [
-    'paths/to/your/js/files.js',
-    'in/their/order/of/dependency.js'
-  ],
-  css: [
-    'paths/to/your/css/files.css'
-  ],
-  // etc.
-}
-```
-
-
 ## Contributing
-In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
+In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using `npm test`.
 
 
 ## License
