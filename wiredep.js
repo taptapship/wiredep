@@ -121,6 +121,8 @@ function mergeFileTypesWithDefaults(optsFileTypes) {
  * @param  {object} config  the global configuration object
  */
 var wiredep = function (opts) {
+  opts = opts || {};
+
   var config = module.exports.config = helpers.createStore();
 
   config.set

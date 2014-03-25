@@ -106,6 +106,7 @@ require('wiredep')({
 });
 ```
 
+
 ## Bower Overrides
 To override a property, or lack of, in one of your dependency's `bower.json` file, you may specify an `overrides` object in your own `bower.json` .
 
@@ -124,6 +125,29 @@ As an example, this is what your `bower.json` may look like if you wanted to ove
   }
 }
 ```
+
+
+## Programmatic Access
+You can run `wiredep` without intending to manipulate any files. Consider the following example:
+
+```js
+require('wiredep')();
+```
+
+...will return...
+```js
+{
+  js: [
+    'paths/to/your/js/files.js',
+    'in/their/order/of/dependency.js'
+  ],
+  css: [
+    'paths/to/your/css/files.css'
+  ],
+  // etc.
+}
+```
+
 
 ## Contributing
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
