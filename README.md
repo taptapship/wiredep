@@ -106,6 +106,25 @@ require('wiredep')({
 });
 ```
 
+### Gulp Integration (or anything that uses `streams`)
+Wiredep works with `streams`, too, for (among other reasons) streamlined integration with [`Gulp.js`](http://gulpjs.com/):
+
+```js
+gulp.task('bower', function () {
+  gulp.src('./src/footer.html')
+    .pipe(wiredep.stream({
+      // src is not needs as it takes the files from gulp.src
+      directory: 'bower_components',
+      bowerJson: require('./bower.json'),
+      // any other options you need, same as standard usage
+    })
+    .pipe(gulp.dest('./dest'));
+});
+```
+
+### Grunt Integration
+See my [`grunt-bower-install`](https://github.com/stephenplusplus/grunt-bower-install) plugin for awesomesauce Grunt-Bower-via-Wiredep integration.
+
 ## Bower Overrides
 To override a property, or lack of, in one of your dependency's `bower.json` file, you may specify an `overrides` object in your own `bower.json` .
 
