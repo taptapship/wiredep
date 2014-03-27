@@ -261,6 +261,7 @@ exports.wiredep = {
     test.equal(typeof returnedObject.css, 'object');
     test.equal(typeof returnedObject.less, 'object');
     test.equal(typeof returnedObject.scss, 'object');
+    test.equal(typeof returnedObject.packages, 'object');
 
     test.done();
   }
