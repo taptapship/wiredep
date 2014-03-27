@@ -173,7 +173,7 @@ var wiredep = function (opts) {
         }
 
         return acc;
-      }, {});
+      }, { packages: config.get('global-dependencies').get() });
 };
 
 wiredep.stream = function (opts) {
