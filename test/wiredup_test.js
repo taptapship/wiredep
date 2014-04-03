@@ -249,6 +249,29 @@ exports.wiredep = {
     test.done();
   },
 
+  replaceHtmlWithPackageWithoutMainUsingConfigOverrides: function (test) {
+    var filePaths = getFilePaths('index-packages-without-main', 'html');
+
+    var bowerJson = require('../.tmp/bower_packages_without_main.json');
+    var overrides = bowerJson.overrides;
+    delete bowerJson.overrides;
+
+    wiredep({
+      directory: '.tmp/bower_components',
+      bowerJson: bowerJson,
+      overrides: overrides,
+      src: [filePaths.actual],
+      ignorePath: '.tmp/',
+      exclude: [ 'fake-package-without-main-and-confusing-file-tree' ]
+    });
+
+    // If a package is excluded, don't display a warning.
+    test.equal(wiredep.config.get('warnings').length, 0);
+
+    test.equal(filePaths.read('expected'), filePaths.read('actual'));
+    test.done();
+  },
+
   replaceDeepNestedFileWithRelativePath: testReplace('html/deep/nested'),
 
   returnUsefulObject: function (test) {
