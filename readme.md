@@ -74,6 +74,13 @@ require('wiredep')({
   exclude: [ /jquery/, 'bower_components/modernizr/modernizr.js' ],
 
   ignorePath: /string or regexp to ignore from the injected filepath/,
+  
+  overrides: {
+    // see `Bower Overrides` section below.
+    //
+    // This inline object offers another way to define your overrides if
+    // modifying your project's `bower.json` isn't an option.
+  },
 
   fileTypes: {
     fileExtension: {
