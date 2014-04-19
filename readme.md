@@ -36,7 +36,6 @@ And place injection points in your html
     <!-- bower:js -->
     <!-- endbower -->
 </body>
-
 ```
 
 ### [Grunt](http://gruntjs.com)
