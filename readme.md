@@ -3,7 +3,63 @@
 
 
 ## Getting Started
-Install the module with: `npm install --save wiredep`
+Install the module with [npm](https://npmjs.org):
+
+```bash
+$ npm install --save wiredep
+```
+
+Install your [bower](http://bower.io) dependencies (if you haven't already):
+
+```bash
+$ bower install --save jquery
+```
+
+Insert placeholders in your code where your dependencies will be injected:
+
+```html
+<html>
+<head>
+  <!-- bower:css -->
+  <!-- endbower -->
+</head>
+<body>
+  <!-- bower:js -->
+  <!-- endbower -->
+</body>
+</html>
+```
+
+Let `wiredep` work its magic:
+
+```bash
+$ node
+> require('wiredep')({ src: 'index.html' });
+
+index.html modified.
+{ packages:
+   { jquery:
+      { main: [Object],
+        type: [Object],
+        name: 'jquery',
+        dependencies: {} } },
+  js: [ 'bower_components/jquery/dist/jquery.js' ] }
+```
+
+
+```html
+<html>
+<head>
+  <!-- bower:css -->
+  <!-- endbower -->
+</head>
+<body>
+  <!-- bower:js -->
+  <script src="bower_components/jquery/dist/jquery.js"></script>
+  <!-- endbower -->
+</body>
+</html>
+```
 
 
 ## Build Chain Integration
