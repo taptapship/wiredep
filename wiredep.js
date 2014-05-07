@@ -12,6 +12,7 @@ var helpers = require('./lib/helpers');
 var path = require('path');
 var through = require('through2');
 var _ = require('lodash');
+var strip = require('strip-comments');
 
 var fileTypesDefault = {
   html : {
@@ -172,7 +173,7 @@ var wiredep = function(opts) {
           var match = angularModuleRegex.exec(file);
           while (match) {
             angularModules.push(match[1]);
-            var match = angularModuleRegex.exec(file);
+            match = angularModuleRegex.exec(file);
           }
         });
         acc['angular'] = angularModules;
