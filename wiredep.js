@@ -126,8 +126,9 @@ var wiredep = function (opts) {
   var config = module.exports.config = helpers.createStore();
 
   config.set
+    ('min', opts.min || false)
     ('bower.json', opts.bowerJson || JSON.parse(fs.readFileSync('./bower.json')))
-    ('bower-directory', opts.directory || 'bower_components')
+    ('bower-directory', opts.directory || 'bower_components')    
     ('dependencies', opts.dependencies === false ? false : true)
     ('detectable-file-types', [])
     ('dev-dependencies', opts.devDependencies)
