@@ -115,6 +115,7 @@ require('wiredep')({
   directory: 'the directory of your Bower packages.', // default: 'bower_components'
   bowerJson: 'your bower.json file contents.',        // default: require('./bower.json')
   src: ['filepaths', 'and/even/globs/*.html' 'to take', 'control of.'],
+  min: true,                                          //default: false, set to true to wire minified files if they exist
 
   // ----- Advanced Configuration -----
   // All of the below settings are for advanced configuration, to

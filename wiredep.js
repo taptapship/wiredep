@@ -126,17 +126,18 @@ var wiredep = function (opts) {
   var config = module.exports.config = helpers.createStore();
 
   config.set
-    ('bower.json', opts.bowerJson || JSON.parse(fs.readFileSync('./bower.json')))
     ('bower-directory', opts.directory || 'bower_components')
+    ('bower.json', opts.bowerJson || JSON.parse(fs.readFileSync('./bower.json')))
+    ('src', [])
+    ('min', opts.min || false)
     ('dependencies', opts.dependencies === false ? false : true)
-    ('detectable-file-types', [])
     ('dev-dependencies', opts.devDependencies)
     ('exclude', opts.exclude)
-    ('file-types', mergeFileTypesWithDefaults(opts.fileTypes))
-    ('global-dependencies', helpers.createStore())
     ('ignore-path', opts.ignorePath)
     ('overrides', _.extend({}, config.get('bower.json').overrides, opts.overrides))
-    ('src', [])
+    ('file-types', mergeFileTypesWithDefaults(opts.fileTypes))
+    ('detectable-file-types', [])
+    ('global-dependencies', helpers.createStore())
     ('stream', opts.stream ? opts.stream : {})
     ('warnings', []);
 
