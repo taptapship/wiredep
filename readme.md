@@ -177,6 +177,18 @@ require('wiredep')({
       }
     },
 
+    less: {
+      block: /(([ \t]*)\/\/\s*bower:*(\S*))(\n|\r|.)*?(\/\/\s*endbower)/gi,
+      detect: {
+        css: /@import\s['"](.+)['"]/gi,
+        less: /@import\s['"](.+)['"]/gi
+      },
+      replace: {
+        css: '@import "{{filePath}}";',
+        less: '@import "{{filePath}}";'
+      }
+    },
+
     sass: {
       block: /(([ \t]*)\/\/\s*bower:*(\S*))(\n|\r|.)*?(\/\/\s*endbower)/gi,
       detect: {
