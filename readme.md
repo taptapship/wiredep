@@ -145,7 +145,10 @@ require('wiredep')({
         typeOfBowerFile: /match the way this type of file is included/
       },
       replace: {
-        typeOfBowerFile: '<format for this {{filePath}} to be injected>'
+        typeOfBowerFile: '<format for this {{filePath}} to be injected>',
+        anotherTypeOfBowerFile: function (filePath) {
+          return '<script class="random-' + Math.random() + '" src="' + filePath + '"></script>';
+        }
       }
     },
 
