@@ -1,7 +1,7 @@
 {
   "name": "wiredep",
   "main": "./wiredep.js",
-  "version": "1.4.4",
+  "version": "1.5.0",
   "description": "Wire Bower dependencies to your source code.",
   "repository": "taptapship/wiredep",
   "author": {
