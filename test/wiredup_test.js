@@ -265,14 +265,34 @@ exports.wiredep = {
       exclude: [ 'fake-package-without-main-and-confusing-file-tree' ]
     });
 
-    // If a package is excluded, don't display a warning.
-    test.equal(wiredep.config.get('warnings').length, 0);
-
     test.equal(filePaths.read('expected'), filePaths.read('actual'));
     test.done();
   },
 
   replaceDeepNestedFileWithRelativePath: testReplace('html/deep/nested'),
+
+  replaceHtmlWithCustomReplaceFunction: function (test) {
+    var filePaths = getFilePaths('index-with-custom-replace-function', 'html');
+
+    wiredep({
+      directory: '.tmp/bower_components',
+      bowerJson: bowerJson,
+      src: [filePaths.actual],
+      ignorePath: '.tmp/',
+      fileTypes: {
+        html: {
+          replace: {
+            js: function (filePath) {
+              return '<script src="' + filePath + '" class="yay"></script>';
+            }
+          }
+        }
+      }
+    });
+
+    test.equal(filePaths.read('expected'), filePaths.read('actual'));
+    test.done();
+  },
 
   returnUsefulObject: function (test) {
     var returnedObject = wiredep({
