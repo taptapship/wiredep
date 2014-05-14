@@ -83,7 +83,7 @@ gulp.task('bower', function () {
 
 ### [Grunt](http://gruntjs.com)
 
-See [`grunt-bower-install`](https://github.com/stephenplusplus/grunt-bower-install).
+See [`grunt-wiredep`](https://github.com/stephenplusplus/grunt-wiredep).
 
 
 ## Programmatic Access
