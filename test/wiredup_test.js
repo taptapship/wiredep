@@ -269,6 +269,25 @@ exports.wiredep = {
     test.done();
   },
 
+  replaceHtmlWithUsingConfigOverridesForDependencies: function (test) {
+    var filePaths = getFilePaths('index-override-dependencies', 'html');
+
+    var bowerJson = require('../.tmp/bower_packages_without_dependencies.json');
+    var overrides = bowerJson.overrides;
+    delete bowerJson.overrides;
+
+    wiredep({
+      directory: '.tmp/bower_components',
+      bowerJson: bowerJson,
+      overrides: overrides,
+      src: [filePaths.actual],
+      ignorePath: '.tmp/'
+    });
+
+    test.equal(filePaths.read('expected'), filePaths.read('actual'));
+    test.done();
+  },
+
   replaceDeepNestedFileWithRelativePath: testReplace('html/deep/nested'),
 
   replaceHtmlWithCustomReplaceFunction: function (test) {

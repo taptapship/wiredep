@@ -1,0 +1,5 @@
+{
+  "name": "fake-package-without-dependencies",
+  "version": "1.0.0",
+  "main": "fake-package-without-dependencies.js"
+}
