@@ -22,7 +22,8 @@
   "files": [
     "lib/",
     "LICENSE",
-    "wiredep.js"
+    "wiredep.js",
+    "wiredep-cli.js"
   ],
   "licenses": [
     {
