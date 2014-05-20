@@ -147,7 +147,7 @@ You may also take advantage of Bower >=1.3.1's [hooks](https://github.com/bower/
 
 ```js
 require('wiredep')({
-  directory: 'the directory of your Bower packages.', // default: 'bower_components'
+  directory: 'the directory of your Bower packages.', // default: '.bowerrc'.directory || bower_components
   bowerJson: 'your bower.json file contents.',        // default: require('./bower.json')
   src: ['filepaths', 'and/even/globs/*.html' 'to take', 'control of.'],
 
@@ -159,13 +159,15 @@ require('wiredep')({
   // Out of the box, wiredep will handle HTML files just fine for
   // JavaScript and CSS injection.
 
+  cwd: 'path/to/where/we/are/pretending/to/be',
+
   dependencies: true,    // default: true
   devDependencies: true, // default: false
 
   exclude: [ /jquery/, 'bower_components/modernizr/modernizr.js' ],
 
   ignorePath: /string or regexp to ignore from the injected filepath/,
-  
+
   overrides: {
     // see `Bower Overrides` section below.
     //
