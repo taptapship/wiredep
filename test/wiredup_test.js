@@ -326,5 +326,20 @@ exports.wiredep = {
     test.equal(typeof returnedObject.packages, 'object');
 
     test.done();
+  },
+
+  respectDirectoryFromBowerrc: function (test) {
+    var filePaths = getFilePaths('index-with-custom-bower-directory', 'html');
+
+    wiredep({
+      bowerJson: require('../.tmp/bowerrc/bower.json'),
+      cwd: path.join(process.cwd(), 'test/fixture/bowerrc'),
+      ignorePath: '../../test/fixture/bowerrc/',
+      src: [filePaths.actual]
+    });
+
+    test.equal(filePaths.read('expected'), filePaths.read('actual'));
+
+    test.done();
   }
 };

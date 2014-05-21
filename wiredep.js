@@ -14,6 +14,8 @@ var helpers = require('./lib/helpers');
 var path = require('path');
 var through = require('through2');
 var _ = require('lodash');
+var bowerConfig = require('bower-config');
+var chalk = require('chalk');
 
 var fileTypesDefault = {
   html: {
@@ -115,6 +117,18 @@ function mergeFileTypesWithDefaults(optsFileTypes) {
   return fileTypes;
 }
 
+function findBowerDirectory(cwd) {
+  var directory = path.join(cwd, (bowerConfig.read(cwd).directory || 'bower_components'));
+
+  if (!fs.existsSync(directory)) {
+    console.log(chalk.red.bold('Cannot find where you keep your Bower packages.'));
+
+    process.exit();
+  }
+
+  return directory;
+}
+
 /**
  * Wire up the html files with the Bower packages.
  *
@@ -123,11 +137,13 @@ function mergeFileTypesWithDefaults(optsFileTypes) {
 var wiredep = function (opts) {
   opts = opts || {};
 
+  var cwd = opts.cwd || process.cwd();
+
   var config = module.exports.config = helpers.createStore();
 
   config.set
-    ('bower.json', opts.bowerJson || JSON.parse(fs.readFileSync('./bower.json')))
-    ('bower-directory', opts.directory || 'bower_components')
+    ('bower.json', opts.bowerJson || JSON.parse(fs.readFileSync(path.join(cwd, './bower.json'))))
+    ('bower-directory', opts.directory || findBowerDirectory(cwd))
     ('dependencies', opts.dependencies === false ? false : true)
     ('detectable-file-types', [])
     ('dev-dependencies', opts.devDependencies)
