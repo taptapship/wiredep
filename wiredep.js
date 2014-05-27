@@ -45,8 +45,8 @@ var fileTypesDefault = {
   less: {
     block: /(([ \t]*)\/\/\s*bower:*(\S*))(\n|\r|.)*?(\/\/\s*endbower)/gi,
     detect: {
-      css: /@import\s['"](.+)['"]/gi,
-      less: /@import\s['"](.+)['"]/gi
+      css: /@import\s['"](.+css)['"]/gi,
+      less: /@import\s['"](.+less)['"]/gi
     },
     replace: {
       css: '@import "{{filePath}}";',
@@ -57,9 +57,9 @@ var fileTypesDefault = {
   sass: {
     block: /(([ \t]*)\/\/\s*bower:*(\S*))(\n|\r|.)*?(\/\/\s*endbower)/gi,
     detect: {
-      css: /@import\s['"](.+)['"]/gi,
-      sass: /@import\s['"](.+)['"]/gi,
-      scss: /@import\s['"](.+)['"]/gi
+      css: /@import\s['"](.+css)['"]/gi,
+      sass: /@import\s['"](.+sass)['"]/gi,
+      scss: /@import\s['"](.+scss)['"]/gi
     },
     replace: {
       css: '@import {{filePath}}',
@@ -71,9 +71,9 @@ var fileTypesDefault = {
   scss: {
     block: /(([ \t]*)\/\/\s*bower:*(\S*))(\n|\r|.)*?(\/\/\s*endbower)/gi,
     detect: {
-      css: /@import\s['"](.+)['"]/gi,
-      sass: /@import\s['"](.+)['"]/gi,
-      scss: /@import\s['"](.+)['"]/gi
+      css: /@import\s['"](.+css)['"]/gi,
+      sass: /@import\s['"](.+sass)['"]/gi,
+      scss: /@import\s['"](.+scss)['"]/gi
     },
     replace: {
       css: '@import "{{filePath}}";',
@@ -85,8 +85,8 @@ var fileTypesDefault = {
   yaml: {
     block: /(([ \t]*)#\s*bower:*(\S*))(\n|\r|.)*?(#\s*endbower)/gi,
     detect: {
-      js: /-\s(.+)/gi,
-      css: /-\s(.+)/gi
+      js: /-\s(.+js)/gi,
+      css: /-\s(.+css)/gi
     },
     replace: {
       js: '- {{filePath}}',

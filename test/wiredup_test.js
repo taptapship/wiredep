@@ -34,6 +34,22 @@ function testReplace(fileType) {
   };
 }
 
+function testReplaceSecondRun(fileType) {
+  return function (test) {
+    var filePaths = getFilePaths('index-second-run', fileType);
+
+    wiredep({
+      directory: '.tmp/bower_components',
+      bowerJson: bowerJson,
+      src: [filePaths.actual],
+      ignorePath: '.tmp/'
+    });
+
+    test.equal(filePaths.read('expected'), filePaths.read('actual'));
+    test.done();
+  };
+}
+
 function testReplaceWithExcludedsrc(fileType) {
   return function (test) {
     var filePaths = getFilePaths('index-excluded-files', fileType);
@@ -136,6 +152,13 @@ exports.wiredep = {
   replaceSass: testReplace('sass'),
   replaceScss: testReplace('scss'),
   replaceYml: testReplace('yml'),
+
+  replaceHtmlSecondRun: testReplaceSecondRun('html'),
+  replaceJadeSecondRun: testReplaceSecondRun('jade'),
+  replaceLessSecondRun: testReplaceSecondRun('less'),
+  replaceSassSecondRun: testReplaceSecondRun('sass'),
+  replaceScssSecondRun: testReplaceSecondRun('scss'),
+  replaceYmlSecondRun: testReplaceSecondRun('yml'),
 
   replaceUnrecognizedFileType: testReplace('unrecognized'),
 
