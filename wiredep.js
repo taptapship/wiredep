@@ -21,8 +21,8 @@ var fileTypesDefault = {
   html: {
     block: /(([ \t]*)<!--\s*bower:*(\S*)\s*-->)(\n|\r|.)*?(<!--\s*endbower\s*-->)/gi,
     detect: {
-      js: /<script.*src=['"](.+)['"]>/gi,
-      css: /<link.*href=['"](.+)['"]/gi
+      js: /<script.*src=['"]([^'"]+)/gi,
+      css: /<link.*href=['"]([^'"]+)/gi
     },
     replace: {
       js: '<script src="{{filePath}}"></script>',
@@ -33,8 +33,8 @@ var fileTypesDefault = {
   jade: {
     block: /(([ \t]*)\/\/\s*bower:*(\S*))(\n|\r|.)*?(\/\/\s*endbower)/gi,
     detect: {
-      js: /script\(.*src=['"](.+)['"]>/gi,
-      css: /link\(href=['"](.+)['"]/gi
+      js: /script\(.*src=['"]([^'"]+)/gi,
+      css: /link\(.*href=['"]([^'"]+)/gi
     },
     replace: {
       js: 'script(src=\'{{filePath}}\')',
@@ -57,9 +57,9 @@ var fileTypesDefault = {
   sass: {
     block: /(([ \t]*)\/\/\s*bower:*(\S*))(\n|\r|.)*?(\/\/\s*endbower)/gi,
     detect: {
-      css: /@import\s['"](.+css)['"]/gi,
-      sass: /@import\s['"](.+sass)['"]/gi,
-      scss: /@import\s['"](.+scss)['"]/gi
+      css: /@import\s(.+css)/gi,
+      sass: /@import\s(.+sass)/gi,
+      scss: /@import\s(.+scss)/gi
     },
     replace: {
       css: '@import {{filePath}}',

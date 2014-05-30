@@ -31,16 +31,7 @@
     }
   ],
   "scripts": {
-    "test": "grunt"
-  },
-  "devDependencies": {
-    "grunt": "~0.4.2",
-    "grunt-cli": "~0.1.7",
-    "grunt-contrib-jshint": "~0.6.0",
-    "grunt-contrib-nodeunit": "~0.2.0",
-    "grunt-contrib-watch": "~0.5.0",
-    "grunt-contrib-copy": "~0.4.1",
-    "grunt-contrib-clean": "~0.5.0"
+    "test": "jshint lib/*.js test/*.js && mocha"
   },
   "dependencies": {
     "bower-config": "^0.5.0",
@@ -49,5 +40,10 @@
     "lodash": "~1.3.0",
     "minimist": "^0.1.0",
     "through2": "~0.4.1"
+  },
+  "devDependencies": {
+    "fs-extra": "^0.9.1",
+    "jshint": "*",
+    "mocha": "*"
   }
 }
