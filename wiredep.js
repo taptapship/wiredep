@@ -33,7 +33,7 @@ var fileTypesDefault = {
   jade: {
     block: /(([ \t]*)\/\/\s*bower:*(\S*))(\n|\r|.)*?(\/\/\s*endbower)/gi,
     detect: {
-      js: /script\(.*src=['"](.+)['"]>/gi,
+      js: /script\(.*src=['"](.+)['"]\)/gi,
       css: /link\(href=['"](.+)['"]/gi
     },
     replace: {
