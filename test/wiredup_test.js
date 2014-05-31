@@ -16,7 +16,7 @@ describe('wiredep', function () {
 
   describe('replace functionality', function () {
     function testReplace(fileType) {
-      return function (done) {
+      return function () {
         var filePaths = getFilePaths('index', fileType);
 
         wiredep({
@@ -27,7 +27,6 @@ describe('wiredep', function () {
         });
 
         assert.equal(filePaths.read('expected'), filePaths.read('actual'));
-        done();
       };
     }
 
@@ -39,7 +38,7 @@ describe('wiredep', function () {
     it('should work with unrecognized file types', testReplace('unrecognized'));
     it('should correctly handle relative paths', testReplace('html/deep/nested'));
 
-    it('should support globbing', function (done) {
+    it('should support globbing', function () {
       wiredep({
         directory: '.tmp/bower_components',
         bowerJson: bowerJson,
@@ -61,18 +60,16 @@ describe('wiredep', function () {
         }
       ].forEach(function (testObject) {
         assert.equal(
-          String(fs.readFileSync(testObject.actual)),
-          String(fs.readFileSync(testObject.expected))
+          fs.readFileSync(testObject.actual, { encoding: 'utf8' }),
+          fs.readFileSync(testObject.expected, { encoding: 'utf8' })
         );
       });
-
-      done();
     });
   });
 
   describe('second run (identical files)', function () {
     function testReplaceSecondRun(fileType) {
-      return function (done) {
+      return function () {
         var filePaths = getFilePaths('index-second-run', fileType);
 
         wiredep({
@@ -83,7 +80,6 @@ describe('wiredep', function () {
         });
 
         assert.equal(filePaths.read('expected'), filePaths.read('actual'));
-        done();
       };
     }
 
@@ -97,7 +93,7 @@ describe('wiredep', function () {
 
   describe('excludes', function () {
     function testReplaceWithExcludedSrc(fileType) {
-      return function (done) {
+      return function () {
         var filePaths = getFilePaths('index-excluded-files', fileType);
 
         wiredep({
@@ -109,7 +105,6 @@ describe('wiredep', function () {
         });
 
         assert.equal(filePaths.read('expected'), filePaths.read('actual'));
-        done();
       };
     }
 
@@ -121,7 +116,7 @@ describe('wiredep', function () {
   describe('after uninstalls', function () {
     describe('after uninstalling one package', function () {
       function testReplaceAfterUninstalledPackage(fileType) {
-        return function (done) {
+        return function () {
           var filePaths = getFilePaths('index-after-uninstall', fileType);
 
           wiredep({
@@ -139,8 +134,6 @@ describe('wiredep', function () {
           });
 
           assert.equal(filePaths.read('expected'), filePaths.read('actual'));
-
-          done();
         };
       }
 
@@ -150,7 +143,7 @@ describe('wiredep', function () {
 
     describe('after uninstalling all packages', function () {
       function testReplaceAfterUninstallingAllPackages(fileType) {
-        return function (done) {
+        return function () {
           var filePaths = getFilePaths('index-after-uninstall-all', fileType);
 
           wiredep({
@@ -168,8 +161,6 @@ describe('wiredep', function () {
           });
 
           assert.equal(filePaths.read('expected'), filePaths.read('actual'));
-
-          done();
         };
       }
 
@@ -180,7 +171,7 @@ describe('wiredep', function () {
 
   describe('custom format', function () {
     function testReplaceWithCustomFormat(fileType, fileTypes) {
-      return function (done) {
+      return function () {
         var filePaths = getFilePaths('index-custom-format', fileType);
 
         wiredep({
@@ -192,7 +183,6 @@ describe('wiredep', function () {
         });
 
         assert.equal(filePaths.read('expected'), filePaths.read('actual'));
-        done();
       };
     }
 
@@ -225,7 +215,7 @@ describe('wiredep', function () {
   });
 
   describe('devDependencies', function () {
-    it('should wire devDependencies if specified', function (done) {
+    it('should wire devDependencies if specified', function () {
       var filePaths = getFilePaths('index-with-dev-dependencies', 'html');
 
       wiredep({
@@ -238,12 +228,11 @@ describe('wiredep', function () {
       });
 
       assert.equal(filePaths.read('expected'), filePaths.read('actual'));
-      done();
     });
   });
 
   describe('overrides', function () {
-    it('should not display a warning if a no-`main` package is excluded', function (done) {
+    it('should not display a warning if a no-`main` package is excluded', function () {
       var filePaths = getFilePaths('index-packages-without-main', 'html');
 
       wiredep({
@@ -258,10 +247,9 @@ describe('wiredep', function () {
       assert.equal(wiredep.config.get('warnings').length, 0);
 
       assert.equal(filePaths.read('expected'), filePaths.read('actual'));
-      done();
     });
 
-    it('should allow configuration overrides to specify a `main`', function (done) {
+    it('should allow configuration overrides to specify a `main`', function () {
       var filePaths = getFilePaths('index-packages-without-main', 'html');
       var bowerJson = require('../.tmp/bower_packages_without_main.json');
       var overrides = bowerJson.overrides;
@@ -277,10 +265,9 @@ describe('wiredep', function () {
       });
 
       assert.equal(filePaths.read('expected'), filePaths.read('actual'));
-      done();
     });
 
-    it('should allow configuration overrides to specify `dependencies`', function (done) {
+    it('should allow configuration overrides to specify `dependencies`', function () {
       var filePaths = getFilePaths('index-override-dependencies', 'html');
       var bowerJson = require('../.tmp/bower_packages_without_dependencies.json');
       var overrides = bowerJson.overrides;
@@ -295,11 +282,10 @@ describe('wiredep', function () {
       });
 
       assert.equal(filePaths.read('expected'), filePaths.read('actual'));
-      done();
     });
   });
 
-  it('should allow specifying a custom replace function', function (done) {
+  it('should allow specifying a custom replace function', function () {
     var filePaths = getFilePaths('index-with-custom-replace-function', 'html');
 
     wiredep({
@@ -319,10 +305,9 @@ describe('wiredep', function () {
     });
 
     assert.equal(filePaths.read('expected'), filePaths.read('actual'));
-    done();
   });
 
-  it('should return a useful object', function (done) {
+  it('should return a useful object', function () {
     var returnedObject = wiredep({
       directory: '.tmp/bower_components',
       bowerJson: bowerJson
@@ -333,11 +318,9 @@ describe('wiredep', function () {
     assert.equal(typeof returnedObject.less, 'object');
     assert.equal(typeof returnedObject.scss, 'object');
     assert.equal(typeof returnedObject.packages, 'object');
-
-    done();
   });
 
-  it('should respect the directory specified in a `.bowerrc`', function (done) {
+  it('should respect the directory specified in a `.bowerrc`', function () {
     var filePaths = getFilePaths('index-with-custom-bower-directory', 'html');
 
     wiredep({
@@ -348,8 +331,6 @@ describe('wiredep', function () {
     });
 
     assert.equal(filePaths.read('expected'), filePaths.read('actual'));
-
-    done();
   });
 });
 
@@ -359,7 +340,7 @@ function getFilePaths(fileName, fileType) {
     expected: path.resolve('.tmp', fileType, fileName + '-expected.' + extension),
     actual: path.resolve('.tmp', fileType, fileName + '-actual.' + extension),
     read: function (type) {
-      return String(fs.readFileSync(filePaths[type]));
+      return fs.readFileSync(filePaths[type], { encoding: 'utf8' });
     }
   };
 
