@@ -147,7 +147,7 @@ var wiredep = function (opts) {
     ('dependencies', opts.dependencies === false ? false : true)
     ('detectable-file-types', [])
     ('dev-dependencies', opts.devDependencies)
-    ('exclude', opts.exclude)
+    ('exclude', Array.isArray(opts.exclude) ? opts.exclude : [ opts.exclude ])
     ('file-types', mergeFileTypesWithDefaults(opts.fileTypes))
     ('global-dependencies', helpers.createStore())
     ('ignore-path', opts.ignorePath)
