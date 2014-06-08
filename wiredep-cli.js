@@ -23,16 +23,17 @@ function help() {
   console.log('Usage: ' + chalk.cyan('$') + chalk.bold(' wiredep ') + chalk.yellow('[options]'));
   console.log('');
   console.log('Options:');
-  console.log('  -h, --help          # Print usage information');
-  console.log('  -v, --version       # Print the version');
-  console.log('  -b, --bowerJson     # Path to `bower.json`');
-  console.log('  -d, --directory     # Your Bower directory');
-  console.log('  -e, --exclude       # A path to be excluded');
-  console.log('  -i, --ignorePath    # A path to be ignored');
-  console.log('  -s, --src           # Path to your source file');
-  console.log('  --dependencies      # Include Bower `dependencies`');
-  console.log('  --devDependencies   # Include Bower `devDependencies`');
-  console.log('  --verbose           # Print the results of `wiredep`');
+  console.log('  -h, --help         # Print usage information');
+  console.log('  -v, --version      # Print the version');
+  console.log('  -b, --bowerJson    # Path to `bower.json`');
+  console.log('  -d, --directory    # Your Bower directory');
+  console.log('  -e, --exclude      # A path to be excluded');
+  console.log('  -i, --ignorePath   # A path to be ignored');
+  console.log('  -s, --src          # Path to your source file');
+  console.log('  --dependencies     # Include Bower `dependencies`');
+  console.log('  --devDependencies  # Include Bower `devDependencies`');
+  console.log('  --includeSelf      # Include top-level `main` files');
+  console.log('  --verbose          # Print the results of `wiredep`');
 }
 
 if (argv.v || argv.version) {
