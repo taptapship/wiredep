@@ -166,6 +166,7 @@ require('wiredep')({
   dependencies: true,    // default: true
   devDependencies: true, // default: false
   includeMains: true,    // default: false
+  mainFileDirectory: 'path/to/your/main/files', // default: cwd || './'
 
   exclude: [ /jquery/, 'bower_components/modernizr/modernizr.js' ],
 
