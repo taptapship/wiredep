@@ -128,6 +128,8 @@ Options:
   -s, --src           # Path to your source file
   --dependencies      # Include Bower `dependencies`
   --devDependencies   # Include Bower `devDependencies`
+  --includeMains      # Include top-level bower.json `main` files
+  --mainFileDirectory # Specify a path to top-level `main` files
   --verbose           # Print the results of `wiredep`
 ```
 
@@ -163,6 +165,7 @@ require('wiredep')({
 
   dependencies: true,    // default: true
   devDependencies: true, // default: false
+  includeMains: true,    // default: false
 
   exclude: [ /jquery/, 'bower_components/modernizr/modernizr.js' ],
 
