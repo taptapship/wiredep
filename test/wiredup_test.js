@@ -10,21 +10,15 @@ var wiredep = require('../wiredep');
 
 describe('wiredep', function () {
   fs.copySync('test/fixture', '.tmp');
-  after(fs.remove.bind({}, '.tmp'));
-
-  var bowerJson = require('../.tmp/bower.json');
+  process.chdir('.tmp');
+  after(fs.remove.bind({}, '../.tmp'));
 
   describe('replace functionality', function () {
     function testReplace(fileType) {
       return function () {
         var filePaths = getFilePaths('index', fileType);
 
-        wiredep({
-          directory: '.tmp/bower_components',
-          bowerJson: bowerJson,
-          src: [filePaths.actual],
-          ignorePath: '.tmp/'
-        });
+        wiredep({ src: [filePaths.actual] });
 
         assert.equal(filePaths.read('expected'), filePaths.read('actual'));
       };
@@ -39,24 +33,16 @@ describe('wiredep', function () {
     it('should correctly handle relative paths', testReplace('html/deep/nested'));
 
     it('should support globbing', function () {
-      wiredep({
-        directory: '.tmp/bower_components',
-        bowerJson: bowerJson,
-        src: [
-          '.tmp/html/index-actual.*',
-          '.tmp/jade/index-actual.*'
-        ],
-        ignorePath: '.tmp/'
-      });
+      wiredep({ src: ['html/index-actual.*', 'jade/index-actual.*'] });
 
       [
         {
-          actual: '.tmp/html/index-actual.html',
-          expected: '.tmp/html/index-expected.html'
+          actual: 'html/index-actual.html',
+          expected: 'html/index-expected.html'
         },
         {
-          actual: '.tmp/jade/index-actual.jade',
-          expected: '.tmp/jade/index-expected.jade'
+          actual: 'jade/index-actual.jade',
+          expected: 'jade/index-expected.jade'
         }
       ].forEach(function (testObject) {
         assert.equal(
@@ -72,12 +58,7 @@ describe('wiredep', function () {
       return function () {
         var filePaths = getFilePaths('index-second-run', fileType);
 
-        wiredep({
-          directory: '.tmp/bower_components',
-          bowerJson: bowerJson,
-          src: [filePaths.actual],
-          ignorePath: '.tmp/'
-        });
+        wiredep({ src: [filePaths.actual] });
 
         assert.equal(filePaths.read('expected'), filePaths.read('actual'));
       };
@@ -97,11 +78,8 @@ describe('wiredep', function () {
         var filePaths = getFilePaths('index-excluded-files', fileType);
 
         wiredep({
-          directory: '.tmp/bower_components',
-          bowerJson: bowerJson,
           src: [filePaths.actual],
-          ignorePath: '.tmp/',
-          exclude: [ 'bower_components/bootstrap/dist/js/bootstrap.js', /codecode/ ]
+          exclude: ['bower_components/bootstrap/dist/js/bootstrap.js', /codecode/]
         });
 
         assert.equal(filePaths.read('expected'), filePaths.read('actual'));
@@ -119,18 +97,11 @@ describe('wiredep', function () {
         return function () {
           var filePaths = getFilePaths('index-after-uninstall', fileType);
 
-          wiredep({
-            directory: '.tmp/bower_components',
-            bowerJson: bowerJson,
-            src: [filePaths.actual],
-            ignorePath: '.tmp/'
-          });
+          wiredep({ src: [filePaths.actual] });
 
           wiredep({
-            directory: '.tmp/bower_components',
-            bowerJson: require('../.tmp/bower_after_uninstall.json'),
-            src: [filePaths.actual],
-            ignorePath: '.tmp/'
+            bowerJson: JSON.parse(fs.readFileSync('./bower_after_uninstall.json')),
+            src: [filePaths.actual]
           });
 
           assert.equal(filePaths.read('expected'), filePaths.read('actual'));
@@ -146,18 +117,11 @@ describe('wiredep', function () {
         return function () {
           var filePaths = getFilePaths('index-after-uninstall-all', fileType);
 
-          wiredep({
-            directory: '.tmp/bower_components',
-            bowerJson: bowerJson,
-            src: [filePaths.actual],
-            ignorePath: '.tmp/'
-          });
+          wiredep({ src: [filePaths.actual] });
 
           wiredep({
-            directory: '.tmp/bower_components',
-            bowerJson: require('../.tmp/bower_after_uninstall_all.json'),
-            src: [filePaths.actual],
-            ignorePath: '.tmp/'
+            bowerJson: JSON.parse(fs.readFileSync('./bower_after_uninstall_all.json')),
+            src: [filePaths.actual]
           });
 
           assert.equal(filePaths.read('expected'), filePaths.read('actual'));
@@ -175,10 +139,7 @@ describe('wiredep', function () {
         var filePaths = getFilePaths('index-custom-format', fileType);
 
         wiredep({
-          directory: '.tmp/bower_components',
-          bowerJson: bowerJson,
           src: [filePaths.actual],
-          ignorePath: '.tmp/',
           fileTypes: fileTypes
         });
 
@@ -219,12 +180,9 @@ describe('wiredep', function () {
       var filePaths = getFilePaths('index-with-dev-dependencies', 'html');
 
       wiredep({
-        directory: '.tmp/bower_components',
         dependencies: false,
         devDependencies: true,
-        bowerJson: bowerJson,
-        src: [filePaths.actual],
-        ignorePath: '.tmp/'
+        src: [filePaths.actual]
       });
 
       assert.equal(filePaths.read('expected'), filePaths.read('actual'));
@@ -236,11 +194,9 @@ describe('wiredep', function () {
       var filePaths = getFilePaths('index-packages-without-main', 'html');
 
       wiredep({
-        directory: '.tmp/bower_components',
-        bowerJson: require('../.tmp/bower_packages_without_main.json'),
+        bowerJson: JSON.parse(fs.readFileSync('./bower_packages_without_main.json')),
         src: [filePaths.actual],
-        ignorePath: '.tmp/',
-        exclude: [ 'fake-package-without-main-and-confusing-file-tree' ]
+        exclude: ['fake-package-without-main-and-confusing-file-tree']
       });
 
       // If a package is excluded, don't display a warning.
@@ -251,17 +207,15 @@ describe('wiredep', function () {
 
     it('should allow configuration overrides to specify a `main`', function () {
       var filePaths = getFilePaths('index-packages-without-main', 'html');
-      var bowerJson = require('../.tmp/bower_packages_without_main.json');
+      var bowerJson = JSON.parse(fs.readFileSync('./bower_packages_without_main.json'));
       var overrides = bowerJson.overrides;
       delete bowerJson.overrides;
 
       wiredep({
-        directory: '.tmp/bower_components',
         bowerJson: bowerJson,
         overrides: overrides,
         src: [filePaths.actual],
-        ignorePath: '.tmp/',
-        exclude: [ 'fake-package-without-main-and-confusing-file-tree' ]
+        exclude: ['fake-package-without-main-and-confusing-file-tree']
       });
 
       assert.equal(filePaths.read('expected'), filePaths.read('actual'));
@@ -269,16 +223,14 @@ describe('wiredep', function () {
 
     it('should allow configuration overrides to specify `dependencies`', function () {
       var filePaths = getFilePaths('index-override-dependencies', 'html');
-      var bowerJson = require('../.tmp/bower_packages_without_dependencies.json');
+      var bowerJson = JSON.parse(fs.readFileSync('./bower_packages_without_dependencies.json'));
       var overrides = bowerJson.overrides;
       delete bowerJson.overrides;
 
       wiredep({
-        directory: '.tmp/bower_components',
         bowerJson: bowerJson,
         overrides: overrides,
-        src: [filePaths.actual],
-        ignorePath: '.tmp/'
+        src: [filePaths.actual]
       });
 
       assert.equal(filePaths.read('expected'), filePaths.read('actual'));
@@ -289,10 +241,7 @@ describe('wiredep', function () {
     var filePaths = getFilePaths('index-with-custom-replace-function', 'html');
 
     wiredep({
-      directory: '.tmp/bower_components',
-      bowerJson: bowerJson,
       src: [filePaths.actual],
-      ignorePath: '.tmp/',
       fileTypes: {
         html: {
           replace: {
@@ -308,10 +257,7 @@ describe('wiredep', function () {
   });
 
   it('should return a useful object', function () {
-    var returnedObject = wiredep({
-      directory: '.tmp/bower_components',
-      bowerJson: bowerJson
-    });
+    var returnedObject = wiredep();
 
     assert.equal(typeof returnedObject.js, 'object');
     assert.equal(typeof returnedObject.css, 'object');
@@ -324,21 +270,32 @@ describe('wiredep', function () {
     var filePaths = getFilePaths('index-with-custom-bower-directory', 'html');
 
     wiredep({
-      bowerJson: require('../.tmp/bowerrc/bower.json'),
-      cwd: path.join(process.cwd(), 'test/fixture/bowerrc'),
-      ignorePath: '../../test/fixture/bowerrc/',
+      bowerJson: JSON.parse(fs.readFileSync('./bowerrc/bower.json')),
+      cwd: './bowerrc',
       src: [filePaths.actual]
     });
 
-    assert.equal(filePaths.read('expected'), filePaths.read('actual'));
+    assert.equal(filePaths.read('actual'), filePaths.read('expected'));
+  });
+
+  it('should support inclusion of main files from top-level bower.json', function () {
+    var filePaths = getFilePaths('index-include-self', 'html');
+
+    wiredep({
+      bowerJson: JSON.parse(fs.readFileSync('./bower_with_main.json')),
+      src: [filePaths.actual],
+      includeSelf: true
+    });
+
+    assert.equal(filePaths.read('actual'), filePaths.read('expected'));
   });
 });
 
 function getFilePaths(fileName, fileType) {
   var extension = fileType.match(/([^/]*)[/]*/)[1];
   var filePaths = {
-    expected: path.resolve('.tmp', fileType, fileName + '-expected.' + extension),
-    actual: path.resolve('.tmp', fileType, fileName + '-actual.' + extension),
+    expected: path.resolve(fileType, fileName + '-expected.' + extension),
+    actual: path.resolve(fileType, fileName + '-actual.' + extension),
     read: function (type) {
       return fs.readFileSync(filePaths[type], { encoding: 'utf8' });
     }

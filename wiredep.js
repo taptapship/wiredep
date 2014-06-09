@@ -14,7 +14,7 @@ var fileTypesDefault = require('./lib/default-file-types');
 function wiredep(opts) {
   opts = opts || {};
 
-  var cwd = opts.cwd || process.cwd();
+  var cwd = opts.cwd ? $.path.resolve(opts.cwd) : process.cwd();
 
   var config = module.exports.config = helpers.createStore();
 
@@ -28,6 +28,7 @@ function wiredep(opts) {
     ('file-types', mergeFileTypesWithDefaults(opts.fileTypes))
     ('global-dependencies', helpers.createStore())
     ('ignore-path', opts.ignorePath)
+    ('include-self', opts.includeSelf)
     ('overrides', _.extend({}, config.get('bower.json').overrides, opts.overrides))
     ('src', [])
     ('stream', opts.stream ? opts.stream : {})
