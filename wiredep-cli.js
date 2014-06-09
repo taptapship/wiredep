@@ -32,6 +32,8 @@ function help() {
   console.log('  -s, --src           # Path to your source file');
   console.log('  --dependencies      # Include Bower `dependencies`');
   console.log('  --devDependencies   # Include Bower `devDependencies`');
+  console.log('  --includeMains      # Include top-level `main` files');
+  console.log('  --mainFileDirectory # Specify a path to top-level `main` files');
   console.log('  --verbose           # Print the results of `wiredep`');
 }
 

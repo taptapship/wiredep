@@ -151,6 +151,8 @@ var wiredep = function (opts) {
     ('file-types', mergeFileTypesWithDefaults(opts.fileTypes))
     ('global-dependencies', helpers.createStore())
     ('ignore-path', opts.ignorePath)
+    ('include-mains', opts.includeMains)
+    ('main-file-dir', opts.mainFileDirectory || cwd)
     ('overrides', _.extend({}, config.get('bower.json').overrides, opts.overrides))
     ('src', [])
     ('stream', opts.stream ? opts.stream : {})

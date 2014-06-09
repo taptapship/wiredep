@@ -285,6 +285,23 @@ describe('wiredep', function () {
     });
   });
 
+  describe('includeMains', function(){
+    it('should support inclusion of main files from top-level bower.json', function(){
+      var filePaths = getFilePaths('index-include-mains', 'html');
+      var bowerJson = require('../.tmp/bower_with_main.json');
+      wiredep({
+        directory: '.tmp/bower_components',
+        bowerJson: bowerJson,
+        src: [filePaths.actual],
+        ignorePath: '.tmp/',
+        includeMains: true,
+        mainFileDirectory: '.tmp/'
+      });
+
+      assert.equal(filePaths.read('actual'), filePaths.read('expected'));
+    });
+  });
+
   it('should allow specifying a custom replace function', function () {
     var filePaths = getFilePaths('index-with-custom-replace-function', 'html');
 
