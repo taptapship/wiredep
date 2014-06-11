@@ -1,6 +1,6 @@
 {
   "name": "wiredep",
-  "version": "1.7.3",
+  "version": "1.8.0",
   "main": "./wiredep.js",
   "bin": {
     "wiredep": "./wiredep-cli.js"
