@@ -104,7 +104,7 @@ function findBowerDirectory(cwd) {
 wiredep.stream = function (opts) {
   opts = opts || {};
 
-  return $.through.obj(function (file, enc, cb) {
+  return $.through2.obj(function (file, enc, cb) {
     if (file.isNull()) {
       this.push(file);
       return cb();
