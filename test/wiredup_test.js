@@ -289,6 +289,31 @@ describe('wiredep', function () {
 
     assert.equal(filePaths.read('actual'), filePaths.read('expected'));
   });
+
+  it('should support inclusion of main files from bower.json in some other dir', function () {
+    var filePaths = getFilePaths('index-cwd-include-self', 'html');
+
+    wiredep({
+      src: [filePaths.actual],
+      cwd: 'cwd_includeself',
+      includeSelf: true
+    });
+
+    assert.equal(filePaths.read('actual'), filePaths.read('expected'));
+  });
+
+  it('should support inclusion of main files from some other dir with manually loaded bower.json', function () {
+    var filePaths = getFilePaths('index-cwd-include-self', 'html');
+
+    wiredep({
+      bowerJson: JSON.parse(fs.readFileSync('./cwd_includeself/bower.json')),
+      src: [filePaths.actual],
+      cwd: 'cwd_includeself',
+      includeSelf: true
+    });
+
+    assert.equal(filePaths.read('actual'), filePaths.read('expected'));
+  });
 });
 
 function getFilePaths(fileName, fileType) {

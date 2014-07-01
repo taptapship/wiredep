@@ -21,6 +21,7 @@ function wiredep(opts) {
   config.set
     ('bower.json', opts.bowerJson || JSON.parse($.fs.readFileSync($.path.join(cwd, './bower.json'))))
     ('bower-directory', opts.directory || findBowerDirectory(cwd))
+    ('cwd', cwd)
     ('dependencies', opts.dependencies === false ? false : true)
     ('detectable-file-types', [])
     ('dev-dependencies', opts.devDependencies)
