@@ -129,7 +129,6 @@ Options:
   --dependencies      # Include Bower `dependencies`
   --devDependencies   # Include Bower `devDependencies`
   --includeSelf       # Include top-level bower.json `main` files
-  --mainFileDirectory # Specify a path to top-level `main` files
   --verbose           # Print the results of `wiredep`
 ```
 

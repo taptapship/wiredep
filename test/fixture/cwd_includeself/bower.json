@@ -1,0 +1,11 @@
+{
+  "name": "wiredep-test",
+  "version": "0.0.0",
+  "main": [
+    "sample-main.js",
+    "sample-main.css"
+  ],
+  "dependencies": {
+    "bootstrap": "3.0.0"
+  }
+}
