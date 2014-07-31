@@ -195,8 +195,8 @@ require('wiredep')({
     html: {
       block: /(([ \t]*)<!--\s*bower:*(\S*)\s*-->)(\n|\r|.)*?(<!--\s*endbower\s*-->)/gi,
       detect: {
-        js: /<script.*src=['"](.+)['"]>/gi,
-        css: /<link.*href=['"](.+)['"]/gi
+        js: /<script.*src=['"]([^'"]+)/gi,
+        css: /<link.*href=['"]([^'"]+)/gi
       },
       replace: {
         js: '<script src="{{filePath}}"></script>',
@@ -207,8 +207,8 @@ require('wiredep')({
     jade: {
       block: /(([ \t]*)\/\/\s*bower:*(\S*))(\n|\r|.)*?(\/\/\s*endbower)/gi,
       detect: {
-        js: /script\(.*src=['"](.+)['"]>/gi,
-        css: /link\(href=['"](.+)['"]/gi
+        js: /script\(.*src=['"]([^'"]+)/gi,
+        css: /link\(.*href=['"]([^'"]+)/gi
       },
       replace: {
         js: 'script(src=\'{{filePath}}\')',
@@ -219,8 +219,8 @@ require('wiredep')({
     less: {
       block: /(([ \t]*)\/\/\s*bower:*(\S*))(\n|\r|.)*?(\/\/\s*endbower)/gi,
       detect: {
-        css: /@import\s['"](.+)['"]/gi,
-        less: /@import\s['"](.+)['"]/gi
+        css: /@import\s['"](.+css)['"]/gi,
+        less: /@import\s['"](.+less)['"]/gi
       },
       replace: {
         css: '@import "{{filePath}}";',
@@ -231,9 +231,9 @@ require('wiredep')({
     sass: {
       block: /(([ \t]*)\/\/\s*bower:*(\S*))(\n|\r|.)*?(\/\/\s*endbower)/gi,
       detect: {
-        css: /@import\s['"](.+)['"]/gi,
-        sass: /@import\s['"](.+)['"]/gi,
-        scss: /@import\s['"](.+)['"]/gi
+        css: /@import\s(.+css)/gi,
+        sass: /@import\s(.+sass)/gi,
+        scss: /@import\s(.+scss)/gi
       },
       replace: {
         css: '@import {{filePath}}',
@@ -245,9 +245,9 @@ require('wiredep')({
     scss: {
       block: /(([ \t]*)\/\/\s*bower:*(\S*))(\n|\r|.)*?(\/\/\s*endbower)/gi,
       detect: {
-        css: /@import\s['"](.+)['"]/gi,
-        sass: /@import\s['"](.+)['"]/gi,
-        scss: /@import\s['"](.+)['"]/gi
+        css: /@import\s['"](.+css)['"]/gi,
+        sass: /@import\s['"](.+sass)['"]/gi,
+        scss: /@import\s['"](.+scss)['"]/gi
       },
       replace: {
         css: '@import "{{filePath}}";',
@@ -256,19 +256,17 @@ require('wiredep')({
       }
     },
 
-    yml: {
-      block: /(([ \t]*)#\s*bower:*(\S*)\s*)(\n|\r|.)*?(#\s*endbower\s*)/gi,
+    yaml: {
+      block: /(([ \t]*)#\s*bower:*(\S*))(\n|\r|.)*?(#\s*endbower)/gi,
       detect: {
-        js: /-\s(.+)/gi,
-        css: /-\s(.+)/gi
+        js: /-\s(.+js)/gi,
+        css: /-\s(.+css)/gi
       },
       replace: {
-        js: '- {{filePath}}'
+        js: '- {{filePath}}',
         css: '- {{filePath}}'
       }
     }
-  }
-});
 ```
 
 
