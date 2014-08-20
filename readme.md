@@ -269,7 +269,7 @@ require('wiredep')({
     },
     
     drupal: {
-      block: /(([ \t]*);\s*bower:*(\S*)\s*)(\n|\r|.)*?(;\s*endbower\s*)/gi,
+      block: /(([ \t]*);\s*bower:*(\S*))(\n|\r|.)*?(;\s*endbower)/gi,
       detect: {
         js: /<script.*src=['"]([^'"]+)/gi,
         css: /<link.*href=['"]([^'"]+)/gi
