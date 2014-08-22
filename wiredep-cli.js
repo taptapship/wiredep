@@ -46,7 +46,7 @@ if (argv.h || argv.help || Object.keys(argv).length === 1) {
   return;
 }
 
-if (!argv.s) {
+if (!argv.s && !argv.src) {
   console.log(chalk.bold.red('> Source file not specified.'));
   console.log('Please pass a `--src path/to/source.html` to `wiredep`.');
   return;
