@@ -12,8 +12,8 @@ var $ = {
 };
 
 var helpers = require('./lib/helpers');
-var fileTypesDefault = require('./lib/default-file-types');
 var findBowerDirectory = require('./lib/find-bower-directory');
+var mergeFileTypesWithDefaults = require('./lib/merge-file-types-with-defaults');
 
 /**
  * Wire up the html files with the Bower packages.
@@ -79,24 +79,6 @@ function wiredep(opts) {
 
         return acc;
       }, { packages: config.get('global-dependencies').get() });
-}
-
-function mergeFileTypesWithDefaults(optsFileTypes) {
-  var fileTypes = $._.clone(fileTypesDefault, true);
-
-  $._(optsFileTypes).each(function (fileTypeConfig, fileType) {
-    fileTypes[fileType] = fileTypes[fileType] || {};
-    $._.each(fileTypeConfig, function (config, configKey) {
-      if ($._.isPlainObject(fileTypes[fileType][configKey])) {
-        fileTypes[fileType][configKey] =
-          $._.assign(fileTypes[fileType][configKey], config);
-      } else {
-        fileTypes[fileType][configKey] = config;
-      }
-    });
-  });
-
-  return fileTypes;
 }
 
 wiredep.stream = require('./lib/wiredep-stream');
