@@ -48,10 +48,7 @@ function wiredep(opts) {
   require('./lib/helpers/set-src')(config, opts);
   require('./lib/detect-dependencies')(config);
   require('./lib/inject-dependencies')(config);
-
-  if (config.get('warnings')) {
-    helpers.warn(config.get('warnings'));
-  }
+  require('./lib/helpers/log-warnings')(config);
 
   return config.get('stream').src ||
     Object.keys(config.get('global-dependencies-sorted')).
