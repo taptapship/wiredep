@@ -13,6 +13,7 @@ var $ = {
 
 var helpers = require('./lib/helpers');
 var fileTypesDefault = require('./lib/default-file-types');
+var findBowerDirectory = require('./lib/find-bower-directory');
 
 /**
  * Wire up the html files with the Bower packages.
@@ -96,18 +97,6 @@ function mergeFileTypesWithDefaults(optsFileTypes) {
   });
 
   return fileTypes;
-}
-
-function findBowerDirectory(cwd) {
-  var directory = $.path.join(cwd, ($['bower-config'].read(cwd).directory || 'bower_components'));
-
-  if (!$.fs.existsSync(directory)) {
-    console.log($.chalk.red.bold('Cannot find where you keep your Bower packages.'));
-
-    process.exit();
-  }
-
-  return directory;
 }
 
 wiredep.stream = require('./lib/wiredep-stream');
