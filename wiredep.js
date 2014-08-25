@@ -45,13 +45,7 @@ function wiredep(opts) {
     ('warnings', []);
 
   require('./lib/helpers/set-detectable-file-types')(config);
-  if (!opts.stream && opts.src) {
-    (Array.isArray(opts.src) ? opts.src : [opts.src]).
-      forEach(function (pattern) {
-        config.set('src', config.get('src').concat($.glob.sync(pattern)));
-      });
-  }
-
+  require('./lib/helpers/set-src')(config, opts);
   require('./lib/detect-dependencies')(config);
   require('./lib/inject-dependencies')(config);
 
