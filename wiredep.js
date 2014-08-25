@@ -44,18 +44,7 @@ function wiredep(opts) {
     ('stream', opts.stream ? opts.stream : {})
     ('warnings', []);
 
-  $._.pluck(config.get('file-types'), 'detect').
-    forEach(function (fileType) {
-      Object.keys(fileType).
-        forEach(function (detectableFileType) {
-          var detectableFileTypes = config.get('detectable-file-types');
-
-          if (detectableFileTypes.indexOf(detectableFileType) === -1) {
-            config.set('detectable-file-types', detectableFileTypes.concat(detectableFileType));
-          }
-        });
-    });
-
+  require('./lib/helpers/set-detectable-file-types')(config);
   if (!opts.stream && opts.src) {
     (Array.isArray(opts.src) ? opts.src : [opts.src]).
       forEach(function (pattern) {
