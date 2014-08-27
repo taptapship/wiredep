@@ -175,6 +175,46 @@ describe('wiredep', function () {
     }));
   });
 
+  describe('support to multiple dot extension filenames', function () {
+    function testReplaceWithMultipleDotExt(fileTypes, fileName, bowerJsonFile) {
+      return function () {
+        var filePaths = getFilePaths(fileName, 'html');
+
+        wiredep({
+          bowerJson: JSON.parse(fs.readFileSync(bowerJsonFile || './bower.json')),
+          src: [filePaths.actual],
+          fileTypes: fileTypes
+        });
+
+        assert.equal(filePaths.read('expected'), filePaths.read('actual'));
+      };
+    }
+
+    it('should support extensions using multiple dots', testReplaceWithMultipleDotExt({
+      html: {
+        detect: {
+          js: /<script.*src=['"]([^'"]+)/gi,
+          css: /<link.*href=['"]([^'"]+)/gi,
+          'notmin.css': /<link.*href=['"]([^'"]+)/gi
+        },
+        replace: {
+          js: '<script type="text/javascript" src="{{filePath}}"></script>',
+          css: '<link href="{{filePath}}" rel="stylesheet">',
+          'notmin.css': '<link href="{{filePath}}" rel="stylesheet">'
+        }
+      }
+    }, 'index-with-multiple-dot-extensions', './bower_packages_with_multiple_dot_ext.json'));
+
+    it('should ignore multiple dot extensions if no extra detect/replace pattern was provided', testReplaceWithMultipleDotExt({
+      html: {
+        replace: {
+          js: '<script type="text/javascript" src="{{filePath}}"></script>',
+          css: '<link href="{{filePath}}" rel="stylesheet">'
+        }
+      }
+    }, 'index-without-multiple-dot-extensions', './bower_packages_with_multiple_dot_ext.json'));
+  });
+
   describe('devDependencies', function () {
     it('should wire devDependencies if specified', function () {
       var filePaths = getFilePaths('index-with-dev-dependencies', 'html');
