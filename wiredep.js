@@ -51,14 +51,7 @@ function wiredep(opts) {
   require('./lib/helpers/log-warnings')(config);
 
   return config.get('stream').src ||
-    Object.keys(config.get('global-dependencies-sorted')).
-      reduce(function (acc, depType) {
-        if (config.get('global-dependencies-sorted')[depType].length) {
-          acc[depType] = config.get('global-dependencies-sorted')[depType];
-        }
-
-        return acc;
-      }, { packages: config.get('global-dependencies').get() });
+    require('./lib/helpers/get-ordered-dependencies')(config);
 }
 
 wiredep.stream = require('./lib/wiredep-stream');
