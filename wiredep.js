@@ -32,6 +32,8 @@ function wiredep(opts) {
     ('include-self', opts.includeSelf)
     ('overrides', _.extend({}, config.get('bower.json').overrides, opts.overrides))
     ('src', [])
+    ('strInput', null)
+    ('indexPath', null)
     ('stream', opts.stream ? opts.stream : {})
     ('warnings', []);
 
@@ -52,6 +54,11 @@ function wiredep(opts) {
       forEach(function (pattern) {
         config.set('src', config.get('src').concat($.glob.sync(pattern)));
       });
+  }
+
+  if (!opts.stream && !opts.src && opts.strInput) {
+    config.set('strInput', opts.strInput);
+    config.set('indexPath', opts.indexPath || cwd);
   }
 
   require('./lib/detect-dependencies')(config);
