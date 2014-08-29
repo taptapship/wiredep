@@ -1,7 +1,15 @@
 'use strict';
 
-var $ = require('modmod')('bower-config', 'chalk', 'fs', 'glob', 'lodash', 'path', 'through2');
-var _ = $.lodash;
+var $ = {
+  _: require('lodash'),
+  'bower-config': require('bower-config'),
+  chalk: require('chalk'),
+  fs: require('fs'),
+  glob: require('glob'),
+  lodash: require('lodash'),
+  path: require('path'),
+  through2: require('through2')
+};
 
 var helpers = require('./lib/helpers');
 var fileTypesDefault = require('./lib/default-file-types');
@@ -30,12 +38,12 @@ function wiredep(opts) {
     ('global-dependencies', helpers.createStore())
     ('ignore-path', opts.ignorePath)
     ('include-self', opts.includeSelf)
-    ('overrides', _.extend({}, config.get('bower.json').overrides, opts.overrides))
+    ('overrides', $._.extend({}, config.get('bower.json').overrides, opts.overrides))
     ('src', [])
     ('stream', opts.stream ? opts.stream : {})
     ('warnings', []);
 
-  _.pluck(config.get('file-types'), 'detect').
+  $._.pluck(config.get('file-types'), 'detect').
     forEach(function (fileType) {
       Object.keys(fileType).
         forEach(function (detectableFileType) {
@@ -73,14 +81,14 @@ function wiredep(opts) {
 }
 
 function mergeFileTypesWithDefaults(optsFileTypes) {
-  var fileTypes = _.clone(fileTypesDefault, true);
+  var fileTypes = $._.clone(fileTypesDefault, true);
 
-  _(optsFileTypes).each(function (fileTypeConfig, fileType) {
+  $._(optsFileTypes).each(function (fileTypeConfig, fileType) {
     fileTypes[fileType] = fileTypes[fileType] || {};
-    _.each(fileTypeConfig, function (config, configKey) {
-      if (_.isPlainObject(fileTypes[fileType][configKey])) {
+    $._.each(fileTypeConfig, function (config, configKey) {
+      if ($._.isPlainObject(fileTypes[fileType][configKey])) {
         fileTypes[fileType][configKey] =
-          _.assign(fileTypes[fileType][configKey], config);
+          $._.assign(fileTypes[fileType][configKey], config);
       } else {
         fileTypes[fileType][configKey] = config;
       }
