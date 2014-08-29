@@ -31,7 +31,7 @@
     }
   ],
   "scripts": {
-    "test": "./node_modules/.bin/jshint lib/*.js test/*.js && NODE_ENV=test ./node_modules/.bin/mocha -R spec"
+    "test": "jshint *.js lib/*.js test/*.js && NODE_ENV=test mocha -R spec"
   },
   "dependencies": {
     "bower-config": "^0.5.0",
