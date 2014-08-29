@@ -1,0 +1,7 @@
+{
+  "name": "wiredep-test",
+  "version": "0.0.0",
+  "dependencies": {
+    "fake-package-with-multiple-dot-ext": "1.0.0"
+  }
+}

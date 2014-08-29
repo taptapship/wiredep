@@ -1,0 +1,8 @@
+{
+  "name": "fake-package-with-multiple-dot-ext",
+  "version": "1.0.0",
+  "main": [
+      "fake-package.js",
+      "fake-package.notmin.css"
+  ]
+}

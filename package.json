@@ -41,7 +41,8 @@
     "minimist": "^1.1.0",
     "modmod": "^0.1.1",
     "propprop": "^0.3.0",
-    "through2": "^0.6.1"
+    "through2": "~0.4.1",
+    "path-complete-extname": "~0.1.0"
   },
   "devDependencies": {
     "fs-extra": "^0.11.0",

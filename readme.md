@@ -290,6 +290,33 @@ As an example, this is what your `bower.json` may look like if you wanted to ove
 ```
 
 
+## Sub File Type
+You can define a sub file type in order to wire the same kind of files in multiple placeholders. You can declare extension names containing extra dots in order to do so.
+
+As an example, this would allow you to have a `<!-- bower:min.js -->` section that would place minified javascript files separated from `<!-- bower:js -->`.
+
+
+### Sub file type configuration example
+```js
+require('wiredep')({
+  fileTypes: {
+    html: {
+      detect: {
+        js: /<script.*src=['"]([^'"]+)/gi,
+        css: /<link.*href=['"]([^'"]+)/gi,
+        'min.js': /<script.*src=['"]([^'"]+)/gi,
+      },
+      replace: {
+        js: '<script src="{{filePath}}"></script>',
+        css: '<link rel="stylesheet" href="{{filePath}}" />',
+        'min.js': '<script src="{{filePath}}"></script>'
+      }
+    },
+  }
+});
+```
+
+
 ## Contributing
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using `npm test`.
 
