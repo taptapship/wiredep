@@ -237,6 +237,18 @@ describe('wiredep', function () {
     });
   });
 
+  describe('rebase', function () {
+    it('should modify paths to appear from different location', function () {
+      var filePaths = getFilePaths('index-rebase', 'html');
+
+      wiredep({
+        src: [filePaths.actual],
+        rebase: '/fixture/'
+      });
+      assert.equal(filePaths.read('expected').trim(), filePaths.read('actual').trim());
+    });
+  });
+
   it('should allow specifying a custom replace function', function () {
     var filePaths = getFilePaths('index-with-custom-replace-function', 'html');
 
