@@ -15,6 +15,7 @@ var args = [
   { short: 'e', full: 'exclude' },
   { short: 'i', full: 'ignorePath' },
   { short: 's', full: 'src' }
+  { short: 'r', full: 'rebase' }
 ];
 
 function help() {
@@ -30,6 +31,7 @@ function help() {
   console.log('  -e, --exclude      # A path to be excluded');
   console.log('  -i, --ignorePath   # A path to be ignored');
   console.log('  -s, --src          # Path to your source file');
+  console.log('  -r, --rebase       # Rebase URLs to bower components');
   console.log('  --dependencies     # Include Bower `dependencies`');
   console.log('  --devDependencies  # Include Bower `devDependencies`');
   console.log('  --includeSelf      # Include top-level `main` files');

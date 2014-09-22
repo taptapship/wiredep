@@ -40,6 +40,7 @@ function wiredep(opts) {
     ('include-self', opts.includeSelf)
     ('overrides', $._.extend({}, config.get('bower.json').overrides, opts.overrides))
     ('src', [])
+    ('rebase-path', opts.rebase || null)
     ('stream', opts.stream ? opts.stream : {})
     ('warnings', []);
 
