@@ -1,29 +1,31 @@
 {
-  "name": "wiredep",
-  "version": "1.8.5",
-  "main": "./wiredep.js",
+  "name": "require-wiredep",
+  "version": "0.0.1",
+  "main": "./require-wiredep.js",
   "bin": {
-    "wiredep": "./wiredep-cli.js"
+    "require-wiredep": "./require-wiredep-cli.js"
   },
   "description": "Wire Bower dependencies to your source code.",
   "repository": "taptapship/wiredep",
   "author": {
-    "name": "Stephen Sawchuk",
-    "email": "sawchuk@gmail.com"
+    "name": "Krzysztof Padol",
+    "email": "krzysztof.padol@pearson.com"
   },
   "keywords": [
-    "bower",
-    "package",
+    "require",
+    "require.js",
     "management",
     "inject",
     "script",
-    "dependencies"
+    "dependencies",
+    "karma",
+    "tests"
   ],
   "files": [
     "lib/",
     "LICENSE",
-    "wiredep.js",
-    "wiredep-cli.js"
+    "require-wiredep.js",
+    "require-wiredep-cli.js"
   ],
   "licenses": [
     {
