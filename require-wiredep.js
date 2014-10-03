@@ -19,7 +19,7 @@ var fileTypesDefault = require('./lib/default-file-types');
  *
  * @param  {object} config  the global configuration object
  */
-function wiredep(opts) {
+function require_wiredep(opts) {
   opts = opts || {};
 
   var cwd = opts.cwd ? $.path.resolve(opts.cwd) : process.cwd();
@@ -30,9 +30,7 @@ function wiredep(opts) {
     ('require.json', opts.requireJson || JSON.parse($.fs.readFileSync($.path.join(cwd, './require.json'))))
     ('cwd', cwd)
     ('detectable-file-types', [])
-    ('exclude', Array.isArray(opts.exclude) ? opts.exclude : [ opts.exclude ])
     ('file-types', mergeFileTypesWithDefaults(opts.fileTypes))
-    ('ignore-path', opts.ignorePath)
     ('src', [])
     ('stream', opts.stream ? opts.stream : {})
     ('warnings', []);
@@ -44,9 +42,6 @@ function wiredep(opts) {
       });
   }
 
-  console.log("OPT-SRC", opts.src);
-  console.log("SRC", config.get('src'));
-
   require('./lib/require-structure-generator')(config);
   require('./lib/inject-dependencies')(config);
 
@@ -54,15 +49,7 @@ function wiredep(opts) {
     helpers.warn(config.get('warnings'));
   }
 
-  // return config.get('stream').src ||
-  //   Object.keys(config.get('global-dependencies-sorted')).
-  //     reduce(function (acc, depType) {
-  //       if (config.get('global-dependencies-sorted')[depType].length) {
-  //         acc[depType] = config.get('global-dependencies-sorted')[depType];
-  //       }
-
-  //       return acc;
-  //     }, { packages: config.get('global-dependencies').get() });
+  return "Testowe";
 }
 
 function mergeFileTypesWithDefaults(optsFileTypes) {
@@ -83,36 +70,36 @@ function mergeFileTypesWithDefaults(optsFileTypes) {
   return fileTypes;
 }
 
-wiredep.stream = function (opts) {
-  opts = opts || {};
+// require_wiredep.stream = function (opts) {
+//   opts = opts || {};
 
-  return $.through2.obj(function (file, enc, cb) {
-    if (file.isNull()) {
-      this.push(file);
-      return cb();
-    }
+//   return $.through2.obj(function (file, enc, cb) {
+//     if (file.isNull()) {
+//       this.push(file);
+//       return cb();
+//     }
 
-    if (file.isStream()) {
-      this.emit('error', 'Streaming not supported');
-      return cb();
-    }
+//     if (file.isStream()) {
+//       this.emit('error', 'Streaming not supported');
+//       return cb();
+//     }
 
-    try {
-      opts.stream = {
-        src: file.contents.toString(),
-        path: file.path,
-        fileType: $.path.extname(file.path).substr(1)
-      };
+//     try {
+//       opts.stream = {
+//         src: file.contents.toString(),
+//         path: file.path,
+//         fileType: $.path.extname(file.path).substr(1)
+//       };
 
-      file.contents = new Buffer(wiredep(opts));
-    } catch (err) {
-      this.emit('error', err);
-    }
+//       file.contents = new Buffer(wiredep(opts));
+//     } catch (err) {
+//       this.emit('error', err);
+//     }
 
-    this.push(file);
-    cb();
-  });
-};
+//     this.push(file);
+//     cb();
+//   });
+// };
 
 
-module.exports = wiredep;
+module.exports = require_wiredep;
