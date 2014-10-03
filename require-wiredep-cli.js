@@ -26,10 +26,8 @@ function help() {
   console.log('  -h, --help         # Print usage information');
   console.log('  -v, --version      # Print the version');
   console.log('  -b, --requireJson    # Path to `require.json`');
-  console.log('  -e, --exclude      # A path to be excluded');
-  console.log('  -i, --ignorePath   # A path to be ignored');
   console.log('  -s, --src          # Path to your source file');
-  console.log('  --verbose          # Print the results of `wiredep`');
+  console.log('  --verbose          # Print the results of `require-wiredep`');
 }
 
 if (argv.v || argv.version) {
@@ -59,7 +57,7 @@ try {
     fs.statSync('./require.json');
   }
 } catch (e) {
-  console.log(chalk.bold.red('> bower.json not found.'));
+  console.log(chalk.bold.red('> require.json not found.'));
   console.log('Please run `require-wiredep` from the directory where your `require.json` file is located.');
   console.log('Alternatively, pass a `--requireJson path/to/require.json`.');
   return;
