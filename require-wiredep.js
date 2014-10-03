@@ -19,7 +19,7 @@ var fileTypesDefault = require('./lib/default-file-types');
  *
  * @param  {object} config  the global configuration object
  */
-function wiredep(opts) {
+function require_wiredep(opts) {
   opts = opts || {};
 
   var cwd = opts.cwd ? $.path.resolve(opts.cwd) : process.cwd();
@@ -27,33 +27,13 @@ function wiredep(opts) {
   var config = module.exports.config = helpers.createStore();
 
   config.set
-    ('bower.json', opts.bowerJson || JSON.parse($.fs.readFileSync($.path.join(cwd, './bower.json'))))
-    ('bower-directory', opts.directory || findBowerDirectory(cwd))
+    ('require.json', opts.requireJson || JSON.parse($.fs.readFileSync($.path.join(cwd, './require.json'))))
     ('cwd', cwd)
-    ('dependencies', opts.dependencies === false ? false : true)
     ('detectable-file-types', [])
-    ('dev-dependencies', opts.devDependencies)
-    ('exclude', Array.isArray(opts.exclude) ? opts.exclude : [ opts.exclude ])
     ('file-types', mergeFileTypesWithDefaults(opts.fileTypes))
-    ('global-dependencies', helpers.createStore())
-    ('ignore-path', opts.ignorePath)
-    ('include-self', opts.includeSelf)
-    ('overrides', $._.extend({}, config.get('bower.json').overrides, opts.overrides))
     ('src', [])
     ('stream', opts.stream ? opts.stream : {})
     ('warnings', []);
-
-  $._.pluck(config.get('file-types'), 'detect').
-    forEach(function (fileType) {
-      Object.keys(fileType).
-        forEach(function (detectableFileType) {
-          var detectableFileTypes = config.get('detectable-file-types');
-
-          if (detectableFileTypes.indexOf(detectableFileType) === -1) {
-            config.set('detectable-file-types', detectableFileTypes.concat(detectableFileType));
-          }
-        });
-    });
 
   if (!opts.stream && opts.src) {
     (Array.isArray(opts.src) ? opts.src : [opts.src]).
@@ -62,22 +42,14 @@ function wiredep(opts) {
       });
   }
 
-  require('./lib/detect-dependencies')(config);
+  require('./lib/require-structure-generator')(config);
   require('./lib/inject-dependencies')(config);
 
   if (config.get('warnings')) {
     helpers.warn(config.get('warnings'));
   }
 
-  return config.get('stream').src ||
-    Object.keys(config.get('global-dependencies-sorted')).
-      reduce(function (acc, depType) {
-        if (config.get('global-dependencies-sorted')[depType].length) {
-          acc[depType] = config.get('global-dependencies-sorted')[depType];
-        }
-
-        return acc;
-      }, { packages: config.get('global-dependencies').get() });
+  return "Testowe";
 }
 
 function mergeFileTypesWithDefaults(optsFileTypes) {
@@ -98,48 +70,36 @@ function mergeFileTypesWithDefaults(optsFileTypes) {
   return fileTypes;
 }
 
-function findBowerDirectory(cwd) {
-  var directory = $.path.join(cwd, ($['bower-config'].read(cwd).directory || 'bower_components'));
+// require_wiredep.stream = function (opts) {
+//   opts = opts || {};
 
-  if (!$.fs.existsSync(directory)) {
-    console.log($.chalk.red.bold('Cannot find where you keep your Bower packages.'));
+//   return $.through2.obj(function (file, enc, cb) {
+//     if (file.isNull()) {
+//       this.push(file);
+//       return cb();
+//     }
 
-    process.exit();
-  }
+//     if (file.isStream()) {
+//       this.emit('error', 'Streaming not supported');
+//       return cb();
+//     }
 
-  return directory;
-}
+//     try {
+//       opts.stream = {
+//         src: file.contents.toString(),
+//         path: file.path,
+//         fileType: $.path.extname(file.path).substr(1)
+//       };
 
-wiredep.stream = function (opts) {
-  opts = opts || {};
+//       file.contents = new Buffer(wiredep(opts));
+//     } catch (err) {
+//       this.emit('error', err);
+//     }
 
-  return $.through2.obj(function (file, enc, cb) {
-    if (file.isNull()) {
-      this.push(file);
-      return cb();
-    }
-
-    if (file.isStream()) {
-      this.emit('error', 'Streaming not supported');
-      return cb();
-    }
-
-    try {
-      opts.stream = {
-        src: file.contents.toString(),
-        path: file.path,
-        fileType: $.path.extname(file.path).substr(1)
-      };
-
-      file.contents = new Buffer(wiredep(opts));
-    } catch (err) {
-      this.emit('error', err);
-    }
-
-    this.push(file);
-    cb();
-  });
-};
+//     this.push(file);
+//     cb();
+//   });
+// };
 
 
-module.exports = wiredep;
+module.exports = require_wiredep;

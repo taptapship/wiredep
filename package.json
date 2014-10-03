@@ -5,8 +5,8 @@
   "bin": {
     "require-wiredep": "./require-wiredep-cli.js"
   },
-  "description": "Wire Bower dependencies to your source code.",
-  "repository": "taptapship/wiredep",
+  "description": "Require Wire configs to your source code.",
+  "repository": "krzysztof-padol/wiredep",
   "author": {
     "name": "Krzysztof Padol",
     "email": "krzysztof.padol@pearson.com"
