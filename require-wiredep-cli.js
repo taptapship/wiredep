@@ -2,7 +2,7 @@
 'use strict';
 
 var pkg = require('./package.json');
-var wiredep = require('./wiredep');
+var require_wiredep = require('./require-wiredep');
 var argv = require('minimist')(process.argv.slice(2));
 var chalk = require('chalk');
 var fs = require('fs');
@@ -59,8 +59,8 @@ if (argv.b || argv.bowerJson) {
 }
 
 try {
-  if (!argv.bowerJson) {
-    fs.statSync('./bower.json');
+  if (!argv.requireJson) {
+    fs.statSync('./require.json');
   }
 } catch (e) {
   console.log(chalk.bold.red('> bower.json not found.'));
@@ -69,7 +69,7 @@ try {
   return;
 }
 
-var results = wiredep(Object.keys(argv).reduce(function (acc, arg) {
+var results = require_wiredep(Object.keys(argv).reduce(function (acc, arg) {
   args.filter(function (argObj) {
     if (argObj.short === arg) {
       acc[argObj.full] = argv[arg];
