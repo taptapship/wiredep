@@ -1,12 +1,12 @@
 {
   "name": "require-wiredep",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "main": "./require-wiredep.js",
   "bin": {
     "require-wiredep": "./require-wiredep-cli.js"
   },
   "description": "Require Wire configs to your source code.",
-  "repository": "krzysztof-padol/wiredep",
+  "repository": "Krzysztof-Padol/require-wiredep",
   "author": {
     "name": "Krzysztof Padol",
     "email": "krzysztof.padol@pearson.com"

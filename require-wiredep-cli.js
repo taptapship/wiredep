@@ -20,14 +20,14 @@ var args = [
 function help() {
   console.log(pkg.description);
   console.log('');
-  console.log('Usage: ' + chalk.cyan('$') + chalk.bold(' wiredep ') + chalk.yellow('[options]'));
+  console.log('Usage: ' + chalk.cyan('$') + chalk.bold(' require-wiredep ') + chalk.yellow('[options]'));
   console.log('');
   console.log('Options:');
   console.log('  -h, --help         # Print usage information');
   console.log('  -v, --version      # Print the version');
   console.log('  -b, --requireJson    # Path to `require.json`');
   console.log('  -s, --src          # Path to your source file');
-  console.log('  --verbose          # Print the results of `require-wiredep`');
+  // console.log('  --verbose          # Print the results of `require-wiredep`');
 }
 
 if (argv.v || argv.version) {
