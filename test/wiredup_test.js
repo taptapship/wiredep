@@ -174,15 +174,15 @@ describe('require-wiredep', function () {
     assert.equal(filePaths.read('actual'), filePaths.read('expected'));
   });
 
-  // it('should support callback property', function () {
-  //   var filePaths = getFilePaths('callback', 'js');
+  it('should support callback property', function () {
+    var filePaths = getFilePaths('callback', 'js');
 
-  //   wiredep({
-  //     src: [filePaths.actual]
-  //   });
+    wiredep({
+      src: [filePaths.actual]
+    });
 
-  //   assert.equal(filePaths.read('actual'), filePaths.read('expected'));
-  // });
+    assert.equal(filePaths.read('actual'), filePaths.read('expected'));
+  });
 });
 
 function getFilePaths(fileName, fileType) {
