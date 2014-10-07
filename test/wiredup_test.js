@@ -152,6 +152,17 @@ describe('require-wiredep', function () {
     assert.equal(filePaths.read('actual'), filePaths.read('expected'));
   });
 
+  it('should support passing requireUrl to wiredep', function () {
+    var filePaths = getFilePaths('another-require', 'js');
+
+    wiredep({
+      requireUrl: './require_another.json',
+      src: [filePaths.actual]
+    });
+
+    assert.equal(filePaths.read('actual'), filePaths.read('expected'));
+  });
+
   it('should support inclusion of main files from require.json in some other dir', function () {
     var filePaths = getFilePaths('cwd', 'js');
 
