@@ -141,11 +141,11 @@ describe('require-wiredep', function () {
     it('should inject require config with postfix without exclude url', testFn('js'));
   });
 
-  it('should support passing requireJson to wiredep', function () {
+  it('should support passing requireConfig to wiredep', function () {
     var filePaths = getFilePaths('another-require', 'js');
 
     wiredep({
-      requireJson: JSON.parse(fs.readFileSync('./require_another.json')),
+      requireConfig: require('./fixture/require-config_another.js'),
       src: [filePaths.actual]
     });
 
@@ -156,14 +156,14 @@ describe('require-wiredep', function () {
     var filePaths = getFilePaths('another-require', 'js');
 
     wiredep({
-      requireUrl: './require_another.json',
+      requireUrl: './require-config_another.js',
       src: [filePaths.actual]
     });
 
     assert.equal(filePaths.read('actual'), filePaths.read('expected'));
   });
 
-  it('should support inclusion of main files from require.json in some other dir', function () {
+  it('should support inclusion of main files from requireConfig in some other dir', function () {
     var filePaths = getFilePaths('cwd', 'js');
 
     wiredep({
@@ -173,6 +173,16 @@ describe('require-wiredep', function () {
 
     assert.equal(filePaths.read('actual'), filePaths.read('expected'));
   });
+
+  // it('should support callback property', function () {
+  //   var filePaths = getFilePaths('callback', 'js');
+
+  //   wiredep({
+  //     src: [filePaths.actual]
+  //   });
+
+  //   assert.equal(filePaths.read('actual'), filePaths.read('expected'));
+  // });
 });
 
 function getFilePaths(fileName, fileType) {

@@ -10,7 +10,7 @@ var fs = require('fs');
 var args = [
   { short: 'h', full: 'help' },
   { short: 'v', full: 'version' },
-  { short: 'b', full: 'requireJson' },
+  { short: 'b', full: 'requireConfig' },
   { short: 'd', full: 'directory' },
   { short: 'e', full: 'exclude' },
   { short: 'i', full: 'ignorePath' },
@@ -47,22 +47,22 @@ if (!argv.s && !argv.src) {
 
 if (argv.b || argv.requireJson) {
   try {
-    argv.b = JSON.parse(fs.readFileSync(argv.b || argv.requireJson));
+    argv.b = JSON.parse(fs.readFileSync(argv.b || argv.requireConfig));
   } catch (e) {}
 }
 
 try {
-  if (!argv.requireJson) {
-    fs.statSync('./require.json');
+  if (!argv.requireConfig) {
+    fs.statSync('./require-config.js');
   }
 } catch (e) {
   console.log(chalk.bold.red('> require.json not found.'));
   console.log('Please run `require-wiredep` from the directory where your `require.json` file is located.');
-  console.log('Alternatively, pass a `--requireJson path/to/require.json`.');
+  console.log('Alternatively, pass a `--requireConfig path/to/require.json`.');
   return;
 }
 
-var results = require_wiredep(Object.keys(argv).reduce(function (acc, arg) {
+require_wiredep(Object.keys(argv).reduce(function (acc, arg) {
   args.filter(function (argObj) {
     if (argObj.short === arg) {
       acc[argObj.full] = argv[arg];

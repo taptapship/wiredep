@@ -1,4 +1,4 @@
-{
+var config = {
   "default": {
     "baseUrl": "",
     "paths": {
@@ -9,3 +9,5 @@
     "deps": ["/scripts/bootstrap.js"]
   }
 }
+
+module.exports = config;

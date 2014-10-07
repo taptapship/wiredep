@@ -24,19 +24,19 @@ function require_wiredep(opts) {
 
   var cwd = opts.cwd ? $.path.resolve(opts.cwd) : process.cwd();
   var config = module.exports.config = helpers.createStore();
-  var requirePath = $.path.join(cwd, './require.json');
-  var requireJson;
+  var requirePath = $.path.join(cwd, './require-config.js');
+  var requireConfig;
 
   if (!!opts.requireUrl) {
-    requireJson = JSON.parse($.fs.readFileSync($.path.join(cwd, opts.requireUrl)));    
-  } else if (!!opts.requireJson) {
-    requireJson = opts.requireJson;
+    requireConfig = require($.path.join(cwd, opts.requireUrl));    
+  } else if (!!opts.requireConfig) {
+    requireConfig = opts.requireConfig;
   } else if ($.fs.existsSync(requirePath)) {
-    requireJson = JSON.parse($.fs.readFileSync(requirePath));
+    requireConfig = require(requirePath);
   }
 
   config.set
-    ('require.json', requireJson)
+    ('require.config', requireConfig)
     ('cwd', cwd)
     ('detectable-file-types', [])
     ('file-types', mergeFileTypesWithDefaults(opts.fileTypes))

@@ -1,5 +1,5 @@
-{
-  "default": {
+var config = {
+  default: {
     "baseUrl": "",
     "paths": {
       "app": "scripts/app",
@@ -43,22 +43,29 @@
       "modalView": "views/NextStepWidget/modal.html"
     }
   },
-  "prefix": {
+  prefix: {
     "url_prefix": "app/"
   },
-  "postfix": {
+  postfix: {
     "url_postfix": "test"
   },
-  "prefix_exclude": {
+  prefix_exclude: {
     "url_prefix": "app/",
     "url_prefix_exclude": ["bower_components"]
   },
-  "postfix_exclude": {
+  postfix_exclude: {
     "url_postfix": "test",
     "url_postfix_exclude": ["bower_components"]
   },
-  "dist": {
+  dist: {
     "baseUrl": "/base/",
     "url_prefix": "dist/"
+  },
+  callback: {
+    "callback": function() {
+      console.log('cos');
+    }
   }
-}
+};
+
+module.exports = config;

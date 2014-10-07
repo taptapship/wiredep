@@ -5,6 +5,6 @@ var getConfig = function(config) {
 }
 
 getConfig(
-		//require:postfix
+		//require:callback
 		//endrequire
 	);
