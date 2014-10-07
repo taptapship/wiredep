@@ -1,8 +1,0 @@
-{
-  "name": "wiredep-test",
-  "version": "0.0.0",
-  "dependencies": {
-    "modernizr": "~2.6.2",
-    "bootstrap": "~3.0.0"
-  }
-}

@@ -46,9 +46,9 @@ if (!argv.s && !argv.src) {
   return;
 }
 
-if (argv.b || argv.bowerJson) {
+if (argv.b || argv.requireJson) {
   try {
-    argv.bowerJson = JSON.parse(fs.readFileSync(argv.b || argv.bowerJson));
+    argv.b = JSON.parse(fs.readFileSync(argv.b || argv.requireJson));
   } catch (e) {}
 }
 
