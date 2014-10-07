@@ -26,10 +26,12 @@ function require_wiredep(opts) {
 
   var config = module.exports.config = helpers.createStore();
 
-  var requireJson = opts.requireJson || JSON.parse($.fs.readFileSync($.path.join(cwd, './require.json')));
+  var requireJson = opts.requireJson;
 
   if (!!opts.requireUrl) {
     requireJson = JSON.parse($.fs.readFileSync($.path.join(cwd, opts.requireUrl)));    
+  } else {
+    requireJson = JSON.parse($.fs.readFileSync($.path.join(cwd, './require.json')));
   }
 
   config.set
