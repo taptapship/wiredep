@@ -23,15 +23,16 @@ function require_wiredep(opts) {
   opts = opts || {};
 
   var cwd = opts.cwd ? $.path.resolve(opts.cwd) : process.cwd();
-
   var config = module.exports.config = helpers.createStore();
-
-  var requireJson = opts.requireJson;
+  var requirePath = $.path.join(cwd, './require.json');
+  var requireJson;
 
   if (!!opts.requireUrl) {
     requireJson = JSON.parse($.fs.readFileSync($.path.join(cwd, opts.requireUrl)));    
-  } else {
-    requireJson = JSON.parse($.fs.readFileSync($.path.join(cwd, './require.json')));
+  } else if (!!opts.requireJson) {
+    requireJson = opts.requireJson;
+  } else if ($.fs.existsSync(requirePath)) {
+    requireJson = JSON.parse($.fs.readFileSync(requirePath));
   }
 
   config.set
@@ -57,7 +58,7 @@ function require_wiredep(opts) {
     helpers.warn(config.get('warnings'));
   }
 
-  return "Testowe";
+  return true;
 }
 
 function mergeFileTypesWithDefaults(optsFileTypes) {
@@ -77,37 +78,6 @@ function mergeFileTypesWithDefaults(optsFileTypes) {
 
   return fileTypes;
 }
-
-// require_wiredep.stream = function (opts) {
-//   opts = opts || {};
-
-//   return $.through2.obj(function (file, enc, cb) {
-//     if (file.isNull()) {
-//       this.push(file);
-//       return cb();
-//     }
-
-//     if (file.isStream()) {
-//       this.emit('error', 'Streaming not supported');
-//       return cb();
-//     }
-
-//     try {
-//       opts.stream = {
-//         src: file.contents.toString(),
-//         path: file.path,
-//         fileType: $.path.extname(file.path).substr(1)
-//       };
-
-//       file.contents = new Buffer(wiredep(opts));
-//     } catch (err) {
-//       this.emit('error', err);
-//     }
-
-//     this.push(file);
-//     cb();
-//   });
-// };
 
 
 module.exports = require_wiredep;

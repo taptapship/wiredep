@@ -1,6 +1,6 @@
 {
   "name": "require-wiredep",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "main": "./require-wiredep.js",
   "bin": {
     "require-wiredep": "./require-wiredep-cli.js"

@@ -27,7 +27,6 @@ function help() {
   console.log('  -v, --version      # Print the version');
   console.log('  -b, --requireJson    # Path to `require.json`');
   console.log('  -s, --src          # Path to your source file');
-  // console.log('  --verbose          # Print the results of `require-wiredep`');
 }
 
 if (argv.v || argv.version) {
@@ -72,7 +71,3 @@ var results = require_wiredep(Object.keys(argv).reduce(function (acc, arg) {
   });
   return acc;
 }, argv));
-
-if (argv.verbose) {
-  console.log(results);
-}
