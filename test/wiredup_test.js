@@ -6,9 +6,9 @@
 var fs = require('fs-extra');
 var path = require('path');
 var assert = require('assert');
-var wiredep = require('../wiredep');
+var wiredep = require('../require-wiredep');
 
-describe('wiredep', function () {
+describe('require-wiredep', function () {
   fs.copySync('test/fixture', '.tmp');
   process.chdir('.tmp');
   after(fs.remove.bind({}, '../.tmp'));
@@ -24,25 +24,15 @@ describe('wiredep', function () {
       };
     }
 
-    it('should work with html files', testReplace('html'));
-    it('should work with jade files', testReplace('jade'));
-    it('should work with sass files', testReplace('sass'));
-    it('should work with scss files', testReplace('scss'));
-    it('should work with yml files', testReplace('yml'));
-    it('should work with unrecognized file types', testReplace('unrecognized'));
-    it('should correctly handle relative paths', testReplace('html/deep/nested'));
+    it('should work with js files', testReplace('js'));
 
     it('should support globbing', function () {
-      wiredep({ src: ['html/index-actual.*', 'jade/index-actual.*'] });
+      wiredep({ src: ['js/index-actual.*'] });
 
       [
         {
-          actual: 'html/index-actual.html',
-          expected: 'html/index-expected.html'
-        },
-        {
-          actual: 'jade/index-actual.jade',
-          expected: 'jade/index-expected.jade'
+          actual: 'js/index-actual.js',
+          expected: 'js/index-expected.js'
         }
       ].forEach(function (testObject) {
         assert.equal(
@@ -54,7 +44,7 @@ describe('wiredep', function () {
   });
 
   describe('second run (identical files)', function () {
-    function testReplaceSecondRun(fileType) {
+    function testFn(fileType) {
       return function () {
         var filePaths = getFilePaths('index-second-run', fileType);
 
@@ -64,252 +54,121 @@ describe('wiredep', function () {
       };
     }
 
-    it('should replace html after second run', testReplaceSecondRun('html'));
-    it('should replace jade after second run', testReplaceSecondRun('jade'));
-    it('should replace less after second run', testReplaceSecondRun('less'));
-    it('should replace sass after second run', testReplaceSecondRun('sass'));
-    it('should replace scss after second run', testReplaceSecondRun('scss'));
-    it('should replace yml after second run', testReplaceSecondRun('yml'));
+    it('should replace js after second run', testFn('js'));
   });
 
-  describe('excludes', function () {
-    function testReplaceWithExcludedSrc(fileType) {
+  describe('inject specify property', function () {
+    function testFn(fileType) {
       return function () {
-        var filePaths = getFilePaths('index-excluded-files', fileType);
+        var filePaths = getFilePaths('index-specify-property', fileType);
 
-        wiredep({
-          src: [filePaths.actual],
-          exclude: ['bower_components/bootstrap/dist/js/bootstrap.js', /codecode/]
-        });
+        wiredep({ src: [filePaths.actual] });
 
         assert.equal(filePaths.read('expected'), filePaths.read('actual'));
       };
     }
 
-    it('should handle html with excludes specified', testReplaceWithExcludedSrc('html'));
-    it('should handle jade with excludes specified', testReplaceWithExcludedSrc('jade'));
-    it('should handle yml with excludes specified', testReplaceWithExcludedSrc('yml'));
+    it('should inject specify property to js code', testFn('js'));
   });
 
-  describe('after uninstalls', function () {
-    describe('after uninstalling one package', function () {
-      function testReplaceAfterUninstalledPackage(fileType) {
-        return function () {
-          var filePaths = getFilePaths('index-after-uninstall', fileType);
-
-          wiredep({ src: [filePaths.actual] });
-
-          wiredep({
-            bowerJson: JSON.parse(fs.readFileSync('./bower_after_uninstall.json')),
-            src: [filePaths.actual]
-          });
-
-          assert.equal(filePaths.read('expected'), filePaths.read('actual'));
-        };
-      }
-
-      it('should work with html', testReplaceAfterUninstalledPackage('html'));
-      it('should work with jade', testReplaceAfterUninstalledPackage('jade'));
-    });
-
-    describe('after uninstalling all packages', function () {
-      function testReplaceAfterUninstallingAllPackages(fileType) {
-        return function () {
-          var filePaths = getFilePaths('index-after-uninstall-all', fileType);
-
-          wiredep({ src: [filePaths.actual] });
-
-          wiredep({
-            bowerJson: JSON.parse(fs.readFileSync('./bower_after_uninstall_all.json')),
-            src: [filePaths.actual]
-          });
-
-          assert.equal(filePaths.read('expected'), filePaths.read('actual'));
-        };
-      }
-
-      it('should work with html', testReplaceAfterUninstallingAllPackages('html'));
-      it('should work with jade', testReplaceAfterUninstallingAllPackages('jade'));
-    });
-  });
-
-  describe('custom format', function () {
-    function testReplaceWithCustomFormat(fileType, fileTypes) {
+  describe('extend default value', function () {
+    function testFn(fileType) {
       return function () {
-        var filePaths = getFilePaths('index-custom-format', fileType);
+        var filePaths = getFilePaths('index-extend-property', fileType);
 
-        wiredep({
-          src: [filePaths.actual],
-          fileTypes: fileTypes
-        });
+        wiredep({ src: [filePaths.actual] });
 
         assert.equal(filePaths.read('expected'), filePaths.read('actual'));
       };
     }
 
-    it('should work with html', testReplaceWithCustomFormat('html', {
-      html: {
-        replace: {
-          js: '<script type="text/javascript" src="{{filePath}}"></script>',
-          css: '<link href="{{filePath}}" rel="stylesheet">'
-        }
-      }
-    }));
-
-    it('should work with jade', testReplaceWithCustomFormat('jade', {
-      jade: {
-        replace: {
-          js: 'script(type=\'text/javascript\', src=\'{{filePath}}\')',
-          css: 'link(href=\'{{filePath}}\', rel=\'stylesheet\')'
-        }
-      }
-    }));
-
-    it('should work with yml', testReplaceWithCustomFormat('yml', {
-      yml: {
-        replace: {
-          css: '- "{{filePath}}" #css',
-          js: '- "{{filePath}}"'
-        }
-      }
-    }));
+    it('should inject specify property to js code', testFn('js'));
   });
 
-  describe('devDependencies', function () {
-    it('should wire devDependencies if specified', function () {
-      var filePaths = getFilePaths('index-with-dev-dependencies', 'html');
+  describe('add url prefix', function () {
+    function testFn(fileType) {
+      return function () {
+        var filePaths = getFilePaths('index-prefix', fileType);
 
-      wiredep({
-        dependencies: false,
-        devDependencies: true,
-        src: [filePaths.actual]
-      });
+        wiredep({ src: [filePaths.actual] });
 
-      assert.equal(filePaths.read('expected'), filePaths.read('actual'));
-    });
+        assert.equal(filePaths.read('expected'), filePaths.read('actual'));
+      };
+    }
+
+    it('should inject require config with prefix to js code', testFn('js'));
   });
 
-  describe('overrides', function () {
-    it('should not display a warning if a no-`main` package is excluded', function () {
-      var filePaths = getFilePaths('index-packages-without-main', 'html');
+  describe('exclude url prefix', function () {
+    function testFn(fileType) {
+      return function () {
+        var filePaths = getFilePaths('index-prefix-exclude', fileType);
 
-      wiredep({
-        bowerJson: JSON.parse(fs.readFileSync('./bower_packages_without_main.json')),
-        src: [filePaths.actual],
-        exclude: ['fake-package-without-main-and-confusing-file-tree']
-      });
+        wiredep({ src: [filePaths.actual] });
 
-      // If a package is excluded, don't display a warning.
-      assert.equal(wiredep.config.get('warnings').length, 0);
+        assert.equal(filePaths.read('expected'), filePaths.read('actual'));
+      };
+    }
 
-      assert.equal(filePaths.read('expected'), filePaths.read('actual'));
-    });
-
-    it('should allow configuration overrides to specify a `main`', function () {
-      var filePaths = getFilePaths('index-packages-without-main', 'html');
-      var bowerJson = JSON.parse(fs.readFileSync('./bower_packages_without_main.json'));
-      var overrides = bowerJson.overrides;
-      delete bowerJson.overrides;
-
-      wiredep({
-        bowerJson: bowerJson,
-        overrides: overrides,
-        src: [filePaths.actual],
-        exclude: ['fake-package-without-main-and-confusing-file-tree']
-      });
-
-      assert.equal(filePaths.read('expected'), filePaths.read('actual'));
-    });
-
-    it('should allow configuration overrides to specify `dependencies`', function () {
-      var filePaths = getFilePaths('index-override-dependencies', 'html');
-      var bowerJson = JSON.parse(fs.readFileSync('./bower_packages_without_dependencies.json'));
-      var overrides = bowerJson.overrides;
-      delete bowerJson.overrides;
-
-      wiredep({
-        bowerJson: bowerJson,
-        overrides: overrides,
-        src: [filePaths.actual]
-      });
-
-      assert.equal(filePaths.read('expected'), filePaths.read('actual'));
-    });
+    it('should inject require config with prefix without exclude url', testFn('js'));
   });
 
-  it('should allow specifying a custom replace function', function () {
-    var filePaths = getFilePaths('index-with-custom-replace-function', 'html');
+  describe('add url postfix', function () {
+    function testFn(fileType) {
+      return function () {
+        var filePaths = getFilePaths('index-postfix', fileType);
+
+        wiredep({ src: [filePaths.actual] });
+
+        assert.equal(filePaths.read('expected'), filePaths.read('actual'));
+      };
+    }
+
+    it('should inject require config with postfix to js code', testFn('js'));
+  });
+
+  describe('exclude url postfix', function () {
+    function testFn(fileType) {
+      return function () {
+        var filePaths = getFilePaths('index-postfix-exclude', fileType);
+
+        wiredep({ src: [filePaths.actual] });
+
+        assert.equal(filePaths.read('expected'), filePaths.read('actual'));
+      };
+    }
+
+    it('should inject require config with postfix without exclude url', testFn('js'));
+  });
+
+  it('should support passing requireJson to wiredep', function () {
+    var filePaths = getFilePaths('another-require', 'js');
 
     wiredep({
-      src: [filePaths.actual],
-      fileTypes: {
-        html: {
-          replace: {
-            js: function (filePath) {
-              return '<script src="' + filePath + '" class="yay"></script>';
-            }
-          }
-        }
-      }
-    });
-
-    assert.equal(filePaths.read('expected'), filePaths.read('actual'));
-  });
-
-  it('should return a useful object', function () {
-    var returnedObject = wiredep();
-
-    assert.equal(typeof returnedObject.js, 'object');
-    assert.equal(typeof returnedObject.css, 'object');
-    assert.equal(typeof returnedObject.less, 'object');
-    assert.equal(typeof returnedObject.scss, 'object');
-    assert.equal(typeof returnedObject.packages, 'object');
-  });
-
-  it('should respect the directory specified in a `.bowerrc`', function () {
-    var filePaths = getFilePaths('index-with-custom-bower-directory', 'html');
-
-    wiredep({
-      bowerJson: JSON.parse(fs.readFileSync('./bowerrc/bower.json')),
-      cwd: './bowerrc',
+      requireJson: JSON.parse(fs.readFileSync('./require_another.json')),
       src: [filePaths.actual]
     });
 
     assert.equal(filePaths.read('actual'), filePaths.read('expected'));
   });
 
-  it('should support inclusion of main files from top-level bower.json', function () {
-    var filePaths = getFilePaths('index-include-self', 'html');
+  it('should support passing requireUrl to wiredep', function () {
+    var filePaths = getFilePaths('another-require', 'js');
 
     wiredep({
-      bowerJson: JSON.parse(fs.readFileSync('./bower_with_main.json')),
-      src: [filePaths.actual],
-      includeSelf: true
+      requireUrl: './require_another.json',
+      src: [filePaths.actual]
     });
 
     assert.equal(filePaths.read('actual'), filePaths.read('expected'));
   });
 
-  it('should support inclusion of main files from bower.json in some other dir', function () {
-    var filePaths = getFilePaths('index-cwd-include-self', 'html');
+  it('should support inclusion of main files from require.json in some other dir', function () {
+    var filePaths = getFilePaths('cwd', 'js');
 
     wiredep({
       src: [filePaths.actual],
-      cwd: 'cwd_includeself',
-      includeSelf: true
-    });
-
-    assert.equal(filePaths.read('actual'), filePaths.read('expected'));
-  });
-
-  it('should support inclusion of main files from some other dir with manually loaded bower.json', function () {
-    var filePaths = getFilePaths('index-cwd-include-self', 'html');
-
-    wiredep({
-      bowerJson: JSON.parse(fs.readFileSync('./cwd_includeself/bower.json')),
-      src: [filePaths.actual],
-      cwd: 'cwd_includeself',
-      includeSelf: true
+      cwd: 'cwd'
     });
 
     assert.equal(filePaths.read('actual'), filePaths.read('expected'));
