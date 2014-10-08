@@ -10,7 +10,7 @@ var fs = require('fs');
 var args = [
   { short: 'h', full: 'help' },
   { short: 'v', full: 'version' },
-  { short: 'b', full: 'requireConfig' },
+  { short: 'c', full: 'requireConfig' },
   { short: 'd', full: 'directory' },
   { short: 'e', full: 'exclude' },
   { short: 'i', full: 'ignorePath' },
@@ -45,9 +45,9 @@ if (!argv.s && !argv.src) {
   return;
 }
 
-if (argv.b || argv.requireJson) {
+if (argv.c || argv.requireJson) {
   try {
-    argv.b = JSON.parse(fs.readFileSync(argv.b || argv.requireConfig));
+    argv.c = JSON.parse(fs.readFileSync(argv.c || argv.requireConfig));
   } catch (e) {}
 }
 
