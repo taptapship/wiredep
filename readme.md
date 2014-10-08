@@ -68,7 +68,7 @@ module.exports = config;
 
 There is two possibilities to inject config to you file:
 
-1. Target style by using require:target placeholder
+* Target style by using require:target placeholder
 
 ```js
 var config = {
@@ -77,7 +77,7 @@ var config = {
   }
 ```
 
-2. Property style by using require:target:property placeholder
+* Property style by using require:target:property placeholder
 
 ```js
 var config = {
