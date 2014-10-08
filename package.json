@@ -5,7 +5,7 @@
   "bin": {
     "require-wiredep": "./require-wiredep-cli.js"
   },
-  "description": "Require Wire configs to your source code.",
+  "description": "Inject require configs to your source code.",
   "repository": "Krzysztof-Padol/require-wiredep",
   "author": {
     "name": "Krzysztof Padol",

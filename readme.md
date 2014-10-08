@@ -113,6 +113,29 @@ main.js modified.
 * url_prefix_exclude - Exclude prefix for url consisting strings passed in array
 * url_postfix_exclude - Exclude postfix for url consisting strings passed in array
 
+
+### [Grunt](http://gruntjs.com)
+
+See [`grunt-require-wiredep`](https://github.com/Krzysztof-Padol/grunt-require-wiredep).
+
+## Command Line
+Install require-wiredep globally to wire up configs from the terminal.
+
+```sh
+$ npm install -g require-wiredep
+$ require-wiredep
+Inject require configs to your source code.
+
+Usage: $ require-wiredep [options]
+
+Options:
+  -h, --help         # Print usage information
+  -v, --version      # Print the version
+  -b, --requireJson    # Path to `require.json`
+  -s, --src          # Path to your source file
+```
+
+
 ## Contributing
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using `npm test`.
 
