@@ -57,12 +57,11 @@ var config = {
   }
 };
 
+module.exports = config;
+```
 Above you can see example config file for require-wiredep. 
 Config can contain many targets with configs. Main and required target is default,
 by using another targets we have possibility to extend default configuration.
-
-module.exports = config;
-```
 
 ## Insert placeholders in your code where your config will be injected
 
