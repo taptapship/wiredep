@@ -130,7 +130,7 @@ Usage: $ require-wiredep [options]
 Options:
   -h, --help         # Print usage information
   -v, --version      # Print the version
-  -b, --requireJson    # Path to `require.json`
+  -b, --requireUrl    # Path to `require-config.js`
   -s, --src          # Path to your source file
 ```
 

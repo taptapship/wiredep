@@ -25,7 +25,7 @@ function help() {
   console.log('Options:');
   console.log('  -h, --help         # Print usage information');
   console.log('  -v, --version      # Print the version');
-  console.log('  -b, --requireJson    # Path to `require.json`');
+  console.log('  -c, --requireConfig    # Path to `require-config.js`');
   console.log('  -s, --src          # Path to your source file');
 }
 
