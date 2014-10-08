@@ -87,7 +87,7 @@ var config = {
   }
 ```
 
-Let `require-wiredep` work its magic:
+## Let `require-wiredep` work its magic:
 
 ```bash
 $ node
@@ -95,6 +95,23 @@ $ node
 
 main.js modified.
 ```
+
+## Supported properties of require config
+
+* baseUrl
+* paths
+* packages
+* shim
+* priority
+* deps
+* callback
+
+## Additional properties
+
+* url_prefix - Add prefix to all url in config
+* url_postfix - Add postfix to all url in config
+* url_prefix_exclude - Exclude prefix for url consisting strings passed in array
+* url_postfix_exclude - Exclude postfix for url consisting strings passed in array
 
 ## Contributing
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using `npm test`.
