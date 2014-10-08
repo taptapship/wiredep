@@ -67,6 +67,7 @@ module.exports = config;
 ## Insert placeholders in your code where your config will be injected
 
 There is two possibilities to inject config to you file:
+
 1. Target style by using require:target placeholder
 
 ```js
