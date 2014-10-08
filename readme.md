@@ -8,16 +8,7 @@ Install the module with [npm](https://npmjs.org):
 $ npm install --save require-wiredep
 ```
 
-Insert placeholders in your code where your config will be injected:
-
-```js
-var config = {
-  //require:default
-  //endrequire
-  }
-```
-
-Prepare require-config.js file
+## Prepare require-config.js file
 
 ```js
 var config = {
@@ -47,7 +38,7 @@ var config = {
 
     "deps": ["/scripts/bootstrap.js"]
   },
-  "extend": {
+  extended: {
     "baseUrl": "/base/",
     "paths": {
       "Api": "scripts/services/Api",
@@ -66,7 +57,33 @@ var config = {
   }
 };
 
+Above you can see example config file for require-wiredep. 
+Config can contain many targets with configs. Main and required target is default,
+by using another targets we have possibility to extend default configuration.
+
 module.exports = config;
+```
+
+## Insert placeholders in your code where your config will be injected
+
+There is two possibilities to inject config to you file:
+1. Target style by using require:target placeholder
+
+```js
+var config = {
+  //require:default
+  //endrequire
+  }
+```
+
+2. Property style by using require:target:property placeholder
+
+```js
+var config = {
+  "paths":
+  //require:default:paths
+  //endrequire
+  }
 ```
 
 Let `require-wiredep` work its magic:
