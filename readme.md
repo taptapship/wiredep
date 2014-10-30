@@ -256,6 +256,18 @@ require('wiredep')({
       }
     },
 
+    styl: {
+      block: /(([ \t]*)\/\/\s*bower:*(\S*))(\n|\r|.)*?(\/\/\s*endbower)/gi,
+      detect: {
+        css: /@import\s['"](.+css)['"]/gi,
+        styl: /@import\s['"](.+styl)['"]/gi
+      },
+      replace: {
+        css: '@import "{{filePath}}"',
+        styl: '@import "{{filePath}}"'
+      }
+    },
+
     yaml: {
       block: /(([ \t]*)#\s*bower:*(\S*))(\n|\r|.)*?(#\s*endbower)/gi,
       detect: {
