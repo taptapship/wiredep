@@ -1,0 +1,150 @@
+_goldilocks ?= 30em
+_goldilocks_padding ?= 0.809em
+_grid_columns ?= 6
+_gutter_width ?= 1.2em
+_grid_expand_min_proportion ?= .2
+
+_base_size ?= 125%
+
+baby ?= s("screen and (max-width: %s)", ((_goldilocks + 4*_goldilocks_padding) * _base_size/100))
+mummy ?= s("screen and (min-width: %s) and (max-width: %s)", ((_goldilocks + 4*_goldilocks_padding) * _base_size/100), ((_goldilocks*2 + 4*_goldilocks_padding) * _base_size/100))
+daddy ?= s("screen and (min-width: %s)", ((_goldilocks + 4*_goldilocks_padding) * _base_size/100))
+daddyOnly ?= s("screen and (min-width: %s)", ((_goldilocks*2 + 4*_goldilocks_padding) * _base_size/100))
+
+_sequence_fibonacci ?= 0.6154 0.6154 0.6154 0.6154 1 1.6154 2.6154 3.6154 3.6154 3.6154
+_sequence_traditional ?= 0.666 0.75 0.8333 0.9167 1 1.1667 1.333 1.5 1.75 2 3 4 5 6
+_sequence_lecobusier ?= 0.6154 0.6154 0.6154 0.8077 1 1.3077 1.6154 2.1154 2.615 3.4231
+_sequence_center ?= 4
+
+_line_height ?= 1.6
+_typographic_scale ?= _sequence_traditional
+
+expand_for(size)
+  -kgs-expand-for size
+
+ignore_media_queries()
+  -kgs-ignore-media 1
+
+always_expand()
+  -kgs-always-expand 1
+
+container()
+  padding 0 unit(_goldilocks_padding, 'em') 0 unit(_goldilocks_padding, 'em')
+  max-width unit(_goldilocks, 'em')
+  margin auto
+
+  @media daddy
+    padding 0 unit(_goldilocks_padding*2, 'em') 0 unit(_goldilocks_padding*2, 'em')
+    margin-left auto
+    margin-right auto
+    max-width unit(_goldilocks*2, 'em')
+
+  @media mummy
+    width unit(_goldilocks, 'em')
+
+row(columns = _grid_columns)
+  clearfix()
+  display block
+  width 100%
+  padding 0
+  margin 0
+  @media daddy
+    _generate_row(2, columns)
+  @media mummy
+    _generate_row(1, _grid_columns) if @-kgs-expand-for == 'mummy'
+    _generate_row(1, columns) if @-kgs-expand-for != 'mummy'
+
+columns(span = 1)
+  float left
+  margin-right 0 unless @margin-right == 0
+  padding-left 0 unless @padding-left == 0
+  padding-right 0 unless @padding-right == 0
+
+  -kgs-always-expand 1 if @-kgs-expand-for is defined
+
+  if @-kgs-always-expand != 1 && span <= (_grid_columns * _grid_expand_min_proportion)
+    width round(((span / _grid_columns)*100)%)
+  else
+    width 100%
+
+  unless @-kgs-ignore-media == 1
+    &
+
+      @media daddy
+        _generate_column(span, 2)
+
+      @media mummy
+        // I can explain... well.. no..
+        // but doesn't work any other way...
+        margin-left 0 if @-kgs-expand-for == 'mummy'
+        box-sizing border-box if @-kgs-expand-for == 'mummy'
+        padding-left _gutter_width if @-kgs-expand-for == 'mummy'
+        width 100% if @-kgs-expand-for == 'mummy'
+        _generate_column(span) unless @-kgs-expand-for == 'mummy'
+
+offset(span = 1)
+  @media daddy
+    margin-left (_get_span_width(span, 2) + _gutter_width * 2)!important
+  @media mummy
+    margin-left (_get_span_width(span) + _gutter_width * 2)!important
+
+pull_right()
+  float right
+
+_get_column_width(size_multiple = 1)
+  ( (_goldilocks * size_multiple) - (_grid_columns - 1) * _gutter_width ) / (_grid_columns)
+
+_get_span_width(columns, size_multiple = 1)
+  columns * _get_column_width(size_multiple) + (columns - 1) * _gutter_width
+
+_generate_row(size_multiple = 1, columns = _grid_columns)
+  width (_get_span_width(columns, size_multiple) + _gutter_width)
+  margin-left (_gutter_width * -1)
+
+_generate_column(size, size_multiple = 1)
+  // Fix for unpredictable rounding in some browsers
+  width (_get_span_width(size, size_multiple) - 0.01em)
+  margin-left _gutter_width
+
+rotate(degrees)
+  transform 'rotate(%s)' % degrees
+
+scale(ratio)
+  transform 'scale(%s)' % ratio
+
+translate(x, y)
+  transform 'translate(%s, %s)' % (x y)
+
+skew(x, y)
+  transform 'skew(%s, %s)' % (x y)
+
+translate3d(x, y, z)
+  transform 'translate(%s, %s, %s)' % (x y z)
+
+html
+  font-size _base_size
+
+html, body
+  line-height _line_height
+
+/**
+ * Based upon http://lamb.cc/typograph/
+ */
+
+scale_type(position)
+  position = _sequence_center + position
+  font_size = (_typographic_scale[position])rem
+  line_height = unit(_line_height, '')
+
+  lines_req = font_size / line_height
+  if lines_req > .9 && lines_req < 1
+    lines_req = lines_req + 1
+  lines_req = ceil(lines_req)
+
+  font-size unit(font_size, 'em')
+  font-size unit(font_size, 'rem')
+  line-height (lines_req * _line_height)rem
+
+line_breaks(n = 1)
+  return (_line_height*n)rem
+

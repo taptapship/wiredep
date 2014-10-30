@@ -69,6 +69,7 @@ describe('wiredep', function () {
     it('should replace less after second run', testReplaceSecondRun('less'));
     it('should replace sass after second run', testReplaceSecondRun('sass'));
     it('should replace scss after second run', testReplaceSecondRun('scss'));
+    it('should replace styl after second run', testReplaceSecondRun('styl'));
     it('should replace yml after second run', testReplaceSecondRun('yml'));
   });
 
@@ -263,6 +264,7 @@ describe('wiredep', function () {
     assert.equal(typeof returnedObject.css, 'object');
     assert.equal(typeof returnedObject.less, 'object');
     assert.equal(typeof returnedObject.scss, 'object');
+    assert.equal(typeof returnedObject.styl, 'object');
     assert.equal(typeof returnedObject.packages, 'object');
   });
 
