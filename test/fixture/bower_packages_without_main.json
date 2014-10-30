@@ -8,7 +8,7 @@
   },
   "overrides": {
     "fake-package-with-override": {
-        "main": "dist/fake-package-with-override.js"
+      "main": "dist/fake-package-with-override.js"
     }
   }
 }

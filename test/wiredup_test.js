@@ -1,5 +1,5 @@
 /*jshint latedef:false */
-/*global after, describe, it */
+/*global after, describe, it, before, beforeEach */
 
 'use strict';
 
@@ -34,6 +34,14 @@ describe('wiredep', function () {
     it('should work with yml files', testReplace('yml'));
     it('should work with unrecognized file types', testReplace('unrecognized'));
     it('should correctly handle relative paths', testReplace('html/deep/nested'));
+
+    it('should detect and use quotation marks', function () {
+      var filePaths = getFilePaths('index-detect-quotation-marks', 'html');
+
+      wiredep({ src: [filePaths.actual] });
+
+      assert.equal(filePaths.read('expected'), filePaths.read('actual'));
+    });
 
     it('should support globbing', function () {
       wiredep({ src: ['html/index-actual.*', 'jade/index-actual.*'] });
@@ -72,6 +80,7 @@ describe('wiredep', function () {
     it('should replace less after second run', testReplaceSecondRun('less'));
     it('should replace sass after second run', testReplaceSecondRun('sass'));
     it('should replace scss after second run', testReplaceSecondRun('scss'));
+    it('should replace styl after second run', testReplaceSecondRun('styl'));
     it('should replace yml after second run', testReplaceSecondRun('yml'));
   });
 
@@ -193,21 +202,6 @@ describe('wiredep', function () {
   });
 
   describe('overrides', function () {
-    it('should not display a warning if a no-`main` package is excluded', function () {
-      var filePaths = getFilePaths('index-packages-without-main', 'html');
-
-      wiredep({
-        bowerJson: JSON.parse(fs.readFileSync('./bower_packages_without_main.json')),
-        src: [filePaths.actual],
-        exclude: ['fake-package-without-main-and-confusing-file-tree']
-      });
-
-      // If a package is excluded, don't display a warning.
-      assert.equal(wiredep.config.get('warnings').length, 0);
-
-      assert.equal(filePaths.read('expected'), filePaths.read('actual'));
-    });
-
     it('should allow configuration overrides to specify a `main`', function () {
       var filePaths = getFilePaths('index-packages-without-main', 'html');
       var bowerJson = JSON.parse(fs.readFileSync('./bower_packages_without_main.json'));
@@ -240,6 +234,64 @@ describe('wiredep', function () {
     });
   });
 
+  describe('events', function() {
+    var filePath = 'html/index-emitter.html';
+    var fileData;
+
+    before(function(done) {
+      fs.readFile(filePath, function(err, file) {
+        fileData = file;
+        done(err || null);
+      });
+    });
+
+    beforeEach(function(done) {
+      fs.writeFile(filePath, fileData, done);
+    });
+
+    it('should send injected file data', function(done) {
+      var injected = 0;
+      var paths = ['bootstrap.css', 'codecode.css', 'bootstrap.js', 'codecode.js', 'modernizr.js', 'jquery.js'];
+
+      wiredep({
+        src: filePath,
+        onPathInjected: function(file) {
+          assert(typeof file.block !== 'undefined');
+          assert.equal(file.file, filePath);
+          assert(paths.indexOf(file.path.split('/').pop()) > -1);
+
+          if (++injected === paths.length) {
+            done();
+          }
+        }
+      });
+    });
+
+    it('should send updated file path', function(done) {
+      wiredep({
+        src: filePath,
+        onFileUpdated: function(path) {
+          assert.equal(path, filePath);
+          done();
+        }
+      });
+    });
+
+    it('should send package name when main is not found', function(done) {
+      var bowerJson = JSON.parse(fs.readFileSync('./bower_packages_without_main.json'));
+      var packageWithoutMain = 'fake-package-without-main-and-confusing-file-tree';
+
+      wiredep({
+        bowerJson: bowerJson,
+        src: filePath,
+        onMainNotFound: function(pkg) {
+          assert.equal(pkg, packageWithoutMain);
+          done();
+        }
+      });
+    });
+  });
+
   it('should allow specifying a custom replace function', function () {
     var filePaths = getFilePaths('index-with-custom-replace-function', 'html');
 
@@ -266,6 +318,7 @@ describe('wiredep', function () {
     assert.equal(typeof returnedObject.css, 'object');
     assert.equal(typeof returnedObject.less, 'object');
     assert.equal(typeof returnedObject.scss, 'object');
+    assert.equal(typeof returnedObject.styl, 'object');
     assert.equal(typeof returnedObject.packages, 'object');
   });
 

@@ -177,6 +177,20 @@ require('wiredep')({
     // modifying your project's `bower.json` isn't an option.
   },
 
+  onFileUpdated: function(filePath) {
+    // filePath = 'name-of-file-that-was-updated'
+  },
+
+  onPathInjected: function(fileObject) {
+    // fileObject.block = 'type-of-wiredep-block' ('js', 'css', etc)
+    // fileObject.file = 'name-of-file-that-was-updated'
+    // fileObject.path = 'path-to-file-that-was-injected'
+  },
+
+  onMainNotFound: function(pkg) {
+    // pkg = 'name-of-bower-package-without-main'
+  },
+
   fileTypes: {
     fileExtension: {
       block: /match the beginning-to-end of a bower block in this type of file/,
@@ -253,6 +267,18 @@ require('wiredep')({
         css: '@import "{{filePath}}";',
         sass: '@import "{{filePath}}";',
         scss: '@import "{{filePath}}";'
+      }
+    },
+
+    styl: {
+      block: /(([ \t]*)\/\/\s*bower:*(\S*))(\n|\r|.)*?(\/\/\s*endbower)/gi,
+      detect: {
+        css: /@import\s['"](.+css)['"]/gi,
+        styl: /@import\s['"](.+styl)['"]/gi
+      },
+      replace: {
+        css: '@import "{{filePath}}"',
+        styl: '@import "{{filePath}}"'
       }
     },
 

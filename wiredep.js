@@ -3,7 +3,6 @@
 var $ = {
   _: require('lodash'),
   'bower-config': require('bower-config'),
-  chalk: require('chalk'),
   fs: require('fs'),
   glob: require('glob'),
   lodash: require('lodash'),
@@ -38,10 +37,12 @@ function wiredep(opts) {
     ('global-dependencies', helpers.createStore())
     ('ignore-path', opts.ignorePath)
     ('include-self', opts.includeSelf)
+    ('on-file-updated', opts.onFileUpdated || function() {})
+    ('on-main-not-found', opts.onMainNotFound || function() {})
+    ('on-path-injected', opts.onPathInjected || function() {})
     ('overrides', $._.extend({}, config.get('bower.json').overrides, opts.overrides))
     ('src', [])
-    ('stream', opts.stream ? opts.stream : {})
-    ('warnings', []);
+    ('stream', opts.stream ? opts.stream : {});
 
   $._.pluck(config.get('file-types'), 'detect').
     forEach(function (fileType) {
@@ -64,10 +65,6 @@ function wiredep(opts) {
 
   require('./lib/detect-dependencies')(config);
   require('./lib/inject-dependencies')(config);
-
-  if (config.get('warnings')) {
-    helpers.warn(config.get('warnings'));
-  }
 
   return config.get('stream').src ||
     Object.keys(config.get('global-dependencies-sorted')).
