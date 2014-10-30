@@ -295,6 +295,8 @@ require('wiredep')({
     }
 ```
 
+Using the ```ng-cloak``` AngularJS directive you could want inject angular.js in the ```<head>``` (as suggested in the [angular 1.2.26 doc](https://code.angularjs.org/1.2.26/docs/api/ng/directive/ngCloak)). To do this you need to properly exclude the angular folder from wiredep scope and manually inject it into the ```<head>```.
+
 
 ## Bower Overrides
 To override a property, or lack of, in one of your dependency's `bower.json` file, you may specify an `overrides` object in your own `bower.json`.
