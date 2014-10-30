@@ -32,6 +32,14 @@ describe('wiredep', function () {
     it('should work with unrecognized file types', testReplace('unrecognized'));
     it('should correctly handle relative paths', testReplace('html/deep/nested'));
 
+    it('should detect and use quotation marks', function () {
+      var filePaths = getFilePaths('index-detect-quotation-marks', 'html');
+
+      wiredep({ src: [filePaths.actual] });
+
+      assert.equal(filePaths.read('expected'), filePaths.read('actual'));
+    });
+
     it('should support globbing', function () {
       wiredep({ src: ['html/index-actual.*', 'jade/index-actual.*'] });
 
