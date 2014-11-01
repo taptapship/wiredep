@@ -197,13 +197,13 @@ require('wiredep')({
       detect: {
         typeOfBowerFile: /match the way this type of file is included/
       },
-      detectOutsideBlock: /if files are manually included outside the bower block setting this to false will add them to bower block too, default is true, which excludes it from bower block/
       replace: {
         typeOfBowerFile: '<format for this {{filePath}} to be injected>',
         anotherTypeOfBowerFile: function (filePath) {
           return '<script class="random-' + Math.random() + '" src="' + filePath + '"></script>';
         }
-      }
+      },
+      exclude: [] /list of files to be excluded from bower block/
     },
 
     // defaults:
