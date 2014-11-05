@@ -1,0 +1,8 @@
+{
+  "name": "fake-package-with-glob-main",
+  "version": "1.0.0",
+  "main": [
+    "app/*.js",
+    "app/**/*.js"
+  ]
+}
