@@ -367,6 +367,19 @@ describe('wiredep', function () {
 
     assert.equal(filePaths.read('actual'), filePaths.read('expected'));
   });
+
+  it('should support inclusion of glob main files from bower.json', function () {
+    var filePaths = getFilePaths('index-include-glob', 'html');
+
+    wiredep({
+      bowerJson: JSON.parse(fs.readFileSync('./glob_main/bower.json')),
+      src: [filePaths.actual],
+      cwd: 'glob_main'
+
+    });
+
+    assert.equal(filePaths.read('actual'), filePaths.read('expected'));
+  });
 });
 
 function getFilePaths(fileName, fileType) {
