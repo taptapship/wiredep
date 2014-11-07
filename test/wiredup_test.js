@@ -29,6 +29,7 @@ describe('wiredep', function () {
     it('should work with sass files', testReplace('sass'));
     it('should work with scss files', testReplace('scss'));
     it('should work with yml files', testReplace('yml'));
+    it('should work with slim files', testReplace('slim'));
     it('should work with unrecognized file types', testReplace('unrecognized'));
     it('should correctly handle relative paths', testReplace('html/deep/nested'));
 
@@ -41,7 +42,7 @@ describe('wiredep', function () {
     });
 
     it('should support globbing', function () {
-      wiredep({ src: ['html/index-actual.*', 'jade/index-actual.*'] });
+      wiredep({ src: ['html/index-actual.*', 'jade/index-actual.*', 'slim/index-actual.*'] });
 
       [
         {
@@ -51,6 +52,10 @@ describe('wiredep', function () {
         {
           actual: 'jade/index-actual.jade',
           expected: 'jade/index-expected.jade'
+        },
+        {
+          actual: 'slim/index-actual.slim',
+          expected: 'slim/index-expected.slim'
         }
       ].forEach(function (testObject) {
         assert.equal(
@@ -79,6 +84,7 @@ describe('wiredep', function () {
     it('should replace scss after second run', testReplaceSecondRun('scss'));
     it('should replace styl after second run', testReplaceSecondRun('styl'));
     it('should replace yml after second run', testReplaceSecondRun('yml'));
+    it('should replace slim after second run', testReplaceSecondRun('slim'));
   });
 
   describe('excludes', function () {
@@ -98,6 +104,7 @@ describe('wiredep', function () {
     it('should handle html with excludes specified', testReplaceWithExcludedSrc('html'));
     it('should handle jade with excludes specified', testReplaceWithExcludedSrc('jade'));
     it('should handle yml with excludes specified', testReplaceWithExcludedSrc('yml'));
+    it('should handle slim with excludes specified', testReplaceWithExcludedSrc('slim'));
   });
 
   describe('after uninstalls', function () {
@@ -119,6 +126,7 @@ describe('wiredep', function () {
 
       it('should work with html', testReplaceAfterUninstalledPackage('html'));
       it('should work with jade', testReplaceAfterUninstalledPackage('jade'));
+      it('should work with slim', testReplaceAfterUninstalledPackage('slim'));
     });
 
     describe('after uninstalling all packages', function () {
@@ -139,6 +147,7 @@ describe('wiredep', function () {
 
       it('should work with html', testReplaceAfterUninstallingAllPackages('html'));
       it('should work with jade', testReplaceAfterUninstallingAllPackages('jade'));
+      it('should work with slim', testReplaceAfterUninstallingAllPackages('slim'));
     });
   });
 
@@ -182,6 +191,16 @@ describe('wiredep', function () {
         }
       }
     }));
+
+    it('should work with slim', testReplaceWithCustomFormat('slim', {
+      slim: {
+        replace: {
+          js: 'script type=\'text/javascript\' src=\'{{filePath}}\'',
+          css: 'link href=\'{{filePath}}\' rel=\'stylesheet\''
+        }
+      }
+    }));
+
   });
 
   describe('devDependencies', function () {
