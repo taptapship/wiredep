@@ -10,6 +10,7 @@ var $ = {
   through2: require('through2')
 };
 
+var config;
 var helpers = require('./lib/helpers');
 var fileTypesDefault = require('./lib/default-file-types');
 
@@ -23,7 +24,13 @@ function wiredep(opts) {
 
   var cwd = opts.cwd ? $.path.resolve(opts.cwd) : process.cwd();
 
-  var config = module.exports.config = helpers.createStore();
+  config = module.exports.config = helpers.createStore();
+
+  config.set
+    ('on-error', opts.onError || function(err) { throw new Error(err); })
+    ('on-file-updated', opts.onFileUpdated || function() {})
+    ('on-main-not-found', opts.onMainNotFound || function() {})
+    ('on-path-injected', opts.onPathInjected || function() {});
 
   config.set
     ('bower.json', opts.bowerJson || JSON.parse($.fs.readFileSync($.path.join(cwd, './bower.json'))))
@@ -37,9 +44,6 @@ function wiredep(opts) {
     ('global-dependencies', helpers.createStore())
     ('ignore-path', opts.ignorePath)
     ('include-self', opts.includeSelf)
-    ('on-file-updated', opts.onFileUpdated || function() {})
-    ('on-main-not-found', opts.onMainNotFound || function() {})
-    ('on-path-injected', opts.onPathInjected || function() {})
     ('overrides', $._.extend({}, config.get('bower.json').overrides, opts.overrides))
     ('src', [])
     ('stream', opts.stream ? opts.stream : {});
@@ -99,9 +103,7 @@ function findBowerDirectory(cwd) {
   var directory = $.path.join(cwd, ($['bower-config'].read(cwd).directory || 'bower_components'));
 
   if (!$.fs.existsSync(directory)) {
-    console.log($.chalk.red.bold('Cannot find where you keep your Bower packages.'));
-
-    process.exit();
+    config.get('on-error')('Cannot find where you keep your Bower packages.');
   }
 
   return directory;

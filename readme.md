@@ -177,6 +177,12 @@ require('wiredep')({
     // modifying your project's `bower.json` isn't an option.
   },
 
+  onError: function(err) {
+    // err = Error object.
+
+    // If not overridden, an error will throw.
+  },
+
   onFileUpdated: function(filePath) {
     // filePath = 'name-of-file-that-was-updated'
   },
