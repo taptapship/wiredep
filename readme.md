@@ -150,7 +150,7 @@ You may also take advantage of Bower >=1.3.1's [hooks](https://github.com/bower/
 require('wiredep')({
   directory: 'the directory of your Bower packages.', // default: '.bowerrc'.directory || bower_components
   bowerJson: 'your bower.json file contents.',        // default: require('./bower.json')
-  src: ['filepaths', 'and/even/globs/*.html' 'to take', 'control of.'],
+  src: ['filepaths', 'and/even/globs/*.html', 'to take', 'control of.'],
 
   // ----- Advanced Configuration -----
   // All of the below settings are for advanced configuration, to
