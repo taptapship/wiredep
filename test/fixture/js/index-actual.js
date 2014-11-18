@@ -8,4 +8,8 @@ module.exports = function(config){
     // But just in case...
     // bower:css
     // endbower
+    "scripts/app/app.js"
+  ]; // END config.files
+  
+  // Mentioning bower inside a comment should have no effect.
 };
