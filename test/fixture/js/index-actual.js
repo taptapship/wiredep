@@ -4,12 +4,12 @@ module.exports = function(config){
     // These are the most important...
     // bower:js
     // endbower
-    
+
     // But just in case...
     // bower:css
     // endbower
     "scripts/app/app.js"
   ]; // END config.files
-  
+
   // Mentioning bower inside a comment should have no effect.
 };
