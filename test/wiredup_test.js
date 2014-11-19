@@ -5,7 +5,7 @@
 
 var fs = require('fs-extra');
 var path = require('path');
-var assert = require('assert');
+var assert = require('chai').assert;
 var wiredep = require('../wiredep');
 
 describe('wiredep', function () {
@@ -20,7 +20,10 @@ describe('wiredep', function () {
 
         wiredep({ src: [filePaths.actual] });
 
-        assert.equal(filePaths.read('expected'), filePaths.read('actual'));
+        assert.deepEqual(
+          filePaths.read('expected').split('\n'),
+          filePaths.read('actual').split('\n')
+        );
       };
     }
 

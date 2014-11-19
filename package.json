@@ -43,6 +43,7 @@
     "through2": "^0.6.1"
   },
   "devDependencies": {
+    "chai": "^1.10.0",
     "fs-extra": "^0.11.0",
     "jshint": "*",
     "mocha": "*"
