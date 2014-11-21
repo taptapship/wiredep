@@ -31,6 +31,7 @@ describe('wiredep', function () {
     it('should work with yml files', testReplace('yml'));
     it('should work with slim files', testReplace('slim'));
     it('should work with js files', testReplace('js'));
+    it('should work with haml files', testReplace('haml'));
     it('should work with unrecognized file types', testReplace('unrecognized'));
     it('should correctly handle relative paths', testReplace('html/deep/nested'));
 
@@ -43,7 +44,7 @@ describe('wiredep', function () {
     });
 
     it('should support globbing', function () {
-      wiredep({ src: ['html/index-actual.*', 'jade/index-actual.*', 'slim/index-actual.*'] });
+      wiredep({ src: ['html/index-actual.*', 'jade/index-actual.*', 'slim/index-actual.*', 'haml/index-actual.*'] });
 
       [
         {
@@ -57,6 +58,10 @@ describe('wiredep', function () {
         {
           actual: 'slim/index-actual.slim',
           expected: 'slim/index-expected.slim'
+        },
+        {
+          actual: 'haml/index-actual.haml',
+          expected: 'haml/index-expected.haml'
         }
       ].forEach(function (testObject) {
         assert.equal(
@@ -86,6 +91,7 @@ describe('wiredep', function () {
     it('should replace styl after second run', testReplaceSecondRun('styl'));
     it('should replace yml after second run', testReplaceSecondRun('yml'));
     it('should replace slim after second run', testReplaceSecondRun('slim'));
+    it('should replace haml after second run', testReplaceSecondRun('haml'));
   });
 
   describe('excludes', function () {
@@ -106,6 +112,7 @@ describe('wiredep', function () {
     it('should handle jade with excludes specified', testReplaceWithExcludedSrc('jade'));
     it('should handle yml with excludes specified', testReplaceWithExcludedSrc('yml'));
     it('should handle slim with excludes specified', testReplaceWithExcludedSrc('slim'));
+    it('should handle haml with excludes specified', testReplaceWithExcludedSrc('haml'));
   });
 
   describe('after uninstalls', function () {
@@ -128,6 +135,7 @@ describe('wiredep', function () {
       it('should work with html', testReplaceAfterUninstalledPackage('html'));
       it('should work with jade', testReplaceAfterUninstalledPackage('jade'));
       it('should work with slim', testReplaceAfterUninstalledPackage('slim'));
+      it('should work with haml', testReplaceAfterUninstalledPackage('haml'));
     });
 
     describe('after uninstalling all packages', function () {
@@ -149,6 +157,7 @@ describe('wiredep', function () {
       it('should work with html', testReplaceAfterUninstallingAllPackages('html'));
       it('should work with jade', testReplaceAfterUninstallingAllPackages('jade'));
       it('should work with slim', testReplaceAfterUninstallingAllPackages('slim'));
+      it('should work with haml', testReplaceAfterUninstallingAllPackages('haml'));
     });
   });
 
@@ -198,6 +207,15 @@ describe('wiredep', function () {
         replace: {
           js: 'script type=\'text/javascript\' src=\'{{filePath}}\'',
           css: 'link href=\'{{filePath}}\' rel=\'stylesheet\''
+        }
+      }
+    }));
+
+    it('should work with haml', testReplaceWithCustomFormat('haml', {
+      haml: {
+        replace: {
+          js: '%script{type:\'text/javascript\', src:\'{{filePath}}\'}',
+          css: '%link{href:\'{{filePath}}\', rel:\'stylesheet\'}'
         }
       }
     }));
