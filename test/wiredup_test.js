@@ -25,7 +25,16 @@ describe('wiredep', function () {
     }
 
     it('should work with html files', testReplace('html'));
-    it('should work with jade files', testReplace('jade'));
+    it('should work with jade files (buffered comments)', testReplace('jade'));
+
+    it('should work with jade files (unbuffered comments)', function () {
+      var filePaths = getFilePaths('index-unbuffered-comments', 'jade');
+
+      wiredep({ src: [filePaths.actual] });
+
+      assert.equal(filePaths.read('expected'), filePaths.read('actual'));
+    });
+
     it('should work with sass files', testReplace('sass'));
     it('should work with scss files', testReplace('scss'));
     it('should work with yml files', testReplace('yml'));
