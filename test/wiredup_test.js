@@ -30,6 +30,7 @@ describe('wiredep', function () {
     it('should work with scss files', testReplace('scss'));
     it('should work with yml files', testReplace('yml'));
     it('should work with slim files', testReplace('slim'));
+    it('should work with js files', testReplace('js'));
     it('should work with unrecognized file types', testReplace('unrecognized'));
     it('should correctly handle relative paths', testReplace('html/deep/nested'));
 
