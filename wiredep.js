@@ -45,6 +45,7 @@ function wiredep(opts) {
     ('ignore-path', opts.ignorePath)
     ('include-self', opts.includeSelf)
     ('overrides', $._.extend({}, config.get('bower.json').overrides, opts.overrides))
+    ('routes', opts.routes || {})
     ('src', [])
     ('stream', opts.stream ? opts.stream : {});
 

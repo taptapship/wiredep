@@ -197,6 +197,10 @@ require('wiredep')({
     // pkg = 'name-of-bower-package-without-main'
   },
 
+  routes: {
+    // "../bower_components": "/lib"
+  }
+
   fileTypes: {
     fileExtension: {
       block: /match the beginning-to-end of a bower block in this type of file/,

@@ -278,6 +278,21 @@ describe('wiredep', function () {
     });
   });
 
+  describe('routes', function () {
+    it('should do url rewriting if asked', function () {
+      var filePaths = getFilePaths('index-with-routes', 'html');
+
+      wiredep({
+        src: [filePaths.actual],
+        routes: {
+          "../bower_components": "/lib"
+        }
+      });
+
+      assert.equal(filePaths.read('expected'), filePaths.read('actual'));
+    });
+  });
+
   describe('events', function() {
     var filePath = 'html/index-emitter.html';
     var fileData;
