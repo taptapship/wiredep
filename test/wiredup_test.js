@@ -262,6 +262,30 @@ describe('wiredep', function () {
       assert.equal(filePaths.read('expected'), filePaths.read('actual'));
     });
 
+    it('should allow configuration overrides to specify a `main` with environment-specific files', function() {
+      var filePaths = {
+        development: getFilePaths('index-packages-development', 'html'),
+        production: getFilePaths('index-packages-production', 'html')
+      };
+
+      var bowerJson = JSON.parse(fs.readFileSync('./bower_packages_with_environment_specific_main.json'));
+      var overrides = bowerJson.overrides;
+
+
+      delete bowerJson.overrides;
+
+      for (var env in filePaths) {
+        wiredep({
+          bowerJson: bowerJson,
+          overrides: overrides,
+          env: env,
+          src: [filePaths[env].actual]
+        });
+
+        assert.equal(filePaths[env].read('expected'), filePaths[env].read('actual'));
+      }
+    });
+
     it('should allow configuration overrides to specify `dependencies`', function () {
       var filePaths = getFilePaths('index-override-dependencies', 'html');
       var bowerJson = JSON.parse(fs.readFileSync('./bower_packages_without_dependencies.json'));
