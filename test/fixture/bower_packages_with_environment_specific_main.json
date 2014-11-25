@@ -1,0 +1,15 @@
+{
+  "name": "wiredep-test",
+  "version": "0.0.0",
+  "dependencies": {
+    "fake-package-without-dependencies": "1.0.0"
+  },
+  "overrides": {
+    "fake-package-without-dependencies": {
+      "main": {
+        "development": "fake-package-without-dependencies.js",
+        "production": "fake-package-without-dependencies.min.js"
+      }
+    }
+  }
+}
