@@ -11,7 +11,10 @@ var wiredep = require('../wiredep');
 describe('wiredep', function () {
   fs.copySync('test/fixture', '.tmp');
   process.chdir('.tmp');
-  after(fs.remove.bind({}, '../.tmp'));
+  after(function() {
+    process.chdir('../');
+    fs.remove.bind({}, '.tmp');
+  });
 
   describe('replace functionality', function () {
     function testReplace(fileType) {
