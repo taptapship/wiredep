@@ -166,6 +166,8 @@ require('wiredep')({
   devDependencies: true, // default: false
   includeSelf: true,     // default: false
 
+  detectableFileTypes: ['eot', 'ttf'], // default: []
+
   exclude: [ /jquery/, 'bower_components/modernizr/modernizr.js' ],
 
   ignorePath: /string or regexp to ignore from the injected filepath/,
