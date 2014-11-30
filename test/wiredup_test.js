@@ -366,6 +366,23 @@ describe('wiredep', function () {
     assert.equal(typeof returnedObject.packages, 'object');
   });
 
+  it('should return a useful object with extra detectable types specified', function () {
+    var returnedObject = wiredep({
+      detectableFileTypes: ['otf', 'eot', 'svg', 'ttf', 'woff']
+    });
+
+    assert.equal(typeof returnedObject.js, 'object');
+    assert.equal(typeof returnedObject.css, 'object');
+    assert.equal(typeof returnedObject.less, 'object');
+    assert.equal(typeof returnedObject.scss, 'object');
+    assert.equal(typeof returnedObject.styl, 'object');
+    assert.equal(typeof returnedObject.eot, 'object');
+    assert.equal(typeof returnedObject.svg, 'object');
+    assert.equal(typeof returnedObject.ttf, 'object');
+    assert.equal(typeof returnedObject.woff, 'object');
+    assert.equal(typeof returnedObject.packages, 'object');
+  });
+
   it('should respect the directory specified in a `.bowerrc`', function () {
     var filePaths = getFilePaths('index-with-custom-bower-directory', 'html');
 

@@ -37,7 +37,7 @@ function wiredep(opts) {
     ('bower-directory', opts.directory || findBowerDirectory(cwd))
     ('cwd', cwd)
     ('dependencies', opts.dependencies === false ? false : true)
-    ('detectable-file-types', [])
+    ('detectable-file-types', opts.detectableFileTypes || [])
     ('dev-dependencies', opts.devDependencies)
     ('exclude', Array.isArray(opts.exclude) ? opts.exclude : [ opts.exclude ])
     ('file-types', mergeFileTypesWithDefaults(opts.fileTypes))
