@@ -334,6 +334,20 @@ describe('wiredep', function () {
         }
       });
     });
+
+    it('should send package name when component is not found', function(done) {
+      var bowerJson = JSON.parse(fs.readFileSync('./bower_with_missing_component.json'));
+      var missingComponent = 'missing-component';
+
+      wiredep({
+        bowerJson: bowerJson,
+        src: filePath,
+        onComponentNotFound: function(pkg) {
+          assert.equal(pkg, missingComponent);
+          done();
+        }
+      });
+    });
   });
 
   it('should allow specifying a custom replace function', function () {
