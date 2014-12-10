@@ -29,6 +29,9 @@ function wiredep(opts) {
   config.set
     ('on-error', opts.onError || function(err) { throw new Error(err); })
     ('on-file-updated', opts.onFileUpdated || function() {})
+    ('on-component-not-found', opts.onComponentNotFound || function(pkg) {
+        throw new Error(''+pkg+' was not found; did you forget to run "bower install"?');
+    })
     ('on-main-not-found', opts.onMainNotFound || function() {})
     ('on-path-injected', opts.onPathInjected || function() {});
 

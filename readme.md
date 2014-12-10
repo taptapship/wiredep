@@ -197,6 +197,10 @@ require('wiredep')({
     // pkg = 'name-of-bower-package-without-main'
   },
 
+  onComponentNotFound: function(pkg) {
+    // console.log('component: ' + pkg + ' not found, did you install it?');
+  },
+
   fileTypes: {
     fileExtension: {
       block: /match the beginning-to-end of a bower block in this type of file/,
