@@ -1,0 +1,16 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>test.</title>
+  <script src="../bower_components/modernizr/modernizr.js"></script>
+  <link rel="stylesheet" href="../bower_components/bootstrap/dist/css/bootstrap.css" />
+  <!-- bower:css -->
+  <!-- endbower -->
+</head>
+<body>
+  <?php echo 'Hello, World!'; ?>
+  <!-- bower:js -->
+  <!-- endbower -->
+</body>
+</html>
