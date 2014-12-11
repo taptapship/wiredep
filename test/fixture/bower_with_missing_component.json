@@ -1,0 +1,7 @@
+{
+  "name": "wiredep-test",
+  "version": "0.0.0",
+  "dependencies": {
+    "missing-component": "1.0.0"
+  }
+}

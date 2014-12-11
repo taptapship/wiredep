@@ -334,6 +334,22 @@ describe('wiredep', function () {
         }
       });
     });
+
+    it('should throw an error when component is not found', function(done) {
+      var bowerJson = JSON.parse(fs.readFileSync('./bower_with_missing_component.json'));
+      var missingComponent = 'missing-component';
+
+      try {
+        wiredep({
+          bowerJson: bowerJson,
+          src: filePath
+        });
+      } catch (err) {
+        assert.ok(err instanceof Error);
+        assert.equal(err.message, missingComponent+' is not installed. Try running `bower install`.');
+        done();
+      }
+    });
   });
 
   it('should allow specifying a custom replace function', function () {
