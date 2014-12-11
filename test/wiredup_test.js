@@ -335,20 +335,31 @@ describe('wiredep', function () {
       });
     });
 
-    it('should throw an error when component is not found', function(done) {
+    it('should throw an error when component is not found', function() {
       var bowerJson = JSON.parse(fs.readFileSync('./bower_with_missing_component.json'));
       var missingComponent = 'missing-component';
 
-      try {
+      assert.throws(function () {
         wiredep({
           bowerJson: bowerJson,
           src: filePath
         });
-      } catch (err) {
-        assert.ok(err instanceof Error);
-        assert.equal(err.message, missingComponent+' is not installed. Try running `bower install`.');
-        done();
-      }
+      }, missingComponent + ' is not installed. Try running `bower install`.');
+    });
+
+    it('should allow overriding the error when component is not found', function(done) {
+      var bowerJson = JSON.parse(fs.readFileSync('./bower_with_missing_component.json'));
+      var missingComponent = 'missing-component';
+
+      wiredep({
+        bowerJson: bowerJson,
+        src: filePath,
+        onError: function(err) {
+          assert.ok(err instanceof Error);
+          assert.equal(err.message, missingComponent + ' is not installed. Try running `bower install`.');
+          done();
+        }
+      });
     });
   });
 
