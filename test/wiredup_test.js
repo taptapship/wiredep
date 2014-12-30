@@ -356,7 +356,7 @@ describe('wiredep', function () {
         src: filePath,
         onError: function(err) {
           assert.ok(err instanceof Error);
-          assert.equal(err.message, missingComponent + ' is not installed. Try running `bower install`.');
+          assert.equal(err.message, missingComponent + ' is not installed. Try running `bower install` or remove the component from your bower.json file.');
           done();
         }
       });
