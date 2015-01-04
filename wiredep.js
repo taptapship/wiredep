@@ -85,7 +85,8 @@ function mergeFileTypesWithDefaults(optsFileTypes) {
   var fileTypes = $._.clone(fileTypesDefault, true);
 
   $._(optsFileTypes).each(function (fileTypeConfig, fileType) {
-    fileTypes[fileType] = fileTypes[fileType] || {};
+    // fallback to the default type for all html-like extensions (php, twig, hbs, etc)
+    fileTypes[fileType] = fileTypes[fileType] || fileTypes['default'];
     $._.each(fileTypeConfig, function (config, configKey) {
       if ($._.isPlainObject(fileTypes[fileType][configKey])) {
         fileTypes[fileType][configKey] =
