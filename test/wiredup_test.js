@@ -347,7 +347,7 @@ describe('wiredep', function () {
           bowerJson: bowerJson,
           src: filePath
         });
-      }, missingComponent + ' is not installed. Try running `bower install`.');
+      }, missingComponent + ' is not installed. Try running `bower install` or remove the component from your bower.json file.');
     });
 
     it('should allow overriding the error when component is not found', function(done) {
