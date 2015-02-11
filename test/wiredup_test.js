@@ -5,7 +5,7 @@
 
 var fs = require('fs-extra');
 var path = require('path');
-var assert = require('assert');
+var assert = require('chai').assert;
 var wiredep = require('../wiredep');
 
 describe('wiredep', function () {
@@ -23,7 +23,10 @@ describe('wiredep', function () {
 
         wiredep({ src: [filePaths.actual] });
 
-        assert.equal(filePaths.read('expected'), filePaths.read('actual'));
+        assert.deepEqual(
+          filePaths.read('expected').split('\n'),
+          filePaths.read('actual').split('\n')
+        );
       };
     }
 
@@ -333,6 +336,33 @@ describe('wiredep', function () {
         src: filePath,
         onMainNotFound: function(pkg) {
           assert.equal(pkg, packageWithoutMain);
+          done();
+        }
+      });
+    });
+
+    it('should throw an error when component is not found', function() {
+      var bowerJson = JSON.parse(fs.readFileSync('./bower_with_missing_component.json'));
+      var missingComponent = 'missing-component';
+
+      assert.throws(function () {
+        wiredep({
+          bowerJson: bowerJson,
+          src: filePath
+        });
+      }, missingComponent + ' is not installed. Try running `bower install` or remove the component from your bower.json file.');
+    });
+
+    it('should allow overriding the error when component is not found', function(done) {
+      var bowerJson = JSON.parse(fs.readFileSync('./bower_with_missing_component.json'));
+      var missingComponent = 'missing-component';
+
+      wiredep({
+        bowerJson: bowerJson,
+        src: filePath,
+        onError: function(err) {
+          assert.ok(err instanceof Error);
+          assert.equal(err.message, missingComponent + ' is not installed. Try running `bower install` or remove the component from your bower.json file.');
           done();
         }
       });

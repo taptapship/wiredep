@@ -103,7 +103,9 @@ function findBowerDirectory(cwd) {
   var directory = $.path.join(cwd, ($['bower-config'].read(cwd).directory || 'bower_components'));
 
   if (!$.fs.existsSync(directory)) {
-    config.get('on-error')('Cannot find where you keep your Bower packages.');
+    var error = new Error('Cannot find where you keep your Bower packages.');
+    error.code = 'BOWER_COMPONENTS_MISSING';
+    config.get('on-error')(error);
   }
 
   return directory;

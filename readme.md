@@ -178,9 +178,12 @@ require('wiredep')({
   },
 
   onError: function(err) {
-    // err = Error object.
-
     // If not overridden, an error will throw.
+    
+    // err = Error object.
+    // err.code can be:
+    //   - "PKG_NOT_INSTALLED" (a Bower package was not found)
+    //   - "BOWER_COMPONENTS_MISSING" (cannot find the `bower_components` directory)
   },
 
   onFileUpdated: function(filePath) {
