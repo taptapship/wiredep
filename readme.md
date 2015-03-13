@@ -1,7 +1,6 @@
 # wiredep
 > Wire dependencies to your source code.
 
-
 ## Getting Started
 Install the module with [npm](https://npmjs.org):
 
@@ -9,7 +8,7 @@ Install the module with [npm](https://npmjs.org):
 $ npm install --save wiredep
 ```
 
-Install your [bower](http://bower.io) dependencies (if you haven't already):
+Install your [Bower](http://bower.io) dependencies (if you haven't already):
 
 ```bash
 $ bower install --save jquery
@@ -61,6 +60,18 @@ index.html modified.
 </html>
 ```
 
+## How it Works
+Installing a Bower package with `--save` will add the package as a `dependency` in your project's `bower.json` file. This library reads that file, then reads the `bower.json` files for each of those dependencies. Based on these connections, it determines the order your scripts must be included before injecting them between placeholders in your source code.
+
+## What can go wrong?
+
+  - A Bower package may not properly list its `dependencies` in its bower.json file.
+
+  - A Bower package may not specify a `main` property in its bower.json file.
+
+In both of these cases, it is most helpful to send a PR to the offending repository with a solution. This isn't just a fix for wiredep, but for other tools which conform to the Bower specification. Most often it's just an author's oversight, so they will welcome the contribution and clarity.
+
+If that solution doesn't work, you can get around these problems by [overriding properties](#bower-overrides).
 
 ## Build Chain Integration
 
