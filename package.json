@@ -25,11 +25,7 @@
     "wiredep.js",
     "wiredep-cli.js"
   ],
-  "licenses": [
-    {
-      "type": "MIT"
-    }
-  ],
+  "license": "MIT",
   "scripts": {
     "test": "jshint *.js lib/*.js test/*.js && NODE_ENV=test mocha -R spec"
   },
