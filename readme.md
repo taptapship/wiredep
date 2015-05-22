@@ -319,7 +319,7 @@ require('wiredep')({
 ## Bower Overrides
 To override a property, or lack of, in one of your dependency's `bower.json` file, you may specify an `overrides` object in your own `bower.json`.
 
-As an example, this is what your `bower.json` may look like if you wanted to override `package-without-main`'s `main` file:
+As an example, this is what your `bower.json` may look like if you wanted to override `package-without-main`'s `main` file (the path is relative to your dependency's folder):
 
 ```js
 {
