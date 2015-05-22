@@ -1,5 +1,5 @@
 # wiredep
-> Wire dependencies to your source code.
+> Wire Bower dependencies to your source code.
 
 ## Getting Started
 Install the module with [npm](https://npmjs.org):
