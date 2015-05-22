@@ -44,6 +44,8 @@ describe('wiredep', function () {
     it('should work with slim files', testReplace('slim'));
     it('should work with js files', testReplace('js'));
     it('should work with haml files', testReplace('haml'));
+    it('should work with PHP files', testReplace('php'));
+    it('should work with Twig files', testReplace('twig'));
     it('should work with unrecognized file types', testReplace('unrecognized'));
     it('should correctly handle relative paths', testReplace('html/deep/nested'));
 
@@ -56,7 +58,14 @@ describe('wiredep', function () {
     });
 
     it('should support globbing', function () {
-      wiredep({ src: ['html/index-actual.*', 'jade/index-actual.*', 'slim/index-actual.*', 'haml/index-actual.*'] });
+      wiredep({ src: [
+        'html/index-actual.*',
+        'jade/index-actual.*',
+        'slim/index-actual.*',
+        'haml/index-actual.*',
+        'php/index-actual.*',
+        'twig/index-actual.*'
+      ] });
 
       [
         {
@@ -74,6 +83,14 @@ describe('wiredep', function () {
         {
           actual: 'haml/index-actual.haml',
           expected: 'haml/index-expected.haml'
+        },
+        {
+          actual: 'php/index-actual.php',
+          expected: 'php/index-expected.php'
+        },
+        {
+          actual: 'twig/index-actual.twig',
+          expected: 'twig/index-expected.twig'
         }
       ].forEach(function (testObject) {
         assert.equal(
@@ -104,6 +121,8 @@ describe('wiredep', function () {
     it('should replace yml after second run', testReplaceSecondRun('yml'));
     it('should replace slim after second run', testReplaceSecondRun('slim'));
     it('should replace haml after second run', testReplaceSecondRun('haml'));
+    it('should replace PHP after second run', testReplaceSecondRun('php'));
+    it('should replace Twig after second run', testReplaceSecondRun('twig'));
   });
 
   describe('excludes', function () {
@@ -125,6 +144,8 @@ describe('wiredep', function () {
     it('should handle yml with excludes specified', testReplaceWithExcludedSrc('yml'));
     it('should handle slim with excludes specified', testReplaceWithExcludedSrc('slim'));
     it('should handle haml with excludes specified', testReplaceWithExcludedSrc('haml'));
+    it('should handle PHP with excludes specified', testReplaceWithExcludedSrc('php'));
+    it('should handle Twig with excludes specified', testReplaceWithExcludedSrc('twig'));
   });
 
   describe('after uninstalls', function () {
@@ -148,6 +169,8 @@ describe('wiredep', function () {
       it('should work with jade', testReplaceAfterUninstalledPackage('jade'));
       it('should work with slim', testReplaceAfterUninstalledPackage('slim'));
       it('should work with haml', testReplaceAfterUninstalledPackage('haml'));
+      it('should work with PHP', testReplaceAfterUninstalledPackage('php'));
+      it('should work with Twig', testReplaceAfterUninstalledPackage('twig'));
     });
 
     describe('after uninstalling all packages', function () {
@@ -170,6 +193,8 @@ describe('wiredep', function () {
       it('should work with jade', testReplaceAfterUninstallingAllPackages('jade'));
       it('should work with slim', testReplaceAfterUninstallingAllPackages('slim'));
       it('should work with haml', testReplaceAfterUninstallingAllPackages('haml'));
+      it('should work with PHP', testReplaceAfterUninstallingAllPackages('php'));
+      it('should work with Twig', testReplaceAfterUninstallingAllPackages('twig'));
     });
   });
 
@@ -228,6 +253,24 @@ describe('wiredep', function () {
         replace: {
           js: '%script{type:\'text/javascript\', src:\'{{filePath}}\'}',
           css: '%link{href:\'{{filePath}}\', rel:\'stylesheet\'}'
+        }
+      }
+    }));
+
+    it('should work with PHP', testReplaceWithCustomFormat('php', {
+      php: {
+        replace: {
+          js: '<script type="text/javascript" src="{{filePath}}"></script>',
+          css: '<link href="{{filePath}}" rel="stylesheet">'
+        }
+      }
+    }));
+
+    it('should work with Twig', testReplaceWithCustomFormat('twig', {
+      twig: {
+        replace: {
+          js: '<script type="text/javascript" src="{{filePath}}"></script>',
+          css: '<link href="{{filePath}}" rel="stylesheet">'
         }
       }
     }));
