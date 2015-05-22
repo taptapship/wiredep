@@ -1,5 +1,5 @@
 # wiredep
-> Wire Bower dependencies to your source code.
+> Wire [Bower](http://bower.io) dependencies to your source code.
 
 ## Getting Started
 Install the module with [npm](https://npmjs.org):
@@ -8,7 +8,7 @@ Install the module with [npm](https://npmjs.org):
 $ npm install --save wiredep
 ```
 
-Install your [Bower](http://bower.io) dependencies (if you haven't already):
+Install your dependencies (if you haven't already):
 
 ```bash
 $ bower install --save jquery
