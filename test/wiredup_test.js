@@ -281,6 +281,23 @@ describe('wiredep', function () {
     });
   });
 
+  describe('include', function() {
+    it('should allow configuration include to specify a `main`', function() {
+      var filePaths = getFilePaths('index-include', 'html');
+      var bowerJson = JSON.parse(fs.readFileSync('./bower_packages_with_include.json'));
+      var include = bowerJson.include;
+      delete bowerJson.include;
+
+      wiredep({
+        bowerJson: bowerJson,
+        include: include,
+        src: [filePaths.actual]
+      });
+
+      assert.equal(filePaths.read('expected'), filePaths.read('actual'));
+    });
+  });
+
   describe('events', function() {
     var filePath = 'html/index-emitter.html';
     var fileData;

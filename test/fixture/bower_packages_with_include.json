@@ -1,0 +1,14 @@
+{
+  "name": "wiredep-test",
+  "version": "0.0.0",
+  "dependencies": {
+    "codecode": "0.0.3",
+    "bootstrap": "3.0.0",
+    "fake-package": "1.0.0"
+  },
+  "include": {
+    "fake-package": {
+      "main": ["themes/fake-theme.css"]
+    }
+  }
+}

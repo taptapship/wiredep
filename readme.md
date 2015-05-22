@@ -188,9 +188,16 @@ require('wiredep')({
     // modifying your project's `bower.json` isn't an option.
   },
 
+  includes: {
+    // see `Bower Includes` section below.
+    //
+    // This inline object offers a way to include files if modifying your
+    // project's `bower.json` isn't an option.
+  },
+
   onError: function(err) {
     // If not overridden, an error will throw.
-    
+
     // err = Error object.
     // err.code can be:
     //   - "PKG_NOT_INSTALLED" (a Bower package was not found)
@@ -330,6 +337,28 @@ As an example, this is what your `bower.json` may look like if you wanted to ove
   "overrides": {
     "package-without-main": {
       "main": "dist/package-without-main.js"
+    }
+  }
+}
+```
+
+
+## Bower Include
+To include a property, or list of properties, in one of your dependency's
+`bower.json` file, you may specify an `include` object in your own `bower.json`.
+
+As an example, this is what your `bower.json` may look like if you wanted to
+override `package`'s `main` file:
+
+```js
+{
+  ...
+  "dependencies": {
+    "package": "1.0.0"
+  },
+  "include": {
+    "package": {
+      "main": "theme/package-theme.css"
     }
   }
 }
