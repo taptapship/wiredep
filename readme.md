@@ -222,7 +222,8 @@ require('wiredep')({
         anotherTypeOfBowerFile: function (filePath) {
           return '<script class="random-' + Math.random() + '" src="' + filePath + '"></script>';
         }
-      }
+      },
+      exclude: [] /list of files to be excluded from bower block/
     },
 
     // defaults:
