@@ -30,17 +30,16 @@
     "test": "jshint *.js lib/*.js test/*.js && NODE_ENV=test mocha -R spec"
   },
   "dependencies": {
-    "bower-config": "^0.5.0",
-    "chalk": "^0.5.1",
-    "glob": "^4.0.5",
-    "lodash": "^2.4.1",
-    "minimist": "^1.1.0",
+    "bower-config": "^0.6.1",
+    "chalk": "^1.0.0",
+    "glob": "^5.0.10",
+    "lodash": "^3.9.3",
+    "minimist": "^1.1.1",
     "propprop": "^0.3.0",
-    "through2": "^0.6.1"
+    "through2": "^2.0.0"
   },
   "devDependencies": {
-    "chai": "^1.10.0",
-    "fs-extra": "^0.11.0",
+    "fs-extra": "^0.19.0",
     "jshint": "*",
     "mocha": "*"
   }
