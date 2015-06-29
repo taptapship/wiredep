@@ -298,7 +298,7 @@ describe('wiredep', function () {
 
     it('should send injected file data', function(done) {
       var injected = 0;
-      var paths = ['bootstrap.css', 'codecode.css', 'bootstrap.js', 'codecode.js', 'modernizr.js', 'jquery.js'];
+      var paths = ['bootstrap.css', 'codecode.css', 'bootstrap.js', 'codecode.js', 'jquery.js'];
 
       wiredep({
         src: filePath,

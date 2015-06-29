@@ -1,11 +1,10 @@
 src_css_files:
-  - "../bower_components/bootstrap/dist/css/bootstrap.css"
   # bower:css
   - "../bower_components/codecode/dist/codecode.css" #css
+  - "../bower_components/bootstrap/dist/css/bootstrap.css" #css
   # endbower
 
 src_js_files:
-  - "../bower_components/modernizr/modernizr.js"
   # bower:js
   - "../bower_components/jquery/jquery.js"
   - "../bower_components/codecode/dist/codecode.js"

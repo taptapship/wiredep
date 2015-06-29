@@ -2,7 +2,6 @@
   "name": "wiredep-test",
   "version": "0.0.0",
   "dependencies": {
-    "modernizr": "2.6.2",
     "codecode": "0.0.3",
     "bootstrap": "3.0.0",
     "modular-scale": "2.0.3",

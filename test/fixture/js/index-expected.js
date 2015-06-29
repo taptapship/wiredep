@@ -4,7 +4,6 @@ module.exports = function(config){
     // These are the most important...
     // bower:js
     "../bower_components/jquery/jquery.js",
-    "../bower_components/modernizr/modernizr.js",
     "../bower_components/codecode/dist/codecode.js",
     "../bower_components/bootstrap/dist/js/bootstrap.js",
     // endbower
