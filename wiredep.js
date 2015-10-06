@@ -49,8 +49,7 @@ function wiredep(opts) {
     ('stream', opts.stream ? opts.stream : {})
     ('overrideMainWithMinified', opts.overrideMainWithMinified === true ? true :false);
     
-    console.log('overrideMainWithMinified : '+config.get('overrideMainWithMinified'));
-
+    
   $._.pluck(config.get('file-types'), 'detect').
     forEach(function (fileType) {
       Object.keys(fileType).
