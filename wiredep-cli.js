@@ -55,6 +55,7 @@ if (!argv.s && !argv.src) {
 if (argv.b || argv.bowerJson) {
   try {
     argv.bowerJson = JSON.parse(fs.readFileSync(argv.b || argv.bowerJson));
+    delete argv.b;
   } catch (e) {}
 }
 

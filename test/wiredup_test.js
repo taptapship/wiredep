@@ -27,6 +27,17 @@ describe('wiredep', function () {
       };
     }
 
+    function testReplaceCli(args, filePaths) {
+
+      process.argv = args;
+      require('../wiredep-cli');
+
+      assert.deepEqual(
+        filePaths.read('expected').split('\n'),
+        filePaths.read('actual').split('\n')
+      );
+    }
+
     it('should work with html files', testReplace('html'));
     it('should work with jade files (buffered comments)', testReplace('jade'));
 
@@ -81,6 +92,25 @@ describe('wiredep', function () {
           fs.readFileSync(testObject.expected, { encoding: 'utf8' })
         );
       });
+    });
+
+    describe('wiredep-cli', function () {
+
+      beforeEach(function () {
+        // this is required to preven require from caching the CLI script
+        delete require.cache[require.resolve('../wiredep-cli')];
+      });
+
+      it('should work with html and extra parameters, long notation', function() {
+        var filePaths = getFilePaths('index', 'html');
+        testReplaceCli(['foo', 'bar', '--src', filePaths.actual, '--bowerJson', 'bower.json'], filePaths);
+      });
+
+      it('should work with html and extra parameters, short notation', function() {
+        var filePaths = getFilePaths('index', 'html');
+        testReplaceCli(['foo', 'bar', '-s', filePaths.actual, '-b', 'bower.json'], filePaths);
+      });
+
     });
   });
 
