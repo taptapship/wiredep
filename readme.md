@@ -1,3 +1,8 @@
+# :warning: Unmaintained
+
+I (@stephenplusplus) cannot make the appropriate time for this project anymore. If you would like to help contribute, please look over the issues and PRs. I'm sure a lot of people would appreciate it. I'll glady hand over the keys to merge and release.
+
+
 # wiredep
 > Wire [Bower](http://bower.io) dependencies to your source code.
 
