@@ -46,8 +46,10 @@ function wiredep(opts) {
     ('include-self', opts.includeSelf)
     ('overrides', $._.extend({}, config.get('bower.json').overrides, opts.overrides))
     ('src', [])
-    ('stream', opts.stream ? opts.stream : {});
-
+    ('stream', opts.stream ? opts.stream : {})
+    ('overrideMainWithMinified', opts.overrideMainWithMinified === true ? true :false);
+    
+    
   $._.pluck(config.get('file-types'), 'detect').
     forEach(function (fileType) {
       Object.keys(fileType).
