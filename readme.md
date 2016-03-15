@@ -3,7 +3,7 @@
 I (@stephenplusplus) cannot make the appropriate time for this project anymore. If you would like to help contribute, please look over the issues and PRs. I'm sure a lot of people would appreciate it. I'll glady hand over the keys to merge and release.
 
 
-# wiredep
+# wiredep [![npm](https://badge.fury.io/js/wiredep.svg)](http://badge.fury.io/js/wiredep) [![Build Status](https://travis-ci.org/taptapship/wiredep.svg?branch=master)](https://travis-ci.org/taptapship/wiredep)
 > Wire [Bower](http://bower.io) dependencies to your source code.
 
 ## Getting Started
