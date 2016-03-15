@@ -66,6 +66,29 @@ describe('wiredep', function () {
       assert.equal(filePaths.read('expected'), filePaths.read('actual'));
     });
 
+    it('should correctly change root directory', function () {
+      var filePaths = getFilePaths('index-change-root-directory', 'html');
+
+      wiredep({
+        src: [filePaths.actual],
+        rootDir: '../bower_components/'
+      });
+
+      assert.equal(filePaths.read('expected'), filePaths.read('actual'));
+    });
+
+    it('should correctly add a prefix to the URL', function () {
+      var filePaths = getFilePaths('index-add-prefix', 'html');
+
+      wiredep({
+        src: [filePaths.actual],
+        rootDir: '../bower_components/',
+        prefix: '/plugins/'
+      });
+
+      assert.equal(filePaths.read('expected'), filePaths.read('actual'));
+    });
+
     it('should support globbing', function () {
       wiredep({ src: ['html/index-actual.*', 'jade/index-actual.*', 'slim/index-actual.*', 'haml/index-actual.*'] });
 
