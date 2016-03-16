@@ -10,13 +10,17 @@ var fs = require('fs');
 var EOL = require('os').EOL;
 
 var args = [
-  { short: 'h', full: 'help' },
-  { short: 'v', full: 'version' },
-  { short: 'b', full: 'bowerJson' },
-  { short: 'd', full: 'directory' },
-  { short: 'e', full: 'exclude' },
-  { short: 'i', full: 'ignorePath' },
-  { short: 's', full: 'src' }
+  { short: 'h', full: 'help', desc: 'Print usage information' },
+  { short: 'v', full: 'version', desc: 'Print the version' },
+  { short: 'b', full: 'bowerJson', desc: 'Path to `bower.json`' },
+  { short: 'd', full: 'directory', desc: 'Your Bower directory' },
+  { short: 'e', full: 'exclude', desc: 'A path to be excluded' },
+  { short: 'i', full: 'ignorePath', desc: 'A path to be ignored' },
+  { short: 's', full: 'src', desc: 'Path to your source file' },
+  { full: 'dependencies', desc: 'Include Bower `dependencies`' },
+  { full: 'devDependencies', desc: 'Include Bower `devDependencies`' },
+  { full: 'includeSelf', desc: 'Include top-level `main` files' },
+  { full: 'verbose', desc: 'Print the results of `wiredep`' }
 ];
 
 if (argv.v || argv.version) {
@@ -28,20 +32,15 @@ if (argv.h || argv.help || Object.keys(argv).length === 1) {
   console.log(
     pkg.description + EOL +
     EOL +
-    'Usage: ' + chalk.cyan('$') + chalk.bold(' wiredep ') + chalk.yellow('[options]') + EOL +
+    'Usage: ' + chalk.cyan('$') + chalk.bold(' wiredep ') +
+    chalk.yellow('[options]') + EOL +
     EOL +
     'Options:' + EOL +
-    '  -h, --help         # Print usage information' + EOL +
-    '  -v, --version      # Print the version' + EOL +
-    '  -b, --bowerJson    # Path to `bower.json`' + EOL +
-    '  -d, --directory    # Your Bower directory' + EOL +
-    '  -e, --exclude      # A path to be excluded' + EOL +
-    '  -i, --ignorePath   # A path to be ignored' + EOL +
-    '  -s, --src          # Path to your source file' + EOL +
-    '  --dependencies     # Include Bower `dependencies`' + EOL +
-    '  --devDependencies  # Include Bower `devDependencies`' + EOL +
-    '  --includeSelf      # Include top-level `main` files' + EOL +
-    '  --verbose          # Print the results of `wiredep`' + EOL
+    args.map(function (arg) {
+      var line =  ' ' + (arg.short ? '-' + arg.short + ', ' : '') +
+      '--' + arg.full;
+      return line + (new Array(22 - line.length)).join(' ') + ' # ' + arg.desc;
+    }).join(EOL)
   );
   return;
 }
