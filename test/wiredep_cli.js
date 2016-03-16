@@ -1,5 +1,5 @@
 /*jshint latedef:false */
-/*global after, describe, it, before, beforeEach */
+/*global after, describe, it, before */
 
 'use strict';
 
