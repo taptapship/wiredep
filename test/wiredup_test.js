@@ -9,9 +9,14 @@ var assert = require('chai').assert;
 var wiredep = require('../wiredep');
 
 describe('wiredep', function () {
-  fs.copySync('test/fixture', '.tmp');
-  process.chdir('.tmp');
-  after(fs.remove.bind({}, '../.tmp'));
+  before(function() {
+    fs.copySync('test/fixture', '.tmp');
+    process.chdir('.tmp');
+  });
+  after(function () {
+    process.chdir('..');
+    fs.removeSync('.tmp');
+  });
 
   describe('replace functionality', function () {
     function testReplace(fileType) {
