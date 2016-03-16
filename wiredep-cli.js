@@ -5,7 +5,9 @@ var pkg = require('./package.json');
 var wiredep = require('./wiredep');
 var argv = require('minimist')(process.argv.slice(2));
 var chalk = require('chalk');
+var path = require('path');
 var fs = require('fs');
+var EOL = require('os').EOL;
 
 var args = [
   { short: 'h', full: 'help' },
@@ -17,38 +19,38 @@ var args = [
   { short: 's', full: 'src' }
 ];
 
-function help() {
-  console.log(pkg.description);
-  console.log('');
-  console.log('Usage: ' + chalk.cyan('$') + chalk.bold(' wiredep ') + chalk.yellow('[options]'));
-  console.log('');
-  console.log('Options:');
-  console.log('  -h, --help         # Print usage information');
-  console.log('  -v, --version      # Print the version');
-  console.log('  -b, --bowerJson    # Path to `bower.json`');
-  console.log('  -d, --directory    # Your Bower directory');
-  console.log('  -e, --exclude      # A path to be excluded');
-  console.log('  -i, --ignorePath   # A path to be ignored');
-  console.log('  -s, --src          # Path to your source file');
-  console.log('  --dependencies     # Include Bower `dependencies`');
-  console.log('  --devDependencies  # Include Bower `devDependencies`');
-  console.log('  --includeSelf      # Include top-level `main` files');
-  console.log('  --verbose          # Print the results of `wiredep`');
-}
-
 if (argv.v || argv.version) {
   console.log(pkg.version);
   return;
 }
 
 if (argv.h || argv.help || Object.keys(argv).length === 1) {
-  help();
+  console.log(
+    pkg.description + EOL +
+    EOL +
+    'Usage: ' + chalk.cyan('$') + chalk.bold(' wiredep ') + chalk.yellow('[options]') + EOL +
+    EOL +
+    'Options:' + EOL +
+    '  -h, --help         # Print usage information' + EOL +
+    '  -v, --version      # Print the version' + EOL +
+    '  -b, --bowerJson    # Path to `bower.json`' + EOL +
+    '  -d, --directory    # Your Bower directory' + EOL +
+    '  -e, --exclude      # A path to be excluded' + EOL +
+    '  -i, --ignorePath   # A path to be ignored' + EOL +
+    '  -s, --src          # Path to your source file' + EOL +
+    '  --dependencies     # Include Bower `dependencies`' + EOL +
+    '  --devDependencies  # Include Bower `devDependencies`' + EOL +
+    '  --includeSelf      # Include top-level `main` files' + EOL +
+    '  --verbose          # Print the results of `wiredep`' + EOL
+  );
   return;
 }
 
 if (!argv.s && !argv.src) {
-  console.log(chalk.bold.red('> Source file not specified.'));
-  console.log('Please pass a `--src path/to/source.html` to `wiredep`.');
+  console.log(
+    chalk.bold.red('> Source file not specified.') + EOL +
+    'Please pass a `--src path/to/source.html` to `wiredep`.'
+  );
   return;
 }
 
@@ -61,12 +63,15 @@ if (argv.b || argv.bowerJson) {
 
 try {
   if (!argv.bowerJson) {
-    fs.statSync('./bower.json');
+    fs.statSync(path.normalize('./bower.json'));
   }
 } catch (e) {
-  console.log(chalk.bold.red('> bower.json not found.'));
-  console.log('Please run `wiredep` from the directory where your `bower.json` file is located.');
-  console.log('Alternatively, pass a `--bowerJson path/to/bower.json`.');
+  console.log(
+    chalk.bold.red('> bower.json not found.') + EOL +
+    'Please run `wiredep` from the directory where your `bower.json` file' +
+    ' is located.' + EOL +
+    'Alternatively, pass a `--bowerJson path/to/bower.json`.'
+  );
   return;
 }
 
