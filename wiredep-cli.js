@@ -9,43 +9,59 @@ var path = require('path');
 var fs = require('fs');
 var EOL = require('os').EOL;
 
-var args = [
-  { short: 'h', full: 'help', desc: 'Print usage information' },
-  { short: 'v', full: 'version', desc: 'Print the version' },
-  { short: 'b', full: 'bowerJson', desc: 'Path to `bower.json`' },
-  { short: 'd', full: 'directory', desc: 'Your Bower directory' },
-  { short: 'e', full: 'exclude', desc: 'A path to be excluded' },
-  { short: 'i', full: 'ignorePath', desc: 'A path to be ignored' },
-  { short: 's', full: 'src', desc: 'Path to your source file' },
-  { full: 'dependencies', desc: 'Include Bower `dependencies`' },
-  { full: 'devDependencies', desc: 'Include Bower `devDependencies`' },
-  { full: 'includeSelf', desc: 'Include top-level `main` files' },
-  { full: 'verbose', desc: 'Print the results of `wiredep`' }
-];
+// This doesn't take non-named args
+delete argv['_'];
 
-if (argv.v || argv.version) {
+var options = {
+  help: { short: 'h', desc: 'Print usage information' },
+  version: { short: 'v', desc: 'Print the version' },
+  bowerJson: { short: 'b', desc: 'Path to `bower.json`' },
+  directory: { short: 'd', desc: 'Your Bower directory' },
+  exclude: { short: 'e', desc: 'A path to be excluded' },
+  ignorePath: { short: 'i', desc: 'A path to be ignored' },
+  src: { short: 's', desc: 'Path to your source file' },
+  dependencies: { desc: 'Include Bower `dependencies`' },
+  devDependencies: { desc: 'Include Bower `devDependencies`' },
+  includeSelf: { desc: 'Include top-level `main` files' },
+  verbose: { desc: 'Print the results of `wiredep`' }
+};
+
+// replace the short forms with the long ones, using the long form as the truth
+// also constructs the help text
+var helpOptionText = Object.keys(options).map(function (key) {
+  var option = options[key];
+  var short = option.short;
+
+  // Replace the long value with the short value if it exists
+  if (short && argv[short]) {
+    argv[key] = argv[short];
+    delete argv[short];
+  }
+
+  // Construct the help entry
+  var line =  ' ' + (short ? '-' + short + ', ' : '') + '--' + key;
+  return line + (new Array(22 - line.length)).join(' ') + ' # ' + option.desc;
+}).join(EOL);
+
+
+if (argv.version) {
   console.log(pkg.version);
   return;
 }
 
-if (argv.h || argv.help || Object.keys(argv).length === 1) {
+if (argv.help || !Object.keys(argv).length) {
   console.log(
     pkg.description + EOL +
     EOL +
     'Usage: ' + chalk.cyan('$') + chalk.bold(' wiredep ') +
     chalk.yellow('[options]') + EOL +
     EOL +
-    'Options:' + EOL +
-    args.map(function (arg) {
-      var line =  ' ' + (arg.short ? '-' + arg.short + ', ' : '') +
-      '--' + arg.full;
-      return line + (new Array(22 - line.length)).join(' ') + ' # ' + arg.desc;
-    }).join(EOL)
+    'Options:' + EOL + helpOptionText
   );
   return;
 }
 
-if (!argv.s && !argv.src) {
+if (!argv.src) {
   console.log(
     chalk.bold.red('> Source file not specified.') + EOL +
     'Please pass a `--src path/to/source.html` to `wiredep`.'
@@ -53,11 +69,10 @@ if (!argv.s && !argv.src) {
   return;
 }
 
-if (argv.b || argv.bowerJson) {
-  try {
-    argv.bowerJson = JSON.parse(fs.readFileSync(argv.b || argv.bowerJson));
-    delete argv.b;
-  } catch (e) {}
+try {
+  argv.bowerJson = JSON.parse(fs.readFileSync(argv.bowerJson));
+} catch (e) {
+  delete argv.bowerJson;
 }
 
 try {
@@ -74,15 +89,8 @@ try {
   return;
 }
 
-var results = wiredep(Object.keys(argv).reduce(function (acc, arg) {
-  args.filter(function (argObj) {
-    if (argObj.short === arg) {
-      acc[argObj.full] = argv[arg];
-      delete acc[arg];
-    }
-  });
-  return acc;
-}, argv));
+// Replace the arguments short form with their long form names
+var results = wiredep(argv);
 
 if (argv.verbose) {
   console.log(results);
