@@ -1,8 +1,3 @@
-# :warning: Unmaintained
-
-I (@stephenplusplus) cannot make the appropriate time for this project anymore. If you would like to help contribute, please look over the issues and PRs. I'm sure a lot of people would appreciate it. I'll glady hand over the keys to merge and release.
-
-
 # wiredep [![npm](https://badge.fury.io/js/wiredep.svg)](http://badge.fury.io/js/wiredep) [![Build Status](https://travis-ci.org/taptapship/wiredep.svg?branch=master)](https://travis-ci.org/taptapship/wiredep)
 > Wire [Bower](http://bower.io) dependencies to your source code.
 
@@ -125,40 +120,13 @@ require('wiredep')();
 
 
 ## Command Line
-Install wiredep globally to wire up Bower packages from the terminal.
+** wiredep-cli has been split into its own module. In a future release it will not be included in this package anymore **
+
+Install [wiredep-cli](https://github.com/taptapship/wiredep-cli) to use the CLI.
 
 ```sh
-$ npm install -g wiredep
-$ wiredep
-Wire Bower dependencies to your source code.
-
-Usage: $ wiredep [options]
-
-Options:
-  -h, --help          # Print usage information
-  -v, --version       # Print the version
-  -b, --bowerJson     # Path to `bower.json`
-  -d, --directory     # Your Bower directory
-  -e, --exclude       # A path to be excluded
-  -i, --ignorePath    # A path to be ignored
-  -s, --src           # Path to your source file
-  --dependencies      # Include Bower `dependencies`
-  --devDependencies   # Include Bower `devDependencies`
-  --includeSelf       # Include top-level bower.json `main` files
-  --verbose           # Print the results of `wiredep`
+$ npm install -g wiredep-cli
 ```
-
-### Bower Hooks
-You may also take advantage of Bower >=1.3.1's [hooks](https://github.com/bower/bower/blob/master/HOOKS.md), with a `.bowerrc` such as:
-
-```json
-{
-  "scripts": {
-    "postinstall": "wiredep -s path/to/src.html"
-  }
-}
-```
-
 
 ## Configuration
 
@@ -195,7 +163,7 @@ require('wiredep')({
 
   onError: function(err) {
     // If not overridden, an error will throw.
-    
+
     // err = Error object.
     // err.code can be:
     //   - "PKG_NOT_INSTALLED" (a Bower package was not found)
