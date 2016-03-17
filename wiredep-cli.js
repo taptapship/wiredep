@@ -45,12 +45,12 @@ var helpOptionText = Object.keys(options).map(function (key) {
 
 
 if (argv.version) {
-  console.log(pkg.version);
+  console.info(pkg.version);
   return;
 }
 
 if (argv.help || !Object.keys(argv).length) {
-  console.log(
+  console.info(
     pkg.description + EOL +
     EOL +
     'Usage: ' + chalk.cyan('$') + chalk.bold(' wiredep ') +
@@ -62,7 +62,7 @@ if (argv.help || !Object.keys(argv).length) {
 }
 
 if (!argv.src) {
-  console.log(
+  console.error(
     chalk.bold.red('> Source file not specified.') + EOL +
     'Please pass a `--src path/to/source.html` to `wiredep`.'
   );
@@ -80,7 +80,7 @@ try {
     fs.statSync(path.normalize('./bower.json'));
   }
 } catch (e) {
-  console.log(
+  console.error(
     chalk.bold.red('> bower.json not found.') + EOL +
     'Please run `wiredep` from the directory where your `bower.json` file' +
     ' is located.' + EOL +
@@ -93,5 +93,5 @@ try {
 var results = wiredep(argv);
 
 if (argv.verbose) {
-  console.log(results);
+  console.info(results);
 }

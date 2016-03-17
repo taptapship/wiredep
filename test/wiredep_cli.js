@@ -46,34 +46,34 @@ describe('wiredep-cli', function () {
   });
 
   describe('argument checks', function () {
-    function runLog (args, errMsg) {
-      var stub = sinon.stub(console, 'log');
+    function runLog (args, errMsg, method) {
+      var stub = sinon.stub(console, method);
 
       reset();
       process.argv = ['', ''].concat(args);
       require('../wiredep-cli');
 
-      assert(stub.calledOnce, 'Console.log was not called');
+      assert(stub.calledOnce, 'Console.' + method + ' was not called');
       assert(stub.calledWithMatch(errMsg), 'Message did not match');
       stub.restore();
     }
 
     it('should return the version', function () {
       var version = require('../package.json').version;
-      runLog(['-v'], version);
-      runLog(['--version'], version);
+      runLog(['-v'], version, 'info');
+      runLog(['--version'], version, 'info');
     });
 
     it('should display help when called with no args or help ones', function () {
       [[], ['-h'], ['--help']].forEach(function (arg) {
-        runLog(arg, /^Wire Bower dependencies to your source code/);
+        runLog(arg, /^Wire Bower dependencies to your source code/, 'info');
       });
     });
 
-    it('should log when source is not specified', function () {
+    it('should error when source is not specified', function () {
       var msg = /Source file not specified/;
-      runLog(['-b', 'bower.json'], msg);
-      runLog(['--bowerJson', 'bower.json'], msg);
+      runLog(['-b', 'bower.json'], msg, 'error');
+      runLog(['--bowerJson', 'bower.json'], msg, 'error');
     });
   });
 });
