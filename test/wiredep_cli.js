@@ -9,21 +9,22 @@ var assert = require('chai').assert;
 var sinon = require('sinon');
 
 describe('wiredep-cli', function () {
-  before(function () {
-    fs.copySync('test/fixture', '.tmp');
-    process.chdir('.tmp');
-  });
-
-  after(function () {
-    process.chdir('..');
-    fs.removeSync('.tmp');
-  });
 
   function reset () {
     delete require.cache[require.resolve('../wiredep-cli')];
   }
 
   describe('replace functionality', function () {
+    before(function () {
+      fs.copySync('test/fixture', '.tmp');
+      process.chdir('.tmp');
+    });
+
+    after(function () {
+      process.chdir('..');
+      fs.removeSync('.tmp');
+    });
+
     function runCli (arg) {
       var src = getFilePaths('index', 'html');
 
