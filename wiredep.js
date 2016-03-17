@@ -48,7 +48,7 @@ function wiredep(opts) {
     ('src', [])
     ('stream', opts.stream ? opts.stream : {});
 
-  $._.pluck(config.get('file-types'), 'detect').
+  $._.map(config.get('file-types'), 'detect').
     forEach(function (fileType) {
       Object.keys(fileType).
         forEach(function (detectableFileType) {
