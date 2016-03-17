@@ -69,24 +69,34 @@ if (!argv.src) {
   return;
 }
 
-try {
-  argv.bowerJson = JSON.parse(fs.readFileSync(argv.bowerJson));
-} catch (e) {
-  delete argv.bowerJson;
+if (argv.bowerJson) {
+  try {
+    argv.bowerJson = require(argv.bowerJson);
+  } catch (e) {
+    if (e.code === 'MODULE_NOT_FOUND') {
+      console.warn(chalk.bold.red('> Could not find `' + argv.bowerJson + '`'));
+    }
+
+    if (/SyntaxError/.test(e)) {
+      console.warn(chalk.bold.red('> Invalid `' + argv.bowerJson + '`'));
+    }
+
+    delete argv.bowerJson;
+  }
 }
 
-try {
-  if (!argv.bowerJson) {
+if (!argv.bowerJson) {
+  try {
     fs.statSync(path.normalize('./bower.json'));
+  } catch (e) {
+    console.error(
+      chalk.bold.red('> bower.json not found.') + EOL +
+      'Please run `wiredep` from the directory where your `bower.json` file' +
+      ' is located.' + EOL +
+      'Alternatively, pass a `--bowerJson path/to/bower.json`.'
+    );
+    return;
   }
-} catch (e) {
-  console.error(
-    chalk.bold.red('> bower.json not found.') + EOL +
-    'Please run `wiredep` from the directory where your `bower.json` file' +
-    ' is located.' + EOL +
-    'Alternatively, pass a `--bowerJson path/to/bower.json`.'
-  );
-  return;
 }
 
 // Replace the arguments short form with their long form names

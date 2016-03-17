@@ -15,14 +15,17 @@ describe('wiredep-cli', function () {
   }
 
   describe('replace functionality', function () {
+    var stub;
     before(function () {
       fs.copySync('test/fixture', '.tmp');
       process.chdir('.tmp');
+      stub = sinon.stub(console, 'warn');
     });
 
     after(function () {
       process.chdir('..');
       fs.removeSync('.tmp');
+      stub.restore();
     });
 
     function runCli (arg) {
@@ -74,6 +77,35 @@ describe('wiredep-cli', function () {
       var msg = /Source file not specified/;
       runLog(['-b', 'bower.json'], msg, 'error');
       runLog(['--bowerJson', 'bower.json'], msg, 'error');
+    });
+
+    it('should message when the requested file not found', function () {
+      var stub = sinon.stub(console, 'error');
+      var warnMsg = '> Could not find `no.json`';
+      runLog(['-s', 'foo', '-b', 'no.json'], warnMsg, 'warn');
+      runLog(['-s', 'foo', '--bowerJson', 'no.json'], warnMsg, 'warn');
+      stub.restore();
+
+      stub = sinon.stub(console, 'warn');
+      var errMsg = /bower.json not found/;
+      runLog(['-s', 'foo', '-b', 'no.json'], errMsg, 'error');
+      runLog(['-s', 'foo', '--bowerJson', 'no.json'], errMsg, 'error');
+      stub.restore();
+    });
+
+    it('should message when the requested file is invalid', function () {
+      var file = resolve('test/fixture/invalid.json');
+      var stub = sinon.stub(console, 'error');
+      var warnMsg = '> Invalid';
+      runLog(['-s', 'foo', '-b', file], warnMsg, 'warn');
+      runLog(['-s', 'foo', '--bowerJson', file], warnMsg, 'warn');
+      stub.restore();
+
+      stub = sinon.stub(console, 'warn');
+      var errMsg = /bower.json not found/;
+      runLog(['-s', 'foo', '-b', file], errMsg, 'error');
+      runLog(['-s', 'foo', '--bowerJson', file], errMsg, 'error');
+      stub.restore();
     });
   });
 });

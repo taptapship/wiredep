@@ -1,0 +1,14 @@
+{
+  "name": "wiredep-test"
+  "version": "0.0.0",
+  "dependencies": {
+    "codecode": "0.0.3",
+    "bootstrap": "3.0.0",
+    "modular-scale": "2.0.3",
+    "3l": "1.4.4",
+    "karma": "0.2.1"
+  },
+  "devDependencies": {
+    "things": "0.1.1"
+  }
+}
