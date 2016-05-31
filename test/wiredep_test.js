@@ -1,38 +1,14 @@
 /*jshint latedef:false */
-/*global after, afterEach, describe, it, before, beforeEach */
+/*global after, describe, it, before, beforeEach */
 
 'use strict';
 
 var fs = require('fs-extra');
 var path = require('path');
 var assert = require('chai').assert;
-var wiredep;
-
-require.uncache = function (moduleName) {
-  var mod = require.resolve(moduleName);
-  if (mod && ((mod = require.cache[mod]) !== undefined)) {
-    (function run(mod) {
-      mod.children.forEach(function (child) {
-        run(child);
-      });
-      delete require.cache[mod.id];
-    })(mod);
-  }
-
-  Object.keys(module.constructor._pathCache).forEach(function(cacheKey) {
-    if (cacheKey.indexOf(moduleName)>0) {
-      delete module.constructor._pathCache[cacheKey];
-    }
-  });
-};
+var wiredep = require('../wiredep');
 
 describe('wiredep', function () {
-  beforeEach(function () {
-    wiredep = require('../wiredep');
-  });
-  afterEach(function () {
-    require.uncache('../wiredep');
-  });
   before(function() {
     fs.copySync('test/fixture', '.tmp');
     process.chdir('.tmp');

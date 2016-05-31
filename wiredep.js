@@ -82,7 +82,7 @@ function wiredep(opts) {
 }
 
 function mergeFileTypesWithDefaults(optsFileTypes) {
-  var fileTypes = $._.clone(fileTypesDefault, true);
+  var fileTypes = $._.cloneDeep(fileTypesDefault);
 
   $._(optsFileTypes).each(function (fileTypeConfig, fileType) {
     // fallback to the default type for all html-like extensions (php, twig, hbs, etc)
