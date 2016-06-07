@@ -67,6 +67,15 @@ describe('wiredep', function () {
       assert.equal(filePaths.read('expected'), filePaths.read('actual'));
     });
 
+    it('should work with pug files (buffered comments)', testReplace('pug'));
+
+    it('should work with pug files (unbuffered comments)', function () {
+      var filePaths = getFilePaths('index-unbuffered-comments', 'pug');
+
+      wiredep({ src: [filePaths.actual] });
+
+      assert.equal(filePaths.read('expected'), filePaths.read('actual'));
+    });
     it('should work with sass files', testReplace('sass'));
     it('should work with scss files', testReplace('scss'));
     it('should work with yml files', testReplace('yml'));
