@@ -324,6 +324,22 @@ If the project has multiple files, such as a javascript and a css file, `main` c
 }
 ```
 
+If you want to override an project's dependencies, let's say because "angular-bootstrap-confirm" pulls in bootstrap which you do NOT want (note that bootstrap is not listed in the dependencies):
+
+```js
+{
+  ...
+  "overrides": {
+    "angular-bootstrap-confirm": {
+      "dependencies": {
+        "angular": ">=1.3.0",
+        "angular-sanitize": ">=1.3.0"
+      }
+    }
+  }
+}
+```
+
 ## Contributing
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using `npm test`.
 
