@@ -135,7 +135,7 @@ wiredep.stream = function (opts) {
 
       file.contents = new Buffer(wiredep(opts));
     } catch (err) {
-      this.emit('error', err);
+      this.emit('error', 'Error processing file ' + file.path + ': ' + err);
     }
 
     this.push(file);
