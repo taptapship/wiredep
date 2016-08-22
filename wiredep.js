@@ -128,14 +128,14 @@ wiredep.stream = function (opts) {
 
     try {
       opts.stream = {
-        src: file.contents.toString(),
+        src: file.contents.toString() || " ", //< must be anything but an empty string or null
         path: file.path,
         fileType: $.path.extname(file.path).substr(1)
       };
 
       file.contents = new Buffer(wiredep(opts));
     } catch (err) {
-      this.emit('error', err);
+      this.emit('error', 'Error processing file ' + file.path + ': ' + err);
     }
 
     this.push(file);
