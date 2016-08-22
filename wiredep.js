@@ -128,7 +128,7 @@ wiredep.stream = function (opts) {
 
     try {
       opts.stream = {
-        src: file.contents.toString(),
+        src: file.contents.toString() || " ", //< must be anything but an empty string or null
         path: file.path,
         fileType: $.path.extname(file.path).substr(1)
       };
