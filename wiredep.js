@@ -33,7 +33,7 @@ function wiredep(opts) {
     ('on-path-injected', opts.onPathInjected || function() {});
 
   config.set
-    ('bower.json', opts.bowerJson || JSON.parse($.fs.readFileSync($.path.join(cwd, './bower.json'))))
+    ('bower.json', JSON.parse($.fs.readFileSync(opts.bowerJson || $.path.join(cwd, './bower.json'))))
     ('bower-directory', opts.directory || findBowerDirectory(cwd))
     ('cwd', cwd)
     ('dependencies', opts.dependencies === false ? false : true)
