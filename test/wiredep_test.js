@@ -29,10 +29,10 @@ require.uncache = function (moduleName) {
 describe('wiredep', function () {
   beforeEach(function () {
     wiredep = require('../wiredep');
-  })
+  });
   afterEach(function () {
     require.uncache('../wiredep');
-  })
+  });
   before(function() {
     fs.copySync('test/fixture', '.tmp');
     process.chdir('.tmp');
@@ -142,6 +142,27 @@ describe('wiredep', function () {
     it('should replace yml after second run', testReplaceSecondRun('yml'));
     it('should replace slim after second run', testReplaceSecondRun('slim'));
     it('should replace haml after second run', testReplaceSecondRun('haml'));
+  });
+
+  describe('include-dependencies', function () {
+    function testReplaceWithIncludedSrc(fileType) {
+      return function () {
+        var filePaths = getFilePaths('index-include-dependencies', fileType);
+
+        wiredep({
+          src: [filePaths.actual],
+          includeDependencies: ['bootstrap']  //bootstrap has dependency with jquery. so it will be injected jquery and bootstrap.
+        });
+
+        assert.equal(filePaths.read('expected'), filePaths.read('actual'));
+      };
+    }
+
+    it('should handle html with include dependencies specified', testReplaceWithIncludedSrc('html'));
+    it('should handle jade with include dependencies specified', testReplaceWithIncludedSrc('jade'));
+    it('should handle yml with include dependencies specified', testReplaceWithIncludedSrc('yml'));
+    it('should handle slim with include dependencies specified', testReplaceWithIncludedSrc('slim'));
+    it('should handle haml with include dependencies specified', testReplaceWithIncludedSrc('haml'));
   });
 
   describe('excludes', function () {

@@ -10,5 +10,8 @@
   "boss": true,
   "eqnull": true,
   "node": true,
-  "laxbreak": true
+  "laxbreak": true,
+  "predef": [
+    "afterEach"
+  ]
 }
