@@ -149,7 +149,7 @@ require('wiredep')({
   dependencies: true,    // default: true
   devDependencies: true, // default: false
   includeSelf: true,     // default: false
-  includeDependences: [] // default: [] - allow only specfiied bower modules name patterns 
+  includeDependences: [] // default: [] - allow only specified bower modules name patterns 
 
   exclude: [ /jquery/, 'bower_components/modernizr/modernizr.js' ],
 
