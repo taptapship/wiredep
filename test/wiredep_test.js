@@ -1,5 +1,5 @@
 /*jshint latedef:false */
-/*global after, describe, it, before, beforeEach */
+/*global after, describe, it, before, beforeEach, after, afterEach */
 
 'use strict';
 
@@ -29,10 +29,10 @@ require.uncache = function (moduleName) {
 describe('wiredep', function () {
   beforeEach(function () {
     wiredep = require('../wiredep');
-  })
+  });
   afterEach(function () {
     require.uncache('../wiredep');
-  })
+  });
   before(function() {
     fs.copySync('test/fixture', '.tmp');
     process.chdir('.tmp');
