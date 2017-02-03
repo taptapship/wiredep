@@ -13,6 +13,7 @@ var $ = {
 var config;
 var helpers = require('./lib/helpers');
 var fileTypesDefault = require('./lib/default-file-types');
+var extraFileTypes = require('./lib/extra-file-types');
 
 /**
  * Wire up the html files with the Bower packages.
@@ -46,7 +47,8 @@ function wiredep(opts) {
     ('include-self', opts.includeSelf)
     ('overrides', $._.extend({}, config.get('bower.json').overrides, opts.overrides))
     ('src', [])
-    ('stream', opts.stream ? opts.stream : {});
+    ('stream', opts.stream ? opts.stream : {})
+    ('extra-file-types', extraFileTypes);
 
   $._.map(config.get('file-types'), 'detect').
     forEach(function (fileType) {

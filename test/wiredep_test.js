@@ -432,6 +432,16 @@ describe('wiredep', function () {
     assert.equal(typeof returnedObject.scss, 'object');
     assert.equal(typeof returnedObject.styl, 'object');
     assert.equal(typeof returnedObject.packages, 'object');
+    assert.equal(typeof returnedObject.fonts, 'object');
+  });
+
+  it('should return an object that contains fonts', function () {
+    var object = wiredep();
+
+    assert.include(object.fonts, path.resolve('./bower_components/bootstrap/dist/fonts/glyphicons-halflings-regular.eot'));
+    assert.include(object.fonts, path.resolve('./bower_components/bootstrap/dist/fonts/glyphicons-halflings-regular.svg'));
+    assert.include(object.fonts, path.resolve('./bower_components/bootstrap/dist/fonts/glyphicons-halflings-regular.ttf'));
+    assert.include(object.fonts, path.resolve('./bower_components/bootstrap/dist/fonts/glyphicons-halflings-regular.woff'));
   });
 
   it('should respect the directory specified in a `.bowerrc`', function () {
