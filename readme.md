@@ -92,6 +92,19 @@ gulp.task('bower', function () {
 });
 ```
 
+And place injection points in your html
+
+```html
+<head>
+    <!-- bower:css -->
+    <!-- endbower -->
+</head>
+<body>
+    <!-- bower:js -->
+    <!-- endbower -->
+</body>
+```
+
 ### [Grunt](http://gruntjs.com)
 
 See [`grunt-wiredep`](https://github.com/stephenplusplus/grunt-wiredep).
