@@ -1,5 +1,5 @@
 /*jshint latedef:false */
-/*global after, describe, it, before, beforeEach */
+/*global after, describe, it, before, beforeEach, afterEach*/
 
 'use strict';
 
@@ -29,10 +29,10 @@ require.uncache = function (moduleName) {
 describe('wiredep', function () {
   beforeEach(function () {
     wiredep = require('../wiredep');
-  })
+  });
   afterEach(function () {
     require.uncache('../wiredep');
-  })
+  });
   before(function() {
     fs.copySync('test/fixture', '.tmp');
     process.chdir('.tmp');
@@ -468,6 +468,20 @@ describe('wiredep', function () {
     });
 
     assert.equal(filePaths.read('actual'), filePaths.read('expected'));
+  });
+
+  it('should read main field from package.json when main is missing from bower.json .bower.json',function(){
+    var bowerObj = {
+      name: 'test',
+      dependencies: {
+        'fake-package-only-has-package-json': '*'
+      }
+    };
+    var obj = wiredep({
+      bowerJson: bowerObj
+    });
+    assert.isTrue(obj.packages['fake-package-only-has-package-json'].main.length > 0);
+    assert.isTrue(obj.packages['fake-package-only-has-package-json'].main[0].indexOf('fake.js') > -1);
   });
 
   it('should support inclusion of main files from some other dir with manually loaded bower.json', function () {
