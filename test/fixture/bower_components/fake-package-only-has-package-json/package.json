@@ -1,0 +1,5 @@
+{
+  "name": "fake-package-only-has-package-json",
+  "version": "1.0.0",
+  "main": "fake.js"
+}
