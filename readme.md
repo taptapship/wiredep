@@ -285,6 +285,18 @@ require('wiredep')({
         js: '- {{filePath}}',
         css: '- {{filePath}}'
       }
+    },
+    
+    drupal: {
+      block: /(([ \t]*);\s*bower:*(\S*))(\n|\r|.)*?(;\s*endbower)/gi,
+      detect: {
+        js: /<script.*src=['"]([^'"]+)/gi,
+        css: /<link.*href=['"]([^'"]+)/gi
+      },
+      replace: {
+        js: 'scripts[] = {{filePath}}',
+        css: 'stylesheets[] = {{filePath}}'
+      }
     }
 ```
 
